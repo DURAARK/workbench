@@ -1,10 +1,13 @@
 require([
-	'backbone',
-	'application',
-	'regionManager'
-],
-function ( Backbone, App ) {
+    'backbone',
+    'application',
+    'regionManager',
+    'modules/probado3d/main'
+], function(Backbone, Workbench) {
     'use strict';
 
-	App.start();
+    Workbench.start();
+
+    Workbench.module('Probado3D').start();
+    // Workbench.module('Probado3D').stop();
 });
