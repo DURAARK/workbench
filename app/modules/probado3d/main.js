@@ -2,29 +2,29 @@ define([
     'backbone',
     'application',
     'hbs!modules/probado3d/templates/main'
-], function(Marionette, Workbench, Probado3D_tmpl) {
+], function(Marionette, Workbench, LandingPage_tmpl) {
 
-    Workbench.module('Probado3D', {
+    Workbench.module('Contrib.Probado3D', {
         startWithParent: false
     });
 
-    var MyModule = Workbench.module("Probado3D");
+    var MyModule = Workbench.module("Contrib.Probado3D");
 
-    var SomeView = Backbone.Marionette.ItemView.extend({
-        template: Probado3D_tmpl
+    var MainView = Backbone.Marionette.ItemView.extend({
+        template: LandingPage_tmpl
     });
 
     MyModule.addInitializer(function() {
-        MyModule.someView = new SomeView();
-        Workbench.mainRegion.show(MyModule.someView);
+        MyModule.mainView = new MainView();
+        Workbench.mainRegion.show(MyModule.mainView);
 
-        console.log('[Module.Probado3D] started');
+        console.log('[Workbench.Contrib.Probado3D] started');
     });
 
     MyModule.addFinalizer(function() {
         Workbench.mainRegion.close();
 
-        console.log('[Module.Probado3D] stopped');
+        console.log('[Workbench.Contrib.Probado3D] stopped');
     });
 
     // NOTE: No explicit return value is given here vor the AMD module. The module

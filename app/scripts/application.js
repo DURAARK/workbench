@@ -13,6 +13,8 @@ define([
 
     /* Add initializers here */
     Workbench.addInitializer(function() {
+        Workbench.module('Core.ModuleManager').start();
+
         Communicator.mediator.trigger("APP:START");
 
         console.log('[Workbench.Application] started');
