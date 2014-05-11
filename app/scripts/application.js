@@ -20,5 +20,9 @@ define([
         console.log('[Workbench.Application] started');
     });
 
-    return Workbench;
+    return {
+        // Core: Core, ?
+        // SDO: SDO, ?
+        Workbench: Workbench
+    };
 });

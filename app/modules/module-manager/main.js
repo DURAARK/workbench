@@ -7,29 +7,29 @@
  */
 define([
     'backbone',
-    'application',
+    'duraark-init',
     'hbs!modules/module-manager/templates/main'
-], function(Marionette, Workbench, LandingPage_tmpl) {
+], function(Marionette, DuraArk, LandingPage_tmpl) {
 
-    Workbench.module('Core.ModuleManager', {
+    DuraArk.Workbench.module('Core.ModuleManager', {
         startWithParent: false
     });
 
-    var MyModule = Workbench.module("Core.ModuleManager");
+    var MyModule = DuraArk.Workbench.module("Core.ModuleManager");
 
     var MainView = Backbone.Marionette.ItemView.extend({
         template: LandingPage_tmpl
     });
 
     MyModule.addInitializer(function() {
-        Workbench.commands.setHandler("module:register", function(module_name) {
+        DuraArk.Workbench.commands.setHandler("module:register", function(module_name) {
             // TODO: add the registered module as <li> to the administration page of the
             // module manager.
 
             // TODO: create a new <div> here an set this <div> as root element of the
             // registered module. The content of this <div> will be shown if the module
             // gets selected for viewing.
-            Workbench.module(module_name).start({
+            DuraArk.Workbench.module(module_name).start({
                 // rootEl: '#module-root-div'
             });
 
@@ -37,13 +37,13 @@ define([
         });
 
         MyModule.mainView = new MainView();
-        Workbench.mainRegion.show(MyModule.mainView);
+        DuraArk.Workbench.mainRegion.show(MyModule.mainView);
 
         console.log('[Workbench.Core.ModuleManager] started');
     });
 
     MyModule.addFinalizer(function() {
-        Workbench.mainRegion.close();
+        DuraArk.Workbench.mainRegion.close();
 
         console.log('[Workbench.Core.ModuleManager] stopped');
     });
