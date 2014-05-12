@@ -1,30 +1,32 @@
 define([
     'backbone',
-    'duraark-init',
-    'hbs!modules/probado3d/templates/main'
+    'application',
+    'hbs!./templates/main'
 ], function(Marionette, DuraArk, LandingPage_tmpl) {
 
-    DuraArk.Workbench.module('Contrib.Probado3D', {
+    DuraArk.module('Contrib.Probado3D', {
         startWithParent: false
     });
 
-    var MyModule = DuraArk.Workbench.module("Contrib.Probado3D");
+    var MyModule = DuraArk.module("Workbench.Probado3D");
 
     var MainView = Backbone.Marionette.ItemView.extend({
         template: LandingPage_tmpl
     });
 
     MyModule.addInitializer(function() {
-        MyModule.mainView = new MainView();
-        DuraArk.Workbench.mainRegion.show(MyModule.mainView);
+        DuraArk.execute('workbench:module:register', 'Contrib.Probado3D');
 
-        console.log('[Workbench.Contrib.Probado3D] started');
+        MyModule.mainView = new MainView();
+        DuraArk.mainRegion.show(MyModule.mainView);
+
+        console.log('[DuraArk.Workbench.Probado3D] started');
     });
 
     MyModule.addFinalizer(function() {
-        DuraArk.Workbench.mainRegion.close();
+        DuraArk.mainRegion.close();
 
-        console.log('[Workbench.Contrib.Probado3D] stopped');
+        console.log('[DuraArk.Workbench.Probado3D] stopped');
     });
 
     // NOTE: No explicit return value is given here vor the AMD module. The module

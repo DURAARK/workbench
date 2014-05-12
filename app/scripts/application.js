@@ -4,25 +4,30 @@ define([
 ], function(Backbone, Communicator) {
     'use strict';
 
-    var Workbench = new Backbone.Marionette.Application();
+    var DuraArk = new Backbone.Marionette.Application();
 
-    /* Add application regions here */
-    Workbench.addRegions({
+    // Add application regions here
+    DuraArk.addRegions({
         mainRegion: '#main-region'
     });
 
-    /* Add initializers here */
-    Workbench.addInitializer(function() {
-        Workbench.module('Core.ModuleManager').start();
+    // Initializer for 'Core' functionality
+    DuraArk.addInitializer(function() {
+        this.module('Core.Workbench').start();
 
-        Communicator.mediator.trigger("APP:START");
-
-        console.log('[Workbench.Application] started');
+        // Communicator.mediator.trigger("APP:START");
     });
 
-    return {
-        // Core: Core, ?
-        // SDO: SDO, ?
-        Workbench: Workbench
-    };
+    DuraArk.start();
+
+    // TODO: maybe it can be beneficial to restrict the access to the Marionette.Application
+    // object and provide only 'public' modules to the outside world?
+    // return {
+    //     // Core: Core, ?
+    //     // SDO: SDO, ?
+    //     Workbench: DuraArk.module('Core.Workbench')
+    // };
+
+    // ... currently the whole Marionette.Application object ist returned:
+    return DuraArk;
 });

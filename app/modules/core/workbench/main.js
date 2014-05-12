@@ -8,7 +8,7 @@
 define([
     'backbone',
     'application',
-    'hbs!modules/workbench/templates/main'
+    'hbs!./templates/main'
 ], function(Marionette, DuraArk, LandingPage_tmpl) {
 
     DuraArk.module('Core.Workbench', {
@@ -22,7 +22,9 @@ define([
     });
 
     MyModule.addInitializer(function() {
-        DuraArk.commands.setHandler("module:register", function(module_name) {
+        console.log('[DuraArk.Workbench] started');
+
+        DuraArk.commands.setHandler("workbench:module:register", function(module_name) {
             // TODO: add the registered module as <li> to the administration page of the
             // module manager.
 
@@ -33,24 +35,22 @@ define([
                 // rootEl: '#module-root-div'
             });
 
-            console.log('[DuraArk.Core.Workbench] registered module "' + module_name + '"');
+            console.log('[DuraArk.Workbench] registered module "' + module_name + '"');
         });
 
         MyModule.mainView = new MainView();
         DuraArk.mainRegion.show(MyModule.mainView);
-
-        console.log('[DuraArk.Core.Workbench] started');
     });
 
     MyModule.addFinalizer(function() {
         DuraArk.mainRegion.close();
 
-        console.log('[DuraArk.Core.Workbench] stopped');
+        console.log('[DuraArk.Workbench] stopped');
     });
 
     // NOTE: No explicit return value is given here vor the AMD module. The module
     // is registered with the Marionette.Application and accessible via its
-    // Workbench.module('...') syntax.
+    // DuraArk.module('...') syntax.
     // return MyModule;
 
 });

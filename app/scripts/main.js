@@ -1,7 +1,10 @@
 require([
-	'duraark-init'
+    'duraark-application'
 ], function(DuraArk) {
-	'use strict';
+    'use strict';
 
-	DuraArk.Workbench.start();
+    // The 'DuraArk' application is available here. Module loading, configuration and
+    // tarting the application is already done. Have fun!
+
+    console.log('[DuraArk.Application] Successfully started, have fun!');
 });
