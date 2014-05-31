@@ -5,17 +5,17 @@ define([
     './mainview.js'
 ], function(Marionette, WorkbenchUI, UIModuleBase, MainView) {
 
-    WorkbenchUI.module('Contrib.Probado3D', UIModuleBase);
+    WorkbenchUI.module('Contrib.SessionManager', UIModuleBase);
 
-    var MyModule = WorkbenchUI.module("Contrib.Probado3D");
+    var MyModule = WorkbenchUI.module("Contrib.SessionManager");
 
     WorkbenchUI.addInitializer(function() {
         // 1. Register module with the ModuleManager:
-        WorkbenchUI.execute('module:register', 'Contrib.Probado3D');
+        WorkbenchUI.execute('module:register', 'Contrib.SessionManager');
 
         // 2. Register eventhandler to show the view:
-        WorkbenchUI.vent.on('module:probado3d:show', function() {
-            console.log('module:probado3d:show');
+        WorkbenchUI.vent.on('module:sessionmanager:show', function(region) {
+            console.log('module:sessionmanager:show');
 
             if (!MyModule._mainView) {
                 MyModule._mainView = new MainView();
@@ -28,15 +28,14 @@ define([
             }
         }.bind(this));
 
-        console.log('[WorkbenchUI.Contrib.Probado3D] started');
+        console.log('[WorkbenchUI.Contrib.SessionManager] started');
     });
 
-    MyModule
     // TODO: not working with this version of Marionette...
     // MyModule.addFinalizer(function() {
     //     WorkbenchUI.mainRegion.close();
 
-    //     console.log('[WorkbenchUI.Contrib.Probado3D] stopped');
+    //     console.log('[WorkbenchUI.Contrib.SessionManager] stopped');
     // });
 
     // NOTE: No explicit return value is given here vor the AMD module. The module

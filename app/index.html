@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-        <title></title>
+        <title>Duraark Workbench</title>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
@@ -16,7 +16,7 @@
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         
         <link rel="stylesheet" href="styles/main.css">
-        
+        <link href="themes/sb-admin-2/css/sb-admin.css" rel="stylesheet">
 
         <!-- build:js scripts/vendor/modernizr.js -->
         <script src="bower_components/modernizr/modernizr.js"></script>
@@ -26,11 +26,85 @@
 
     <body>
 
-        <div id="main-region"></div>
+    <div id="wrapper">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                <span class="sr-only">Toggle Sidebar</span>
+                </button>
+                <a class="navbar-brand" href="#">DURAARK WorkbenchUI</a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <div class="navbar-default navbar-static-side" role="navigation">
+                <div class="sidebar-collapse">
+                    <ul class="nav" id="side-menu">
+<!--                         <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search...">
+                            </div>
+                        </li> -->
+                        <li>
+                            <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Modules<span class="fa arrow"></span></a>
+                            <ul id="module-manager-region" class="nav nav-second-level">
+                                <li>
+                                    <a href="#fileloading">File Loading</a>
+                                </li>
+                                <li>
+                                    <a href="#filidentification">File Identification</a>
+                                </li>
+                                <li>
+                                    <a href="#metadataextractor">Metadata Extractor</a>
+                                </li>
+                                <li>
+                                    <a href="#semanticenrichment">Semantic Enrichment</a>
+                                </li>
+                                <li>
+                                    <a href="#semanticenrichment">Semantic Digital Observer</a>
+                                </li>
+                                <li>
+                                    <a href="#sipgeneration">SIP Generation</a>
+                                </li>
+                                <li>
+                                    <a href="#searchretrieve">Search & Retrieval</a>
+                                </li>                                
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                    </ul>
+                    <!-- /#side-menu -->
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="page-wrapper">
+                <div id="main-region"></div>
+        </div>
         
         <!-- build:js scripts/main.js -->
         <script data-main="scripts/init" src="bower_components/requirejs/require.js"></script>
         <!-- endbuild -->
+
+     <!-- Core Scripts - Include with every page -->
+    <script src="themes/sb-admin-2/js/jquery-1.10.2.js"></script>
+    <script src="themes/sb-admin-2/js/bootstrap.min.js"></script>
+    <script src="themes/sb-admin-2/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+    <!-- Page-Level Plugin Scripts - Flot -->
+    <!--[if lte IE 8]><script src="themes/sb-admin-2/js/excanvas.min.js"></script><![endif]-->
+    <script src="themes/sb-admin-2/js/plugins/flot/jquery.flot.js"></script>
+    <script src="themes/sb-admin-2/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="themes/sb-admin-2/js/plugins/flot/jquery.flot.resize.js"></script>
+    <script src="themes/sb-admin-2/js/plugins/flot/jquery.flot.pie.js"></script>
+
+    <!-- SB Admin Scripts - Include with every page -->
+    <script src="themes/sb-admin-2/js/sb-admin.js"></script>
+
+    <!-- Page-Level Demo Scripts - Flot - Use for reference -->
+    <script src="themes/sb-admin-2/js/demo/flot-demo.js"></script>
 
         <script>document.write('<script src="http://'
             + (location.host || 'localhost').split(':')[0]

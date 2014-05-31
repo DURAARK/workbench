@@ -9,14 +9,18 @@
     "backbone-amd": "~1.0.0",
     "underscore-amd": "~1.4.4",
     "modernizr": "~2.6.2",
-    "backbone.marionette": "~1.0.2",
-    "backbone.wreqr": "~0.2.0",
-    "backbone.babysitter": "~0.0.6",
+    "marionette": "~1.8.6",
+    "backbone.babysitter": "^0.1.0",
+    "backbone.wreqr": "^1.0.0",
     "require-handlebars-plugin": "~0.4.0",
     "mocha": "~1.12.0",
     "chai": "~1.7.2",
     "sinon": "~1.7.3"
   },
   "devDependencies": {},
-  "directory": "bower_components"
+  "directory": "bower_components",
+  "resolutions": {
+    "backbone.wreqr": "^1.0.0",
+    "underscore": ">=1.5.0"
+  }
 }
