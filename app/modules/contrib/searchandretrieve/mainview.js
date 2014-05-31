@@ -1,15 +1,15 @@
 define([
 	'backbone.marionette',
 	'workbenchui',
-	'hbs!./templates/main',
+	'hbs!./templates/main'
 ], function(Marionette, WorkbenchUI, MainViewTmpl) {
 	var MainView = Marionette.ItemView.extend({
 		template: MainViewTmpl,
 
 		events: {
-			'click .js-next': function() {
-				console.log('next clicked');
-				WorkbenchUI.vent.trigger('module:fileidentification:show');
+			'click .js-search': function() {
+				console.log('search clicked');
+				alert('The search result is: blablub');
 			}
 		}
 	});

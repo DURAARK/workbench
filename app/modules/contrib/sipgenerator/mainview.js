@@ -7,13 +7,14 @@ define([
 		template: MainViewTmpl,
 
 		events: {
-			'click .js-next': function() {
-				console.log('next clicked');
-				WorkbenchUI.vent.trigger('module:semanticenrichment:show');
+			'click .js-upload': function() {
+				console.log('upload clicked');
+				alert('Rosetta-SIP generated and uploaded to Rosetta!');
+				WorkbenchUI.vent.trigger('module:searchandretrieve:show');
 			},
 			'click .js-previous': function() {
 				console.log('previous');
-				WorkbenchUI.vent.trigger('module:fileidentification:show');
+				WorkbenchUI.vent.trigger('module:semanticenrichment:show');
 			}
 		}
 	});

@@ -5,17 +5,17 @@ define([
     './mainview.js'
 ], function(Marionette, WorkbenchUI, UIModuleBase, MainView) {
 
-    WorkbenchUI.module('Contrib.MetadataExtractor', UIModuleBase);
+    WorkbenchUI.module('Contrib.SIPGenerator', UIModuleBase);
 
-    var MyModule = WorkbenchUI.module("Contrib.MetadataExtractor");
+    var MyModule = WorkbenchUI.module("Contrib.SIPGenerator");
 
     WorkbenchUI.addInitializer(function() {
         // 1. Register module with the ModuleManager:
-        WorkbenchUI.execute('module:register', 'Contrib.MetadataExtractor');
+        WorkbenchUI.execute('module:register', 'Contrib.SIPGenerator');
 
         // 2. Register eventhandler to show the view:
-        WorkbenchUI.vent.on('module:metadataextractor:show', function() {
-            console.log('module:metadataextractor:show');
+        WorkbenchUI.vent.on('module:sipgenerator:show', function(region) {
+            console.log('module:sipgenerator:show');
 
             if (!MyModule._mainView) {
                 MyModule._mainView = new MainView();
@@ -35,14 +35,14 @@ define([
             
         }.bind(this));
 
-        console.log('[WorkbenchUI.Contrib.MetadataExtractor] started');
+        console.log('[WorkbenchUI.Contrib.SIPGenerator] started');
     });
 
     // TODO: not working with this version of Marionette...
     // MyModule.addFinalizer(function() {
     //     WorkbenchUI.mainRegion.close();
 
-    //     console.log('[WorkbenchUI.Contrib.MetadataExtractor] stopped');
+    //     console.log('[WorkbenchUI.Contrib.SIPGenerator] stopped');
     // });
 
     // NOTE: No explicit return value is given here vor the AMD module. The module

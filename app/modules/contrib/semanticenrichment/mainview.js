@@ -9,11 +9,11 @@ define([
 		events: {
 			'click .js-next': function() {
 				console.log('next clicked');
-				WorkbenchUI.vent.trigger('module:semanticenrichment:show');
+				WorkbenchUI.vent.trigger('module:sipgenerator:show');
 			},
 			'click .js-previous': function() {
 				console.log('previous');
-				WorkbenchUI.vent.trigger('module:fileidentification:show');
+				WorkbenchUI.vent.trigger('module:metadataextractor:show');
 			}
 		}
 	});

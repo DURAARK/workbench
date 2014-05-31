@@ -5,13 +5,13 @@ define([
     './mainview.js'
 ], function(Marionette, WorkbenchUI, UIModuleBase, MainView) {
 
-    WorkbenchUI.module('Contrib.SessionManager', UIModuleBase);
+    WorkbenchUI.module('Contrib.sessionmanager', UIModuleBase);
 
-    var MyModule = WorkbenchUI.module("Contrib.SessionManager");
+    var MyModule = WorkbenchUI.module("Contrib.sessionmanager");
 
     WorkbenchUI.addInitializer(function() {
         // 1. Register module with the ModuleManager:
-        WorkbenchUI.execute('module:register', 'Contrib.SessionManager');
+        WorkbenchUI.execute('module:register', 'Contrib.sessionmanager');
 
         // 2. Register eventhandler to show the view:
         WorkbenchUI.vent.on('module:sessionmanager:show', function(region) {
@@ -26,16 +26,23 @@ define([
             } else {
                 this.mainRegion.show(MyModule._mainView);
             }
+
+            // For the first show in the lifetime of the _mainView the events hash is correctly
+            // evaluated. When the _mainView gets closed and is reopened again, the events
+            // have to be delegated manually, otherwise e.g. the click events will not fire.
+            // That's what the next line is for:
+            MyModule._mainView.delegateEvents();
+            
         }.bind(this));
 
-        console.log('[WorkbenchUI.Contrib.SessionManager] started');
+        console.log('[WorkbenchUI.Contrib.sessionmanager] started');
     });
 
     // TODO: not working with this version of Marionette...
     // MyModule.addFinalizer(function() {
     //     WorkbenchUI.mainRegion.close();
 
-    //     console.log('[WorkbenchUI.Contrib.SessionManager] stopped');
+    //     console.log('[WorkbenchUI.Contrib.sessionmanager] stopped');
     // });
 
     // NOTE: No explicit return value is given here vor the AMD module. The module

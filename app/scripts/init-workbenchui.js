@@ -5,8 +5,11 @@ var modules_core = [
 	],
 	modules_contrib = [
 		'modules/contrib/sessionmanager/main',
+		'modules/contrib/fileidentification/main',
 		'modules/contrib/metadataextractor/main',
-		'modules/contrib/probado3d/main',
+		'modules/contrib/semanticenrichment/main',
+		'modules/contrib/sipgenerator/main',
+		'modules/contrib/searchandretrieve/main'
 	];
 
 define([
