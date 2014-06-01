@@ -1,0 +1,11 @@
+{
+	"header": {
+		"type": "buildm",
+		"numConcepts": "1"
+	},
+	"content": {
+		"concepts": [{
+			"id": "Gothic church"
+		}]
+	}
+}

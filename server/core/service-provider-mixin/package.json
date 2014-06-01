@@ -1,0 +1,14 @@
+{
+  "name": "service-provider-mixin",
+  "version": "0.2.0",
+  "description": "A mapper from plugins to JSONAPI/REST endpoints",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Martin Hecher <martin.hecher.g@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "underscore": "^1.6.0"
+  }
+}
