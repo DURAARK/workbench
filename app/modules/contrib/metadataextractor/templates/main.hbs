@@ -3,6 +3,38 @@
 		MetadataExtractor: Lists the technical and descriptive metadata of the files specified in the SessionManager.
 	</div>
 
+	<br><br>
+
+	<p>The table below is already sourced from the backend service "MetadataExtractor". The backend service uses
+	fixture data at the moment, which can be found in "./server/fixtures". Please change the entries there so
+	that they reflect the metadata structure we agree on in Lulea.</p>
+
+	<p>The table below uses the IFC metadata from "./server/fixtures/ifcm.json". See "./app/services/contrib/metadata/ifc"
+	how to get the data from the backend service and have a look at "./app/modules/contrib/metadataextractor/main.js",
+	"./app/modules/contrib/metadataextractor/mainview.js" and "./app/modules/contrib/metadataextractor/templates/main.hbs" (this
+	file) on how to render the data.</p>
+
+	<br><br>
+	
+	<table class="table table-striped">
+		<tr>
+			<th>Key</th>
+			<th>Value</th> 
+		</tr>
+		<tr>
+			<td>Type</td>
+			<td>{{type}}</td> 
+		</tr>
+		<tr>
+			<td>Filesize</td>
+			<td>{{content.filesize}}</td> 
+		</tr>
+		<tr>
+			<td>Version</td>
+			<td>{{content.version}}</td> 
+		</tr>		
+	</table>
+
 	<button type="submit" class="btn btn-default js-previous">Previous</button>
 	<button type="submit" class="btn btn-default js-next">Next</button>
-</div>
+</d}}

@@ -6,7 +6,7 @@ define([
 		startWithParent: false,
 
 		constructor: function(moduleName, app, options) {
-			console.log('[UIModuleBase] ctor called on: ' + moduleName);
+			// console.log('[UIModuleBase] ctor called on: ' + moduleName);
 
 			this.moduleName = moduleName;
 			this.mainRegion = null;

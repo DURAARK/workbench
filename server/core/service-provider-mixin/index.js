@@ -65,12 +65,10 @@ ServiceProviderMixin.prototype.registerEndpoints = function(endpoint_cfgs) {
 		// FIXXME: configure ServiceProviderMixin with 'appRoot'!
 		var MyPlugin = require('./plugins/' + config.interface.type + '/' + config.interface.backend + '/index.js');
 
-		// console.log('bla: ' + JSON.stringify(config.options));
+		// console.log('options: ' + JSON.stringify(config.options));
 		// config = _.extend(config, {
 		// 	id: config.id
 		// });
-
-		console.log('options: ' + JSON.stringify(config.options));
 
 		var plugin = new MyPlugin(config.options, this.log);
 		this.plugins[config.id] = plugin;

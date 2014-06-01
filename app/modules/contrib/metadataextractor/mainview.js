@@ -5,7 +5,7 @@ define([
 ], function(Marionette, WorkbenchUI, MainViewTmpl) {
 	var MainView = Marionette.ItemView.extend({
 		template: MainViewTmpl,
-
+		
 		events: {
 			'click .js-next': function() {
 				console.log('next clicked');

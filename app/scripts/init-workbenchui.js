@@ -10,11 +10,14 @@ var modules_core = [
 		'modules/contrib/semanticenrichment/main',
 		'modules/contrib/sipgenerator/main',
 		'modules/contrib/searchandretrieve/main'
-	];
+	],
+	services_contrib = [
+		'services/contrib/metadata/ifc'
+	]
 
 define([
 	'workbenchui',
-].concat(modules_core).concat(modules_contrib), function(WorkbenchUI) {
+].concat(modules_core).concat(modules_contrib).concat(services_contrib), function(WorkbenchUI) {
 	'use strict';
 
 	// NOTE: This file is handling the (static) loading of modules for DuraArk

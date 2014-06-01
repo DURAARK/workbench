@@ -22,6 +22,7 @@ require.config({
 
     paths: {
         modules: '../modules',
+        services: '../services',
         jquery: '../bower_components/jquery/jquery',
         backbone: '../bower_components/backbone-amd/backbone',
         underscore: '../bower_components/underscore-amd/underscore',
