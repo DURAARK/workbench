@@ -1,0 +1,139 @@
+# baseURI: http://duraark.eu/vocabularies/buildm
+# imports: http://purl.org/dc/elements/1.1/
+# imports: http://purl.org/dc/terms/
+# imports: http://qudt.org/schema/qudt
+# imports: http://qudt.org/vocab/unit
+# imports: http://www.geonames.org/ontology
+# imports: http://www.qudt.org/qudt/owl/1.0.0/quantity.owl
+# imports: http://www.w3.org/TR/owl-time
+# imports: http://www.w3.org/ns/regorg
+
+@prefix : <http://duraark.eu/vocabularies/buildm#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix qudt: <http://qudt.org/schema/qudt#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix regorg: <http://www.w3.org/ns/regorg#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://duraark.eu/vocabularies/buildm>
+	rdf:type owl:Ontology ;
+	owl:imports <http://purl.org/dc/terms/> ,
+		<http://www.qudt.org/qudt/owl/1.0.0/quantity.owl> ,
+		<http://qudt.org/schema/qudt> , <http://www.geonames.org/ontology> ,
+		<http://www.w3.org/TR/owl-time> , <http://www.w3.org/ns/regorg> ,
+		<http://purl.org/dc/elements/1.1/> , <http://qudt.org/vocab/unit> ;
+	owl:versionInfo "Created with TopBraid Composer"^^xsd:string .
+	
+:AreaUnit_1
+	rdf:type qudt:AreaUnit ;
+	rdfs:comment ""^^xsd:string ;
+	rdfs:label "Area unit 1"^^xsd:string ;
+	skos:prefLabel "Area unit 1"^^xsd:string .
+
+:Building
+	rdf:type owl:Class ;
+	rdfs:label "DURAARK Building"^^xsd:string ;
+	rdfs:subClassOf owl:Thing ;
+	skos:definition "The DURAARK Building class is a domain-specific concept to
+		capture descripte metadata about artefacts of the built enironement. It
+		is desgigned to be used in the context of archival systems, especially
+		such systems that are capable of storing Building Information Models
+		(BIM) in archives for the purpose of Digital Longterm Preservation
+		(DLP). In particular, this vocabulary has been designed to capture
+		information that can be explicitly extracted or inferred from
+		information residing in Industry Foundation Classes (IFC)
+		models."^^xsd:string ;
+	skos:prefLabel "Buidling"^^xsd:string .
+
+:constructionDateEnd
+	rdf:type owl:DatatypeProperty ;
+	rdfs:comment "The year of completion of the initial construction.
+		"^^xsd:string ;
+	rdfs:label "construction date"^^xsd:string ;
+	skos:prefLabel "construction date"^^xsd:string .
+
+:constructionTime
+	rdf:type owl:ObjectProperty ;
+	rdfs:comment ""^^xsd:string ;
+	rdfs:label "construction time"^^xsd:string ;
+	rdfs:range time:ProperInterval ;
+	skos:example "The construction of the Cologne Cathedral was started in 1248
+		and finished in 1880"^^xsd:string ;
+	skos:prefLabel "construction time"^^xsd:string .
+
+:hasOwner
+	rdf:type owl:ObjectProperty ;
+	rdfs:comment ""^^xsd:string ;
+	rdfs:label "has owner"^^xsd:string ;
+	rdfs:range <http://www.w3.org/ns/RegisteredOrganization> ;
+	skos:prefLabel "has owner"^^xsd:string .
+
+:has_Location
+	rdf:type owl:ObjectProperty ;
+	rdfs:comment ""^^xsd:string ;
+	rdfs:label "has Location"^^xsd:string ;
+	rdfs:range <http://purl.org/dc/terms/Location> ,
+		<http://www.geonames.org/ontology#Country> ;
+	skos:prefLabel "has Location"^^xsd:string .
+
+:has_building_area
+	rdf:type owl:DatatypeProperty ;
+	rdfs:comment "the gross floor according to local quantification method
+		(Depends on legal etc. practises)"^^xsd:string ;
+	rdfs:domain :Building ;
+	rdfs:label "has building area"^^xsd:string ;
+	rdfs:range xsd:double ;
+	skos:prefLabel "has gross floor area"^^xsd:string .
+
+:has_function
+	rdf:type owl:DatatypeProperty ;
+	rdfs:comment ""^^xsd:string ;
+	rdfs:domain :Building ;
+	rdfs:label "has function"^^xsd:string ;
+	rdfs:range xsd:string ;
+	skos:prefLabel "has function"^^xsd:string .
+
+:has_name
+	rdf:type owl:DatatypeProperty ;
+	rdfs:comment ""^^xsd:string ;
+	rdfs:domain :Building ;
+	rdfs:label "buildingname"^^xsd:string ;
+	rdfs:range xsd:string ;
+	skos:example "\"Vertigo Building TU Eindhoven\"; \"Cologne
+		cathedral\""^^xsd:string ;
+	skos:prefLabel "buildingname"^^xsd:string .
+
+:lengthUnit
+	rdf:type owl:ObjectProperty ;
+	rdfs:comment "Determines in which unit other properties are interpreted,
+		e.g. qudt:SquareMeter"^^xsd:string ;
+	rdfs:domain :Building ;
+	rdfs:label "length unit"^^xsd:string ;
+	rdfs:range qudt:AreaUnit ;
+	skos:prefLabel "length unit"^^xsd:string .
+
+:modificationDate
+	rdf:type owl:DatatypeProperty ;
+	rdfs:comment ""^^xsd:string ;
+	rdfs:domain :Building ;
+	rdfs:label "modification date"^^xsd:string ;
+	rdfs:range xsd:dateTime ;
+	skos:prefLabel "modification date"^^xsd:string .
+
+:numberFloor
+	rdf:type owl:DatatypeProperty ;
+	rdfs:comment ""^^xsd:string ;
+	rdfs:label "number of floors"^^xsd:string ;
+	rdfs:range xsd:integer ;
+	skos:prefLabel "number of floors"^^xsd:string .
+
+:numberRoom
+	rdf:type owl:DatatypeProperty ;
+	rdfs:comment "The number of all rooms in the builing "^^xsd:string ;
+	rdfs:label "number room"^^xsd:string ;
+	rdfs:range xsd:integer ;
+	skos:prefLabel "number room"^^xsd:string .
+	

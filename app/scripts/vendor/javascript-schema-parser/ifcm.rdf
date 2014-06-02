@@ -1,0 +1,130 @@
+# baseURI: http://duraark.eu/vocabularies/ifcm
+# imports: http://bloody-byte.net/rdf/dc_owl2dl/dcmitype.ttl
+# imports: http://purl.org/dc/terms/
+# imports: http://www.loc.gov/premis/rdf/v1
+# imports: http://www.w3.org/2004/02/skos/core
+# imports: http://www.w3.org/TR/prov-o/
+
+@prefix : <http://duraark.eu/vocabularies/ifcm#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix premisowl: <http://www.loc.gov/premis/rdf/v1#> .
+@prefix provo: <http://www.w3.org/TR/prov-o#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://duraark.eu/vocabularies/ifcm>
+	rdf:type owl:Ontology ;
+	owl:imports <http://bloody-byte.net/rdf/dc_owl2dl/dcmitype.ttl> ,
+		<http://www.w3.org/TR/prov-o/> , <http://www.w3.org/2004/02/skos/core> ,
+		<http://purl.org/dc/terms/> , <http://www.loc.gov/premis/rdf/v1> ;
+	owl:versionInfo "Initital draft M12"^^xsd:string .
+	
+:IFCCharacteristics
+	rdf:type owl:Class ;
+	rdfs:comment "A domain specific PREMIS ObjectCharacteristics extension that
+		describes File entities of the Industry Foundation Classes in their part
+		21 STEP Physical File Format (SPFF)"^^xsd:string ;
+	rdfs:label "IFC Characteristics"^^xsd:string ;
+	rdfs:subClassOf premisowl:ObjectCharacteristicsExtension ;
+	skos:prefLabel "IFC Characteristics"^^xsd:string .
+	
+:LODmetric
+	rdf:type owl:DatatypeProperty ;
+	rdfs:comment "a percentage ratio that determines the number of object per
+		quibical meter"^^xsd:string ;
+	rdfs:label "LODmetric"^^xsd:string ;
+	rdfs:range xsd:float .
+	
+:attributeMetric
+	rdf:type owl:DatatypeProperty ;
+	rdfs:comment "the percentage of the OPTIONAL schema-level attributes that
+		have are provied with values in this file"^^xsd:string ;
+	rdfs:domain :IFCCharacteristics ;
+	rdfs:label "attribute metric"^^xsd:string ;
+	rdfs:range xsd:float .
+	
+:componentLibaries
+	rdf:type owl:DatatypeProperty ;
+	rdfs:comment "name of external component library that has been used. Can be
+		instantiated multiple times"^^xsd:string ;
+	rdfs:domain :IFCCharacteristics ;
+	rdfs:label "component libaries"^^xsd:string ;
+	rdfs:range xsd:string .
+	
+:creationTime
+	rdf:type owl:DatatypeProperty ;
+	rdfs:comment "timestamp of the generation of this file from the header
+		"^^xsd:string ;
+	rdfs:label "creation time"^^xsd:string ;
+	rdfs:range xsd:dateTime .
+	
+:ifcVersion
+	rdf:type owl:DatatypeProperty ;
+	rdfs:comment "The version of the IFC file. Can be extracted from the header
+		e.g. FILE_SCHEMA ((’IFC2X3’)). Will be IFC2x3 most of the times by the
+	time of this initial version"^^xsd:string ;
+	rdfs:domain :IFCCharacteristics ;
+	rdfs:label "has IFC version"^^xsd:string ;
+	rdfs:range xsd:string .
+	
+:implemenationLevel
+	rdf:type owl:DatatypeProperty ;
+	rdfs:comment "The implementation level according to the ISO 10303:21, most
+		often this will be ’2;1’"^^xsd:string ;
+	rdfs:domain :IFCCharacteristics ;
+	rdfs:label "implemenation level"^^xsd:string ;
+	rdfs:range xsd:string .
+	
+:lastProducingApplication
+	rdf:type owl:ObjectProperty ;
+	rdfs:comment "the LAST Software application that has been involved in
+		creating this model. In contrast to teh producingApplication property,
+		this information should be taken from the header"^^xsd:string ;
+	rdfs:domain :IFCCharacteristics ;
+	rdfs:label "originating application"^^xsd:string ;
+	rdfs:range <http://purl.org/dc/dcmitype/Software> .
+	
+:mvd rdf:type owl:DatatypeProperty ;
+	rdfs:comment "the Model View Definition this file complies to. Can be
+		extracted from the FILE_DESCRIPTION section in the SPFF
+	header"^^xsd:string ;
+	rdfs:label "has MVD"^^xsd:string ;
+	rdfs:range xsd:string .
+	
+:numberComponents
+	rdf:type owl:DatatypeProperty ;
+	rdfs:comment "The number of IfcProduct subtypes that have been instantiated
+		(doors, windows, roofs, walls etc)"^^xsd:string ;
+	rdfs:domain :IFCCharacteristics ;
+	rdfs:label "number or products"^^xsd:string ;
+	rdfs:range xsd:integer .
+
+:numberEntities
+	rdf:type owl:DatatypeProperty ;
+	rdfs:comment ""^^xsd:string ;
+	rdfs:domain :IFCCharacteristics ;
+	rdfs:label "number entities"^^xsd:string ;
+	rdfs:range xsd:integer .
+	
+:producingApplication
+	rdf:type owl:ObjectProperty ;
+	rdfs:comment "one of the software application that has been involved in
+		creating this model. This information can be extracted on a per-object
+		record from the asscociated IfcOwnerHistory record. In theory. In
+		practice this provenance metadata record is not used to its intended
+		purpose in most implementing applications."^^xsd:string ;
+	rdfs:domain :IFCCharacteristics ;
+	rdfs:label "producing Application"^^xsd:string ;
+	rdfs:range <http://purl.org/dc/dcmitype/Software> .
+	
+premisowl:ObjectCharacteristicsExtension
+	rdf:type owl:Class ;
+	rdfs:comment "A Container Class to implement domain-specific
+		extensions"^^xsd:string ;
+	rdfs:label "Object characteristics extension"^^xsd:string ;
+	rdfs:subClassOf premisowl:ObjectCharacteristics ;
+	skos:prefLabel "Object characteristics extension"^^xsd:string .
+	
+	
