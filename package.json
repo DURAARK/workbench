@@ -52,6 +52,17 @@
       },
       "handler": "listcommand"
     }
+  },{
+    "id": "/metadata/ifc",
+    "interface": {
+      "command": {
+        "name": "./server/executables/metadataextractor-ifc.bat",
+        "options": "",
+        "input": "./server/fixtures/building.ifc",
+        "output": "./server/output/building.buildm.rdf"
+      },
+      "handler": "metadataextractor-ifc"
+    }
   }],
   "app": {
     "settings": {

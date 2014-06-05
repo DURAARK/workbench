@@ -44,8 +44,7 @@
 // 	}
 // });
 
-var _ = require('underscore'),
-    ExecutableService = require('./core/executable-service');
+var _ = require('underscore');
 
 var ServiceProviderMixin = module.exports = function(router, opts, logger) {
     this.router = router;

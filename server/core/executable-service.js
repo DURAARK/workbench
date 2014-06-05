@@ -1,4 +1,5 @@
-var spawn = require('child_process').spawn;
+var spawn = require('child_process').spawn,
+    path = require('path');
 
 
 var ExecutableFileOutputService = module.exports = function(opts, logger) {
@@ -23,17 +24,28 @@ ExecutableFileOutputService.prototype.findById = function(req, res) {
         inputparam = '/usr';
     }
 
-    var executable = spawn(this.opts.name, [this.opts.options, inputparam]);
+    var exec_path = this.opts.name;
+    if (path.resolve(exec_path) !== exec_path) {
+        exec_path = path.join(__dirname, '../../', exec_path);
+    }
 
-    executable.stdout.on('data', function(data) {
-        this.onStdOut(data, res);
-    }.bind(this));
+    var current_cwd = process.cwd(),
+        cwd = path.dirname(exec_path);
+
+    process.chdir(cwd);
+
+    var executable = spawn(exec_path, [this.opts.options, inputparam]);
+
+    // executable.stdout.on('data', function(data) {
+    //     this.onStdOut(data, res);
+    // }.bind(this));
 
     executable.stderr.on('data', function(data) {
         this.onStdErr(data, res);
     }.bind(this));
 
     executable.on('close', function(code) {
-        this.onClose(code, res);
+        process.chdir(current_cwd);
+        this.onClose(code, this.opts, res);
     }.bind(this));
 }
