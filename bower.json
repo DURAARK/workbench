@@ -18,9 +18,5 @@
     "sinon": "~1.7.3"
   },
   "devDependencies": {},
-  "directory": "bower_components",
-  "resolutions": {
-    "backbone.wreqr": "^1.0.0",
-    "underscore": ">=1.5.0"
-  }
+  "directory": "bower_components"
 }

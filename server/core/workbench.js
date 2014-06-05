@@ -16,7 +16,7 @@ var Workbench = module.exports = function(opts) {
 		this.log = require('npmlog');
 	}
 
-	ServiceProviderMixin.call(this, this._router, this._config.endpoints, this.log);
+	ServiceProviderMixin.call(this, this._router, this._config.services, this.log);
 
 	// FIXXME: introduce own state object!
 	this._state = this._router;
@@ -30,7 +30,7 @@ var Workbench = module.exports = function(opts) {
 	});
 
 	this.setupState(settings);
-	this.registerEndpoints(this._config.endpoints);
+	this.registerEndpoints(this._config.services);
 
 	/* ----------------------------------------------------------------------------
 	 * Router setup

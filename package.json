@@ -42,35 +42,15 @@
   "engines": {
     "node": ">=0.8.0"
   },
-  "endpoints": [{
-    "id": "/metadata/ifcm",
+  "services": [{
+    "id": "/command/list",
     "interface": {
-      "type": "db",
-      "backend": "rdf"
-    },
-    "options": {
-      "useFixtures": "true",
-      "fixtureFile": "./fixtures/ifcm.json"
-    }
-  }, {
-    "id": "/metadata/e57m",
-    "interface": {
-      "type": "db",
-      "backend": "rdf"
-    },
-    "options": {
-      "useFixtures": "true",
-      "fixtureFile": "./fixtures/e57m.json"
-    }
-  }, {
-    "id": "/metadata/buildm",
-    "interface": {
-      "type": "db",
-      "backend": "rdf"
-    },
-    "options": {
-      "useFixtures": "true",
-      "fixtureFile": "./fixtures/buildm.json"
+      "command": {
+        "name": "ls",
+        "options": "-la",
+        "input": "/home/hecher"
+      },
+      "handler": "listcommand"
     }
   }],
   "app": {

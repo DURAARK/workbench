@@ -44,65 +44,47 @@
 // 	}
 // });
 
-var _ = require('underscore');
+var _ = require('underscore'),
+    ExecutableService = require('./core/executable-service');
 
 var ServiceProviderMixin = module.exports = function(router, opts, logger) {
-	this.router = router;
-	this.opts = opts;
+    this.router = router;
+    this.opts = opts;
 
-	this.log = logger;
-	if (!this.log) {
-		this.log = require('npmlog');
-	}
+    this.log = logger;
+    if (!this.log) {
+        this.log = require('npmlog');
+    }
 
-	this.plugins = {};
+    this.plugins = {};
 }
 
 ServiceProviderMixin.prototype.registerEndpoints = function(endpoint_cfgs) {
-	_.forEach(endpoint_cfgs, function(config, key) {
-		this.log.info('Loading module "' + config.id + '" from /plugins/' + config.interface.type + '/' + config.interface.backend + '/index.js:');
+    _.forEach(endpoint_cfgs, function(config, key) {
+        this.log.info('Loading module "' + config.id + '" from ../../services/' + config.interface.handler);
 
-		// FIXXME: configure ServiceProviderMixin with 'appRoot'!
-		var MyPlugin = require('./plugins/' + config.interface.type + '/' + config.interface.backend + '/index.js');
+        var ExecutableService = require('../../services/' + config.interface.handler);
 
-		// console.log('options: ' + JSON.stringify(config.options));
-		// config = _.extend(config, {
-		// 	id: config.id
-		// });
+        var executable_info = config.interface.command;
 
-		var plugin = new MyPlugin(config.options, this.log);
-		this.plugins[config.id] = plugin;
+        // console.log('command: ' + JSON.stringify(executable_info));
 
-		var prefix = this._prefixFor(config.interface.type) || config.interface.type;
-		if (plugin.findAll) {
-			this.router.get(prefix + config.id, plugin.findAll.bind(plugin));
-			this.log.info('   ... registered GET verb for: ' + prefix + config.id);
-		}
-		if (plugin.findById) {
-			this.router.get(prefix + config.id + '/:id', plugin.findById.bind(plugin));
-			this.log.info('   ... registered GET verb for: ' + prefix + config.id + '/:id');
-		}
-	}.bind(this));
+        var service = new ExecutableService(executable_info, this.log);
+        if (service.findById) {
+            this.router.get(config.id + '/:id', service.findById.bind(service));
+            this.log.info('   ... registered GET verb for: ' + config.id + '/:id');
+        }
+    }.bind(this));
 }
 
 ServiceProviderMixin.prototype.removeEndpoint = function(id) {
-	if (this.plugins[id]) {
-		this.plugins[id].destroy();
-	} else {
-		this.log.warning('No endpoint with this id registered. Continueing safely...');
-	}
+    if (this.plugins[id]) {
+        this.plugins[id].destroy();
+    } else {
+        this.log.warning('No endpoint with this id registered. Continueing safely...');
+    }
 }
 
-ServiceProviderMixin.prototype._prefixFor = function(type) {
-	// FIXXME: read type/prefix mapping from config file!
-	this._prefixes = {
-		'db': '/db',
-		'api': '/api',
-	}
-
-	return this._prefixes[type];
-};
-
 ServiceProviderMixin.prototype.plugins = function(id) {
-	return this.plugins[id];
+    return this.plugins[id];
 };
