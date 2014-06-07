@@ -1,21 +1,17 @@
 <div class="container">
 	<div class="hero-unit">
-		MetadataExtractor: Lists the technical and descriptive metadata of the files specified in the SessionManager.
+		<center>MetadataExtractor UI module</center>
 	</div>
 
+	<h3>Listing metadata from: <strong>Duplex_A_20110907_optimized.ifc</strong></h3>
+	
+	<!-- This is the 'buildm' region of the template, where subregions can be 'shown' in. -->
+	<h2>buildm (descriptive) metadata</h2>
+	
+	<div id="buildm-region">No metadata found for given file!</div>
+
 	<br><br>
-
-	<p>The table below is already sourced from the backend service "MetadataExtractor". The backend service uses
-	fixture data at the moment, which can be found in "./server/fixtures". Please change the entries there so
-	that they reflect the metadata structure we agree on in Lulea.</p>
-
-	<p>The table below uses the IFC metadata from "./server/fixtures/ifcm.json". See "./app/services/contrib/metadata/ifc"
-	how to get the data from the backend service and have a look at "./app/modules/contrib/metadataextractor/main.js",
-	"./app/modules/contrib/metadataextractor/mainview.js" and "./app/modules/contrib/metadataextractor/templates/main.hbs" (this
-	file) on how to render the data.</p>
-
-	<div id="list-region">No metadata found for given file!</div>
-
+	
 	<button type="submit" class="btn btn-default js-previous">Previous</button>
 	<button type="submit" class="btn btn-default js-next">Next</button>
 </div>

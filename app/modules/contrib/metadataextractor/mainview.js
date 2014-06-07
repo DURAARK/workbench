@@ -28,7 +28,7 @@ define([
         template: MetadataViewTmpl,
 
         regions: {
-            list: "#list-region"
+            buildm: "#buildm-region"
         },
 
         events: {
@@ -62,7 +62,7 @@ define([
         },
 
         onShow: function() {
-            this.list.show(new TableView({
+            this.buildm.show(new TableView({
                 collection: this.metadataCollection
             }));
         }
