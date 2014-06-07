@@ -1,9 +1,10 @@
 define([
+    'backbone',
     'backbone.marionette',
     'workbenchui',
     'core/uimodulebase',
     './mainview.js'
-], function(Marionette, WorkbenchUI, UIModuleBase, MainView) {
+], function(Backbone, Marionette, WorkbenchUI, UIModuleBase, MetadataLayout) {
 
     WorkbenchUI.module('Contrib.MetadataExtractor', UIModuleBase);
 
@@ -19,36 +20,14 @@ define([
 
             // First create the Model class that refers to a REST url, in this case '/metadata/ifc'
             var IfcmModel = Backbone.Model.extend({
-                urlRoot: "/metadata/ifc"
+                urlRoot: "/services/buildm"
             });
 
-            // this method sends a request to the url specified in the Model class above and returns the
-            // received data via a valid model:
-            function fetchModel(id) {
-                // Create a new model instance with the given id. When you call mymodel.fetch() a request
-                // to the url '/metadata/ifc/id' will be send to the server:
-                var mymodel = new IfcmModel({
-                    id: id
-                });
-
-                // This is a bit of magic that handles the asynchroneous request.
-                var defer = $.Deferred();
-                mymodel.fetch({
-                    success: function(data) {
-                        defer.resolve(data);
-                    },
-                    error: function(data) {
-                        defer.resolve(undefined);
-                    }
-                });
-                return defer.promise();
-            }
-
             if (!MyModule._mainView) {
-                // Use the fetchModel() method here to grab the model with id 1. In the 'then' function 
+                // Use the WorkbenchUI.fetchModel() method here to grab the model with id 1. In the 'then' function 
                 // callback it is guaranteed the the data from the server is received and the model is accessible:
-                fetchModel(1).then(function(model) {
-                    MyModule._mainView = new MainView({
+                WorkbenchUI.fetchModel(IfcmModel, 1).then(function(model) {
+                    MyModule._mainView = new MetadataLayout({
                         model: model
                     });
 

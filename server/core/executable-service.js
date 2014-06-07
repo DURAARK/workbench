@@ -41,11 +41,18 @@ ExecutableFileOutputService.prototype.findById = function(req, res) {
     // }.bind(this));
 
     executable.stderr.on('data', function(data) {
-        this.onStdErr(data, res);
+        process.chdir(current_cwd);
+        if (this.onStdErr) {
+            this.onStdErr(data, res);
+        }
     }.bind(this));
 
     executable.on('close', function(code) {
         process.chdir(current_cwd);
-        this.onClose(code, this.opts, res);
+        if (this.onClose) {
+            this.onClose(code, this.opts, res);
+        } else {
+            console.log('Implement "onClose" method in your ExecutableService object!');
+        }
     }.bind(this));
 }

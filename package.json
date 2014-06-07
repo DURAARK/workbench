@@ -63,6 +63,16 @@
             },
             "handler": "metadataextractor-ifc"
         }
+    }, {
+        "id": "/services/buildm",
+        "interface": {
+            "command": {
+                "name": "python",
+                "options": "./server/executables/pyIfcExtract/buildm_extractor_dummy.py",
+                "input": "./server/fixtures/Duplex_A_20110907_optimized.ifc"
+            },
+            "handler": "buildm-ifc"
+        }
     }],
     "app": {
         "settings": {
