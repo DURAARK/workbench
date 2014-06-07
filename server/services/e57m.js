@@ -4,14 +4,14 @@ var ConsoleService = require('../core/console-service'),
     path = require('path');
 
 
-var BuildmIFC = module.exports = function(opts, logger) {
+var E57M = module.exports = function(opts, logger) {
     ConsoleService.call(this, opts, logger);
 
 }
-_.extend(BuildmIFC.prototype, ConsoleService.prototype);
+_.extend(E57M.prototype, ConsoleService.prototype);
 
-BuildmIFC.prototype.onStdErr = function(data, res) {
-    console.log('[BuildmIFC:onStdErr] \n' + data.toString());
+E57M.prototype.onStdErr = function(data, res) {
+    console.log('[E57M:onStdErr] \n' + data.toString());
 
     // 'this.opts' contains data about the executed command:
     res.send({
@@ -22,9 +22,9 @@ BuildmIFC.prototype.onStdErr = function(data, res) {
 
 // The 'onStdOut' method is called after the executable given in the 'package.json' file is executed.
 // The 'output_info' is an object that contains information on where the created output file is located.
-BuildmIFC.prototype.onStdOut = function(data, res) {
+E57M.prototype.onStdOut = function(data, res) {
     // 'output_info' contains information on the output file that was created by the command:
-    console.log('[BuildmIFC:onStdOut] data: ' + JSON.stringify(data.toString()));
+    console.log('[E57M:onStdOut] data: ' + JSON.stringify(data.toString()));
 
     // Simply return the json string given in the output:
     res.send(data.toString());

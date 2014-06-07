@@ -73,6 +73,26 @@
             },
             "handler": "buildm-ifc"
         }
+    }, {
+        "id": "/services/ifcm",
+        "interface": {
+            "command": {
+                "name": "python",
+                "options": "./server/executables/ifcm_extractor_dummy.py",
+                "input": "./server/fixtures/Duplex_A_20110907_optimized.ifc"
+            },
+            "handler": "ifcm"
+        }
+    }, {
+        "id": "/services/e57m",
+        "interface": {
+            "command": {
+                "name": "python",
+                "options": "./server/executables/e57m_extractor_dummy.py",
+                "input": "./server/fixtures/dummy.e57"
+            },
+            "handler": "e57m"
+        }
     }],
     "app": {
         "settings": {

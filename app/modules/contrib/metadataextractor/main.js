@@ -15,28 +15,45 @@ define([
         WorkbenchUI.execute('module:register', 'Contrib.MetadataExtractor');
 
         // 2. Register eventhandler to show the view:
-        WorkbenchUI.vent.on('module:metadataextractor:show', function() {
+        WorkbenchUI.vent.on('module:metadataextractor:show', function(region) {
             console.log('module:metadataextractor:show');
 
-            // First create the Model class that refers to a REST url, in this case '/metadata/ifc'
-            var IfcmModel = Backbone.Model.extend({
+            // First create the Model classes:
+            var BuildmModel = Backbone.Model.extend({
                 urlRoot: "/services/buildm"
             });
 
+            var IfcmModel = Backbone.Model.extend({
+                urlRoot: "/services/ifcm"
+            });
+
+            var E57mModel = Backbone.Model.extend({
+                urlRoot: "/services/e57m"
+            });
+
             if (!MyModule._mainView) {
+                // Create emtpy main view and show it:
+                MyModule._mainView = new MetadataLayout();
+
+                if (typeof region !== 'undefined') {
+                    region.show(MyModule._mainView);
+                } else {
+                    this.mainRegion.show(MyModule._mainView);
+                }
+
                 // Use the WorkbenchUI.fetchModel() method here to grab the model with id 1. In the 'then' function 
                 // callback it is guaranteed the the data from the server is received and the model is accessible:
-                WorkbenchUI.fetchModel(IfcmModel, 1).then(function(model) {
-                    MyModule._mainView = new MetadataLayout({
-                        model: model
-                    });
+                WorkbenchUI.fetchModel(BuildmModel, 1).then(function(model) {
+                    MyModule._mainView.updateBuildmData(model);
+                });
 
-                    if (typeof region !== 'undefined') {
-                        region.show(MyModule._mainView);
-                    } else {
-                        this.mainRegion.show(MyModule._mainView);
-                    }
-                }.bind(this));
+                WorkbenchUI.fetchModel(IfcmModel, 1).then(function(model) {
+                    MyModule._mainView.updateIfcmData(model);
+                });
+
+                WorkbenchUI.fetchModel(E57mModel, 1).then(function(model) {
+                    MyModule._mainView.updateE57mData(model);
+                });
             } else {
                 if (typeof region !== 'undefined') {
                     region.show(MyModule._mainView);

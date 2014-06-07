@@ -28,7 +28,9 @@ define([
         template: MetadataViewTmpl,
 
         regions: {
-            buildm: "#buildm-region"
+            buildm: "#buildm-region",
+            ifcm: "#ifcm-region",
+            e57m: "#e57m-region"
         },
 
         events: {
@@ -43,28 +45,45 @@ define([
         },
 
         initialize: function() {
-            // Here the given model (stored in this.options.model) is converted into
-            // a collection for easier display. CAUTION: After values have changed int
-            // the collection it is necessary to serialize the collection into a single
-            // model to store it back to the server!
 
-            this.metadataCollection = new Backbone.Collection();
-            for (var key in this.options.model.attributes) {
+        },
+
+        updateBuildmData: function(model) {
+            this.buildm.show(new TableView({
+                collection: this._modelToCollection(model)
+            }));
+        },
+
+        updateIfcmData: function(model) {
+            this.ifcm.show(new TableView({
+                collection: this._modelToCollection(model)
+            }));
+        },
+
+        updateE57mData: function(model) {
+            this.e57m.show(new TableView({
+                collection: this._modelToCollection(model)
+            }));
+        },
+
+        _modelToCollection: function(model) {
+            // Here the given model is converted into a collection for easier display.
+            // CAUTION: After values have changed in the collection it is necessary to
+            // serialize the collection into a single model to store it back to the server!
+
+            var collection = new Backbone.Collection();
+            for (var key in model.attributes) {
                 // Skip 'id' attribute:
                 if (key === 'id') continue;
 
-                var value = this.options.model.attributes[key];
-                this.metadataCollection.push({
+                var value = model.attributes[key];
+                collection.push({
                     key: key,
                     value: value
                 });
             };
-        },
 
-        onShow: function() {
-            this.buildm.show(new TableView({
-                collection: this.metadataCollection
-            }));
+            return collection;
         }
     });
 
