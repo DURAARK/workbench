@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href ="css/styles.css">
+		<title>Resource Timestamp Status</title>
+	</head>	
+	<body>
+	
+	<div class=" nvbar nav navbar navbar-inverse navbar-static-top ">
+		 
+			<div class="container">
+			
+			<a href="#" class="navbar-brand txtstyle">Iterative Linked Dataset Crawler</a>
+			
+			<button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			
+				<div class="collapse navbar-collapse navHeaderCollapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="active"><a href="#">Home</a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">About<b class="caret"></b></a>
+							<ul class="dropdown-menu">
+							<li><a href="#">Datasets</a></li>
+							<li><a href="#">Resources</a></li>
+							
+						</ul>
+						</li>
+						<li><a href="#">Contact</a></li>
+					</ul>
+				</div>	
+			</div>
+	</div>
+	
+	<div class="container">
+		<div class ="row">
+			<div class="col-lg-9">
+				<div class="panel panel-default">
+					<h3>Resource Timestamp  Status</h3>
+				</div>
+			</div>
+		</div>	
+	</div>
+	
+	<div class="container">
+		<div class ="row">
+			<div class="col-lg-9">
+				<div class="panel panel-default">
+					<img class="featuredImg" src="img/lod-cloud_2010.png" alt="lod-cloud-2010" width=50% height=30%>
+				</div>
+			</div>
+		</div>	
+	</div>
+	
+	<div class="container">
+		<div class ="row">
+			<div class="col-lg-9">
+				<div class="panel panel-default">
+					<div class ="page-panel-body">
+						<div class="page-header">
+							<h4>View Specific Resource Timestamp Status</h4> 
+						</div>
+					</div>
+					
+					<form class="form-horizontal" role="form">
+					
+
+						<div class="form-group">
+						  <label for="dataset_ids" class="col-lg-2 control-label">Resource-uri:</label>
+						   <div class="col-lg-10">
+								<div class ="dropdown">
+									<div class="btn-group">
+										<a class="btn btn-default" href="#">
+											<i class=" icon-user icon-white"></i> select resource-uri
+										</a>
+										<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+											<span class="caret"></span>
+										</a>
+										<ul class="dropdown-menu">
+											<li><a href="#"><i class="icon-pencil"></i>yovisto</a></li>
+											<li><a href="#"><i class="icon-trash"></i>data.gov</a></li>
+											<li><a href="#"><i class="icon-ban-circle"></i>enipedia</a></li>
+											<li class="divider"></li>
+											<li><a href="#"><i class="i"></i>semantic web dog</a></li>
+										</ul>
+									</div>								
+								</div>
+						  </div>
+						</div>
+
+					   <div class="form-group">
+						  <label for="start_time" class="col-lg-2 control-label">Start Time:</label>
+						   <div class="col-lg-10">
+								<div class ="dropdown">
+									<div class="btn-group">
+										<a class="btn btn-default" href="#">
+											<i class=" icon-user icon-white"></i> select a start time
+										</a>
+										<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+											<span class="caret"></span>
+										</a>
+										<ul class="dropdown-menu">
+											<li><a href="#"><i class="icon-pencil"></i>01.04.2014</a></li>
+											<li><a href="#"><i class="icon-trash"></i> 8.04.2014</a></li>
+											<li><a href="#"><i class="icon-ban-circle"></i>15.04.2014</a></li>
+											<li class="divider"></li>
+											<li><a href="#"><i class="i"></i> 22.04.2014</a></li>
+										</ul>
+									</div>								
+								</div>
+						  </div>
+					</div>
+					   
+					   <div class="form-group">
+						  <label for="end_time" class="col-sm-2 control-label">End Time:</label>
+						  <div class="col-lg-10">
+								<div class ="dropdown">
+									<div class="btn-group">
+										<a class="btn btn-default" href="#">
+											<i class=" icon-user icon-white"></i> select an end time
+										</a>
+										<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+											<span class="caret"></span>
+										</a>
+										<ul class="dropdown-menu">
+											<li><a href="#"><i class="icon-pencil"></i>29.05.2014</a></li>
+											<li><a href="#"><i class="icon-trash"></i> 5.05.2014</a></li>
+											<li><a href="#"><i class="icon-ban-circle"></i>13.05.2014</a></li>
+											<li class="divider"></li>
+											<li><a href="#"><i class="i"></i> 20.05.2014</a></li>
+										</ul>
+									</div>								
+								</div>
+						  </div>
+					   </div>
+					   
+					   <div class="form-group">
+						  <div class="col-lg-offset-2 col-lg-10">
+							 <button type="submit" class="btn btn-primary">View</button>
+						  </div>
+					   </div>
+					</form>
+				</div>		
+			</div>
+		</div>
+	</div>
+	
+	<div class="navbar navbar-inverse navbar-fixed-bottom footer">
+			<div class="container">
+				<p class="txtstyle navbar-text pull-left">L3S Research Center-Hanover</p>
+				<a class="navbar-btn btn-default btn pull-right" href="http://www.l3s.de/en/home/">L3S Homepage</a>
+			</div>
+	</div>
+		 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		 <script src="js/bootstrap.min.js"></script>
+	</body>
+</html>

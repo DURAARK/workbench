@@ -1,0 +1,24 @@
+body{
+margin-bottom:80px;
+}
+.nvbar{
+background-color:dark-gray;
+}
+.footer{
+background-color:gray;
+}
+.txtstyle{
+font-family:vedana,arial, helvetica, serif,"Times New Roman";
+font-weight:bold;
+color:#ffc;
+}
+.page-panel-body{
+padding-top:0px;
+}
+.page-header{
+margin-top:0px;
+}
+.featuredImg{
+margin-bottom;15px;
+margin-left:160px;
+}
