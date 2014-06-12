@@ -74,11 +74,24 @@
 import re
 import sys
 import json
-import IfcImport
 import datetime
+import IfcImport
+import rdf_extractor
 
 ifc_file = None
+rdf_repos = []
 pattern_class = re.compile("").__class__
+
+def find_rdf_repos():
+    def is_uri(s):
+        return s[1:-1].split('#')[0] if (s[0]+s[-1]) == '<>' else None
+    triples = rdf_extractor.fetch(ifc_file)
+    repos = set()
+    for spo in triples:
+        for str in spo[1:]:
+            uri = is_uri(str)
+            if uri: repos.add(uri)
+    rdf_repos[:] = sorted(repos)
 
 def load(fn):
 	global ifc_file
@@ -166,7 +179,17 @@ class Single(Multiple):
 		li = super(Single, self).as_list()
 		if len(li) != 1: raise AttributeError
 		return li
-		
+
+
+class RdfRepositories(Query):
+    def __init__(self): pass
+    def __getattr__(self, k):
+        print ('getattr', k)
+        if k == 'params':
+            return [('RdfRepositories',v) for v in rdf_repos]
+
+    
+RDF_REPOSITORIES = RdfRepositories()
 		
 class Tuple:
 	def __init__(self, *attrs):
@@ -190,3 +213,18 @@ class JsonFormatter:
 		json.dump(di, sys.stdout, indent='  ')
 			
 json_formatter = JsonFormatter()
+
+class rdf_formatter:
+    def __init__(self, name_query):
+        self.uri = name_query.params[0][1]
+    def __lshift__(self, li):
+        def typify(s):
+            if isinstance(s, int): return '"%d"^^xsd:integer'%s
+            else: return '"%s"^^xsd:string'%str(s)
+        for item in li:
+            for p in item.params:
+                if p[1] is not None:
+                    print (":%s :%s %s"%(self.uri,p[0],typify(p[1])))
+            
+
+            

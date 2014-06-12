@@ -3,9 +3,8 @@ from ifc import *
 
 load(sys.argv[1])
 
-json_formatter << [
-    Single("IfcProject").GlobalId() >> "Digital_Object_Identifier",
-    
+# json_formatter << [
+rdf_formatter(Single("IfcProject").GlobalId()) << [
     (Single("IfcProject").LongName() | Single("IfcProject").Name()) >> "Digital_Object_Name",
     
     Single("IfcProject").Description() >> "Digital_Object_Description",
@@ -35,5 +34,7 @@ json_formatter << [
         
     Single("IfcOwnerHistory").OwningUser().ThePerson().GivenName() + ' ' +
         Single("IfcOwnerHistory").OwningUser().ThePerson().FamilyName()
-        >> "Physical_Asset_Creator"
+        >> "Physical_Asset_Creator",
+        
+    RDF_REPOSITORIES >> "Digital_Object_Repositories_Used"
 ]
