@@ -14,7 +14,6 @@ var multipart = require("multipart");
 var ServiceProviderMixin = require('./core/service-provider-mixin/index.js');
 var _config = require(__dirname + '/../package.json');
 var Workbench = require('./core/workbench');
-//var JSON 
 /* ----------------------------------------------------------------------------
  * Webserver setup
  * --------------------------------------------------------------------------*/
@@ -35,10 +34,6 @@ app.configure(function() {
 
 //for file upload
  app.use(express.bodyParser( {uploadDir: path.join(__dirname, '../server/uploads'), keepExtensions: true } )); //puts the parsed body in req.body
-// app.post("*", function(req,res){
-// 	res.end( JSON.stringify(req.files) + "+n" );
-// } );
-
 
 
 // mount static
@@ -59,13 +54,9 @@ app.post('/upload',function(req,res){
     });
 });
 
-
-
 // start server
 http.createServer(app).listen(app.get('port'), function() {
     console.log('Express App started!');
-
-
 
 });
 
