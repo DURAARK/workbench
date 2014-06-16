@@ -4,7 +4,10 @@ from ifc import *
 load(sys.argv[1])
 
 # json_formatter << [
-rdf_formatter(Single("IfcProject").GlobalId()) << [
+rdf_formatter(Single("IfcProject").GlobalId() >> formatters.expand_guid) << [
+	
+	Single("IfcProject").GlobalId() >> "Digital_Object_Identifier",
+
     (Single("IfcProject").LongName() | Single("IfcProject").Name()) >> "Digital_Object_Name",
     
     Single("IfcProject").Description() >> "Digital_Object_Description",
@@ -37,4 +40,5 @@ rdf_formatter(Single("IfcProject").GlobalId()) << [
         >> "Physical_Asset_Creator",
         
     RDF_REPOSITORIES >> "Digital_Object_Repositories_Used"
+	
 ]

@@ -74,24 +74,26 @@
 import re
 import sys
 import json
+import string
 import datetime
 import IfcImport
 import rdf_extractor
+from functools import reduce
 
 ifc_file = None
 rdf_repos = []
 pattern_class = re.compile("").__class__
 
 def find_rdf_repos():
-    def is_uri(s):
-        return s[1:-1].split('#')[0] if (s[0]+s[-1]) == '<>' else None
-    triples = rdf_extractor.fetch(ifc_file)
-    repos = set()
-    for spo in triples:
-        for str in spo[1:]:
-            uri = is_uri(str)
-            if uri: repos.add(uri)
-    rdf_repos[:] = sorted(repos)
+	def is_uri(s):
+		return s[1:-1].split('#')[0] if (s[0]+s[-1]) == '<>' else None
+	triples = rdf_extractor.fetch(ifc_file)
+	repos = set()
+	for spo in triples:
+		for str in spo[1:]:
+			uri = is_uri(str)
+			if uri: repos.add(uri)
+	rdf_repos[:] = sorted(repos)
 
 def load(fn):
 	global ifc_file
@@ -182,20 +184,31 @@ class Single(Multiple):
 
 
 class RdfRepositories(Query):
-    def __init__(self): pass
-    def __getattr__(self, k):
-        print ('getattr', k)
-        if k == 'params':
-            return [('RdfRepositories',v) for v in rdf_repos]
+	def __init__(self): pass
+	def __getattr__(self, k):
+		if k == 'params':
+			return [('RdfRepositories',v) for v in rdf_repos]
 
-    
+	
 RDF_REPOSITORIES = RdfRepositories()
 		
-class Tuple:
-	def __init__(self, *attrs):
-		for x in zip(*[a.params for a in attrs]):
-			print (x)
-			exit()
+class guid:
+	chars = string.digits + string.ascii_uppercase + string.ascii_lowercase + '_$'
+	@staticmethod
+	def compress(g):
+		bs = [int(g[i:i+2], 16) for i in range(0, len(g), 2)]
+		def b64(v, l=4):
+			return ''.join([guid.chars[(v // (64**i))%64] for i in range(l)][::-1])
+		return ''.join([b64(bs[0], 2)] + [b64((bs[i] << 16) + (bs[i+1] << 8) + bs[i+2]) for i in range(1,16,3)])
+	@staticmethod
+	def expand(g):		
+		def b64(v):
+			return reduce(lambda a, b: a * 64 + b, map(lambda c: guid.chars.index(c), v))
+		bs = [b64(g[0:2])]
+		for i in range(5):
+			d = b64(g[2+4*i:6+4*i])
+			bs += [(d >> (8*(2-j)))%256 for j in range(3)]
+		return ''.join(['%02x'%b for b in bs])
 
 
 class formatters:
@@ -203,6 +216,7 @@ class formatters:
 	latlon = lambda fmt: lambda ll: "%s: %s;"%(fmt, ".".join(str(l) for l in ll)) if ll else ""
 	join = lambda li: " ".join(li)
 	count = type('qcount', (), {})()
+	expand_guid = guid.expand
 
 
 class JsonFormatter:
@@ -215,16 +229,37 @@ class JsonFormatter:
 json_formatter = JsonFormatter()
 
 class rdf_formatter:
-    def __init__(self, name_query):
-        self.uri = name_query.params[0][1]
-    def __lshift__(self, li):
-        def typify(s):
-            if isinstance(s, int): return '"%d"^^xsd:integer'%s
-            else: return '"%s"^^xsd:string'%str(s)
-        for item in li:
-            for p in item.params:
-                if p[1] is not None:
-                    print (":%s :%s %s"%(self.uri,p[0],typify(p[1])))
-            
+	def __init__(self, name_query):
+		self.uri = name_query.params[0][1]
+	def __lshift__(self, li):
+		def escape(s):
+			"""
+			Escape according to Turtle - Terse RDF Triple Language 3.3. String Escapes
+			
+			NB: Turtle can be UTF-8 encoded, but since output is written to stdout,
+				which doesn't speak UTF-8 on Windows, all Unicode characters outside
+				the printable character range of ASCII are escaped.
+			"""
+			escape_dict = {
+				'\t': '\\t',
+				'\n': '\\n',
+				'\r': '\\r',
+				'"' : '\\"',
+				'\\': '\\\\'
+			}
+			def escape_char(c):
+				if c in escape_dict: return escape_dict.get(c)
+				if ord(c) < 0x20 or ord(c) > 0x7e:
+					return "\\u%s"%"%04x"%ord(c)
+				else: return c
+			return ''.join(map(escape_char, s))
+		def typify(s):
+			if isinstance(s, int): return '"%d"^^xsd:integer'%s
+			else: return '"%s"^^xsd:string'%escape(str(s))
+		for item in li:
+			for p in item.params:
+				if p[1] is not None:
+					print (":project_%s :%s %s ."%(self.uri,p[0],typify(p[1])))
+			
 
-            
+			
