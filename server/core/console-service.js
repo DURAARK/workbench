@@ -40,7 +40,7 @@ ConsoleService.prototype.findById = function(req, res) {
 
     process.chdir(cwd);
 
-    // console.log('[ConsoleService::findById] about to spawn: ' + exec_path + ' ' + this.opts.options + ' ' + inputparam);
+    console.log('[ConsoleService::findById] about to spawn: ' + exec_path + ' ' + this.opts.options + ' ' + inputparam);
 
     var executable = spawn(exec_path, [this.opts.options, inputparam]);
 

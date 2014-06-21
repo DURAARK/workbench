@@ -99,8 +99,13 @@ define([
           });
         }, 2000);
         return defer.promise();
+      },
+      consoleHello: function(){
+        console.log("This is from the console:hello handler in ifcm.js");
       }
     };
+
+    
 
     // WorkbenchUI.reqres.setHandler("contact:entities", function() {
     //   return API.getMetadataIFC();
@@ -108,6 +113,11 @@ define([
 
     WorkbenchUI.reqres.setHandler("metadata:ifc", function(id) {
       return API.getMetadataEntity(id);
+    });
+
+    WorkbenchUI.reqres.setHandler("console:hello", function() {
+      consoleHello();
+      
     });
   });
 

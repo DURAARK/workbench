@@ -1,0 +1,2 @@
+java -jar droid/droid-command-line-6.1.3.jar -q -R -Nr /home/dagedv/2nd_workbench-app/workbench-app/server/uploads -Ns droid/DROID_SignatureFile_V74.xml
+ls /home/dagedv/2nd_workbench-app/workbench-app/server/uploads

@@ -43,6 +43,17 @@
   },
   "services": [
     {
+      "id": "/services/fileid",
+      "interface": {
+        "command": {
+          "name": "./server/executables/dodroid.bat",
+          "options": "param1 param2 param3",
+          "input": "localhost"
+        },
+        "handler": "fileid"
+      }
+    },
+    {
       "id": "/command/list",
       "interface": {
         "command": {
