@@ -8,7 +8,28 @@ define([
     // Represents on list item:
     var ListItemView = Backbone.Marionette.ItemView.extend({
         template: ListItemTmpl,
-        tagName: 'tr'
+        tagName: 'tr',
+        events: {
+            "click td": "cellClicked"
+        },
+        cellClicked: function(){
+            //alert(this.model.escape("value"));
+            var data =      this.model.toJSON();
+            var aKey =      data["key"];
+            var aValue =    data["value"];
+            //alert("Key: " + aKey + " og Value: " + aValue);
+            
+            var newValue = prompt("Please enter the new value",aValue);            
+            this.model.set({"key": aKey, "value": newValue});
+        },
+        modelEvents: {
+            'change': 'fieldsChanged'
+        },
+
+        fieldsChanged: function() {
+            this.render();
+            this.model.serialize();
+        }
     });
 
     // Represents the table view, which is using the ListItemView to render its items:
