@@ -4,7 +4,7 @@ define([
     'hbs!./templates/main',
     'hbs!./templates/list-item',
     'hbs!./templates/list-collection'
-], function(Marionette, WorkbenchUI, MetadataViewTmpl, ListItemTmpl, TableTmpl) {
+], function(Marionette, WorkbenchUI, SemanticObservatoryTmpl, ListItemTmpl, TableTmpl) {
     // Represents on list item:
     var ListItemView = Backbone.Marionette.ItemView.extend({        
         template: ListItemTmpl,
@@ -12,17 +12,13 @@ define([
         events: {
             "click td": "cellClicked"
         },
-        initialize: function(options) { //***
-            //alert("1");
-            console.log("options.myTableView = " + options.myTableView );
-            //this.stuff = options.stuff;            
+        initialize: function(options) {
+            console.log("options.myTableView = " + options.myTableView );         
         },
         cellClicked: function(){
-            //alert(this.model.escape("value"));
             var data =      this.model.toJSON();
             var aKey =      data["key"];
             var aValue =    data["value"];
-            //alert("Key: " + aKey + " og Value: " + aValue);
             
             var newValue = prompt("Please enter the new value",aValue);            
             this.model.set({"key": aKey, "value": newValue});
@@ -58,24 +54,21 @@ define([
     });
 
     // Represents the main page, including the TableView in the 'list' region when the 'onShow' method is called:
-    var MetadataLayout = Backbone.Marionette.Layout.extend({
-        template: MetadataViewTmpl,
+    var SematicObservatoryLayout = Backbone.Marionette.Layout.extend({
+        template: SemanticObservatoryTmpl,
 
         regions: {
             buildm: "#buildm-region",
-            ifcm: "#ifcm-region",
-            e57m: "#e57m-region"
         },
 
         events: {
             'click .js-next': function() {
-                console.log('next clicked --> module:semanticobservatory:show');
-                WorkbenchUI.vent.trigger('module:semanticobservatory:show');   
-                console.log('after vent.trigger by click..');
+                console.log('next clicked');
+                WorkbenchUI.vent.trigger('module:semanticenrichment:show');
             },
             'click .js-previous': function() {
                 console.log('previous');
-                WorkbenchUI.vent.trigger('module:fileidentification:show');
+                WorkbenchUI.vent.trigger('module:metadataextractor:show');
             }
         },
 
@@ -89,17 +82,6 @@ define([
             }));
         },
 
-        updateIfcmData: function(model) {
-            this.ifcm.show(new TableView({
-                collection: this._modelToCollection(model)
-            }));
-        },
-
-        updateE57mData: function(model) {
-            this.e57m.show(new TableView({
-                collection: this._modelToCollection(model)
-            }));
-        },
 
         _modelToCollection: function(model) {
             // Here the given model is converted into a collection for easier display.
@@ -122,5 +104,5 @@ define([
         }
     });
 
-    return MetadataLayout;
+    return SematicObservatoryLayout;
 });

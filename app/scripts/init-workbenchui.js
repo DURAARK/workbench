@@ -7,6 +7,7 @@ var modules_core = [
 		'modules/contrib/sessionmanager/main',
 		'modules/contrib/fileidentification/main',
 		'modules/contrib/metadataextractor/main',
+		'modules/contrib/semanticobservatory/main',
 		'modules/contrib/semanticenrichment/main',
 		'modules/contrib/sipgenerator/main',
 		'modules/contrib/searchandretrieve/main'

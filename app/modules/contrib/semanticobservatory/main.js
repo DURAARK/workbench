@@ -4,36 +4,29 @@ define([
     'workbenchui',
     'core/uimodulebase',
     './mainview.js'
-], function(Backbone, Marionette, WorkbenchUI, UIModuleBase, MetadataLayout) {
+], function(Backbone, Marionette, WorkbenchUI, UIModuleBase, SemanticObservatoryLayout) {
+    //alert("Start of SemanticObservatory .. main.js")
+    WorkbenchUI.module('Contrib.SematicObservatory', UIModuleBase);
 
-    WorkbenchUI.module('Contrib.MetadataExtractor', UIModuleBase);
-
-    var MyModule = WorkbenchUI.module("Contrib.MetadataExtractor");
+    var MyModule = WorkbenchUI.module("Contrib.SematicObservatory");
 
     WorkbenchUI.addInitializer(function() {
         // 1. Register module with the ModuleManager:
-        WorkbenchUI.execute('module:register', 'Contrib.MetadataExtractor');
+        WorkbenchUI.execute('module:register', 'Contrib.SematicObservatory');
+        
 
-        // 2. Register eventhandler to show the view:
-        WorkbenchUI.vent.on('module:metadataextractor:show', function(region) {
-
+        // 2. Register eventhandler to show the view:        
+        WorkbenchUI.vent.on('module:semanticobservatory:show', function(region) {
 
             // First create the Model classes:
             var BuildmModel = Backbone.Model.extend({
-                urlRoot: "/services/buildm"
+                urlRoot: "/services/buildm" //** TODO: this should be changed (copy-paste artifact)
             });
 
-            var IfcmModel = Backbone.Model.extend({
-                urlRoot: "/services/ifcm"
-            });
-
-            var E57mModel = Backbone.Model.extend({
-                urlRoot: "/services/e57m"
-            });
-
+          
             if (!MyModule._mainView) {
                 // Create emtpy main view and show it:
-                MyModule._mainView = new MetadataLayout();
+                MyModule._mainView = new SemanticObservatoryLayout();
 
                 if (typeof region !== 'undefined') {
                     region.show(MyModule._mainView);
@@ -47,13 +40,6 @@ define([
                     MyModule._mainView.updateBuildmData(model);
                 });
 
-                WorkbenchUI.fetchModel(IfcmModel, 1).then(function(model) {
-                    MyModule._mainView.updateIfcmData(model);
-                });
-
-                WorkbenchUI.fetchModel(E57mModel, 1).then(function(model) {
-                    MyModule._mainView.updateE57mData(model);
-                });
             } else {
                 if (typeof region !== 'undefined') {
                     region.show(MyModule._mainView);
@@ -70,7 +56,7 @@ define([
 
         }.bind(this));
 
-        console.log('[WorkbenchUI.Contrib.MetadataExtractor] started');
+        console.log('[WorkbenchUI.Contrib.SematicObservatory] started');
     });
 
     // TODO: not working with this version of Marionette...
