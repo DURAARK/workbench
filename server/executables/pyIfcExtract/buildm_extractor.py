@@ -18,9 +18,9 @@ rdf_formatter(Single("IfcProject").GlobalId() >> formatters.expand_guid) << [
         Single("IfcProject").UnitsInContext().Units().Filter(UnitType="LENGTHUNIT").Name()
         >> "Digital_Object_Length_Unit",
         
-    Single("IfcApplication").ApplicationDeveloper().Name() + ' ' +
-        Single("IfcApplication").ApplicationFullName() + ' ' +
-        Single("IfcApplication").Version()
+    Multiple("IfcApplication").ApplicationDeveloper().Name() + ' ' +
+        Multiple("IfcApplication").ApplicationFullName() + ' ' +
+        Multiple("IfcApplication").Version()
         >> "Digital_Object_Authoring_Tool",
         
     (Single("IfcSite").RefLatitude() >> formatters.latlon("Latitude")) + ' ' +
@@ -35,9 +35,9 @@ rdf_formatter(Single("IfcProject").GlobalId() >> formatters.expand_guid) << [
     Single("IfcBuilding").BuildingAddress().AddressLines() >> formatters.join
         >> "Physical_Asset_Address",
         
-    Single("IfcOwnerHistory").OwningUser().ThePerson().GivenName() + ' ' +
-        Single("IfcOwnerHistory").OwningUser().ThePerson().FamilyName()
-        >> "Physical_Asset_Creator",
+    Multiple("IfcOwnerHistory").OwningUser().ThePerson().GivenName() + ' ' +
+        Multiple("IfcOwnerHistory").OwningUser().ThePerson().FamilyName()
+        >> formatters.unique >> "Physical_Asset_Creator",
         
     RDF_REPOSITORIES >> "Digital_Object_Repositories_Used"
 	

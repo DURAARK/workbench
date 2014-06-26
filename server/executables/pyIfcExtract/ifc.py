@@ -86,8 +86,11 @@ pattern_class = re.compile("").__class__
 
 def find_rdf_repos():
 	def is_uri(s):
-		return s[1:-1].split('#')[0] if (s[0]+s[-1]) == '<>' else None
-	triples = rdf_extractor.fetch(ifc_file)
+		if (s[0]+s[-1]) == '<>':
+			if '#' in s: return s[1:-1].split('#')[0]
+			else: return s[1:-1].rsplit('/', 1)[0]				
+		return None
+	triples = rdf_extractor.obtain(ifc_file)
 	repos = set()
 	for spo in triples:
 		for str in spo[1:]:
@@ -98,6 +101,7 @@ def find_rdf_repos():
 def load(fn):
 	global ifc_file
 	ifc_file = IfcImport.open(fn)
+	find_rdf_repos()
 
 class Query:
 	def __init__(self, instances): self.instances = instances; self.params = []
@@ -151,6 +155,13 @@ class Query:
 			q.params = [(nm,v) for k,v in self.params]
 		elif nm.__class__.__name__ == 'qcount':
 			q.params = [("%s.Count"%(self.nm),len(self.instances))]
+		elif nm.__class__.__name__ == 'qunique':
+			value_set = set()
+			q.params = []
+			for k,v in self.params:
+				if v not in value_set:
+					value_set.add(v)
+					q.params.append((k, v))
 		else:
 			q.params = [(k,nm(v)) for k,v in self.params]
 		return q
@@ -215,6 +226,7 @@ class formatters:
 	time = lambda ts: datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
 	latlon = lambda fmt: lambda ll: "%s: %s;"%(fmt, ".".join(str(l) for l in ll)) if ll else ""
 	join = lambda li: " ".join(li)
+	unique = type('qunique', (), {})()
 	count = type('qcount', (), {})()
 	expand_guid = guid.expand
 
