@@ -83,12 +83,16 @@ from functools import reduce
 ifc_file = None
 rdf_repos = []
 pattern_class = re.compile("").__class__
+external_namespaces_used = [
+    ('dura', '<http://duraark.org/ontology#>'),
+    ('xsd', '<http://www.w3.org/2001/XMLSchema#>')
+]
 
 def find_rdf_repos():
 	def is_uri(s):
 		if (s[0]+s[-1]) == '<>':
 			if '#' in s: return s[1:-1].split('#')[0]
-			else: return s[1:-1].rsplit('/', 1)[0]				
+			else: return s[1:-1].rsplit('/', 1)[0]
 		return None
 	triples = rdf_extractor.obtain(ifc_file)
 	repos = set()
@@ -116,7 +120,7 @@ class Query:
 					arg.prefix = "%s%s.%s"%(nm, self.annotate(idx), k)
 					return [arg]
 				elif isinstance(arg, [].__class__) and all([isinstance(itm, IfcImport.Entity) for itm in arg]):
-					for idx, itm in enumerate(arg): 
+					for idx, itm in enumerate(arg):
 						itm.prefix = "%s%s.%s"%(nm, self.annotate(idx), k)
 					return arg
 				else:
@@ -151,7 +155,7 @@ class Query:
 		return q
 	def __rshift__(self, nm):
 		q = Query([])
-		if isinstance(nm, "".__class__):
+		if isinstance(nm, str):
 			q.params = [(nm,v) for k,v in self.params]
 		elif nm.__class__.__name__ == 'qcount':
 			q.params = [("%s.Count"%(self.nm),len(self.instances))]
@@ -177,18 +181,18 @@ class Query:
 			return q
 		else:
 			return self >> (lambda s: s + other)
-		
-	
+
+
 class Multiple(Query):
 	def __init__(self, nm): self.nm = nm; Query.__init__(self, self.as_list())
 	def as_list(self): return ifc_file.by_type(self.nm)
 	def annotate(self, idx): return "_%d"%idx
-	
-	
+
+
 class Single(Multiple):
 	def __init__(self, nm): self.nm = nm; Query.__init__(self, self.as_list())
 	def annotate(self, idx): return ""
-	def as_list(self): 
+	def as_list(self):
 		li = super(Single, self).as_list()
 		if len(li) != 1: raise AttributeError
 		return li
@@ -200,9 +204,9 @@ class RdfRepositories(Query):
 		if k == 'params':
 			return [('RdfRepositories',v) for v in rdf_repos]
 
-	
+
 RDF_REPOSITORIES = RdfRepositories()
-		
+
 class guid:
 	chars = string.digits + string.ascii_uppercase + string.ascii_lowercase + '_$'
 	@staticmethod
@@ -212,7 +216,7 @@ class guid:
 			return ''.join([guid.chars[(v // (64**i))%64] for i in range(l)][::-1])
 		return ''.join([b64(bs[0], 2)] + [b64((bs[i] << 16) + (bs[i+1] << 8) + bs[i+2]) for i in range(1,16,3)])
 	@staticmethod
-	def expand(g):		
+	def expand(g):
 		def b64(v):
 			return reduce(lambda a, b: a * 64 + b, map(lambda c: guid.chars.index(c), v))
 		bs = [b64(g[0:2])]
@@ -222,10 +226,31 @@ class guid:
 		return ''.join(['%02x'%b for b in bs])
 
 
+class formatter: pass
+class latlon(formatter):
+	@staticmethod
+	def to_float(compound):
+		magnitudes = [1., 60., 3600., 3600.e6][:len(compound)]
+		return sum(a/b for a,b in zip(compound, magnitudes))
+	def __init__(self, *args):
+		if len(args) == 1: self.items = args[0]
+		else: self.items = [args]
+	def __add__(self, other):
+		return latlon(self.items + other.items)
+	def __repr__(self):
+		return "%s: %s"%(self.k, ".".join(str(x) for x in self.v))
+	def __getattr__(self, k):
+		return [x[1] for x in self.items if x[0] == k][0]
+	def to_rdf(self):
+		external_namespaces_used.append(('wgs84_pos', '<http://www.w3.org/2003/01/geo/wgs84_pos#>'))
+		return '[ wgs84_pos:lat "%.8f" ; wgs84_pos:lon "%.8f" ]'%(latlon.to_float(self.Latitude), latlon.to_float(self.Longitude))
+
+
 class formatters:
 	time = lambda ts: datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-	latlon = lambda fmt: lambda ll: "%s: %s;"%(fmt, ".".join(str(l) for l in ll)) if ll else ""
-	join = lambda li: " ".join(li)
+	latitude = lambda v: latlon('Latitude', v)
+	longitude = lambda v: latlon('Longitude', v)
+	join = lambda li: " ".join(li) if li else None
 	unique = type('qunique', (), {})()
 	count = type('qcount', (), {})()
 	expand_guid = guid.expand
@@ -237,17 +262,18 @@ class JsonFormatter:
 		for item in li:
 			di.update(item.params)
 		json.dump(di, sys.stdout, indent='  ')
-			
+
 json_formatter = JsonFormatter()
 
 class rdf_formatter:
 	def __init__(self, name_query):
 		self.uri = name_query.params[0][1]
 	def __lshift__(self, li):
+		lines = []
 		def escape(s):
 			"""
 			Escape according to Turtle - Terse RDF Triple Language 3.3. String Escapes
-			
+
 			NB: Turtle can be UTF-8 encoded, but since output is written to stdout,
 				which doesn't speak UTF-8 on Windows, all Unicode characters outside
 				the printable character range of ASCII are escaped.
@@ -267,11 +293,13 @@ class rdf_formatter:
 			return ''.join(map(escape_char, s))
 		def typify(s):
 			if isinstance(s, int): return '"%d"^^xsd:integer'%s
+			elif isinstance(s, formatter): return s.to_rdf()
 			else: return '"%s"^^xsd:string'%escape(str(s))
 		for item in li:
 			for p in item.params:
 				if p[1] is not None:
-					print (":project_%s :%s %s ."%(self.uri,p[0],typify(p[1])))
-			
-
-			
+					lines.append("<project_%s> dura:%s %s ."%(self.uri,p[0],typify(p[1])))
+		for ns in external_namespaces_used:
+			print("@prefix %s: %s ."%ns)
+		if len(external_namespaces_used): print("")
+		for line in lines: print(line)

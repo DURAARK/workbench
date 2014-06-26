@@ -23,8 +23,8 @@ rdf_formatter(Single("IfcProject").GlobalId() >> formatters.expand_guid) << [
         Multiple("IfcApplication").Version()
         >> "Digital_Object_Authoring_Tool",
         
-    (Single("IfcSite").RefLatitude() >> formatters.latlon("Latitude")) + ' ' +
-        (Single("IfcSite").RefLongitude() >> formatters.latlon("Longitude"))
+    (Single("IfcSite").RefLatitude() >> formatters.latitude) +
+        (Single("IfcSite").RefLongitude() >> formatters.longitude)
         >> "Physical_Asset_Location",
         
     Single("IfcBuilding").IsDecomposedBy().RelatedObjects() >> formatters.count
