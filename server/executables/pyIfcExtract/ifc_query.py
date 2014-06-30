@@ -7,30 +7,6 @@ import datetime
 import rdf_extractor
 from functools import reduce
 
-ifc_file = None
-rdf_repos = []
-pattern_class = re.compile("").__class__
-external_namespaces_used = []
-
-def find_rdf_repos():
-    def is_uri(s):
-        if (s[0]+s[-1]) == '<>':
-            if '#' in s: return s[1:-1].split('#')[0]
-            else: return s[1:-1].rsplit('/', 1)[0]
-        return None
-    triples = rdf_extractor.obtain(ifc_file)
-    repos = set()
-    for spo in triples:
-        for str in spo[1:]:
-            uri = is_uri(str)
-            if uri: repos.add(uri)
-    rdf_repos[:] = sorted(repos)
-
-def load(fn):
-    global ifc_file
-    ifc_file = ifc.open(fn)
-    find_rdf_repos()
-
 class query:
     class instance_list:
         def __init__(self, prefix=None, instances=None):
@@ -156,6 +132,7 @@ class query:
             return self >> (lambda s: s + other)
             
     def filter(self, **kwargs):
+        pattern_class = re.compile("").__class__
         def matches(entity):
             for k, v in kwargs.items():
                 val = getattr(entity, k)
@@ -172,31 +149,31 @@ class query:
             return "<Unbound query '%s'\n  Entities:\n%s\n>"%(self.prefix, self.entities)
         else:
             return "<Bound query '%s'\n  Parameters:\n%s\n>"%(self.prefix, self.params)
+            
+            
+class file:
+    def __init__(self, file):
+        self.file = file
+        self.find_rdf_repos()
+    def find_rdf_repos(self):
+        def is_uri(s):
+            if (s[0]+s[-1]) == '<>':
+                if '#' in s: return s[1:-1].split('#')[0]
+                else: return s[1:-1].rsplit('/', 1)[0]
+            return None
+        triples = rdf_extractor.obtain(self.file)
+        vocabs = set()
+        for spo in triples:
+            for str in spo[1:]:
+                uri = is_uri(str)
+                if uri: vocabs.add(uri)
+        self.rdf_vocabularies = query(sorted(vocabs), 'RdfVocabularies')
+    def __getattr__(self, ty):
+        instances = list(map(lambda e: query.instance(ty, e), self.file.by_type(ty)))
+        return query(instances, ty)
 
+def open(fn): return file(ifc.open(fn))
 
-class Multiple(query):
-    def __init__(self, nm): self.nm = nm; query.__init__(self, self.as_list(), nm)
-    def as_list(self): return list(map(lambda e: query.instance(self.nm, e), ifc_file.by_type(self.nm)))
-    def annotate(self, idx): return "_%d"%idx
-
-
-class Single(Multiple):
-    def __init__(self, nm): self.nm = nm; query.__init__(self, self.as_list(), nm)
-    def annotate(self, idx): return ""
-    def as_list(self):
-        li = super(Single, self).as_list()
-        if len(li) != 1: raise AttributeError
-        return li
-
-
-class RdfRepositories(query):
-    def __init__(self): pass
-    def __getattr__(self, k):
-        if k == 'params':
-            return query.parameter_list([('RdfRepositories',v) for v in rdf_repos])
-
-
-RDF_REPOSITORIES = RdfRepositories()
 
 class query_unique: pass
 class query_count: pass
@@ -216,7 +193,6 @@ class latlon(formatter):
     def __getattr__(self, k):
         return [x[1] for x in self.items if x[0] == k][0]
     def to_rdf(self):
-        external_namespaces_used.append(('geo-pos', '<http://www.w3.org/2003/01/geo/wgs84_pos#>'))
         return '[ geo-pos:lat "%.8f" ; geo-pos:lon "%.8f" ]'%(latlon.to_float(self.Latitude), latlon.to_float(self.Longitude))
 
 
@@ -279,7 +255,7 @@ class rdf_formatter:
                     predicates = p[0] if isinstance(p[0], (tuple, list)) else [p[0]]
                     for pred in predicates:
                         lines.append("<project_%s> %s %s ."%(self.uri,pred,typify(p[1])))
-        for ns in self.prefixes + external_namespaces_used:
+        for ns in self.prefixes:
             print("@prefix %s: %s ."%ns)
-        if len(external_namespaces_used): print("")
+        print("")
         for line in lines: print(line)

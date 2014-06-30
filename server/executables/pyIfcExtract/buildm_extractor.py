@@ -1,52 +1,54 @@
 import sys
-from ifc_query import *
+import ifc_query
+from ifc_query import formatters
 
-load(sys.argv[1])
+file = ifc_query.open(sys.argv[1])
 
-rdf_formatter(
-    Single("IfcProject").GlobalId >> formatters.expand_guid,
-    {   'xsd'        : '<http://www.w3.org/2001/XMLSchema#>'     ,
-        'duraark'    : '<http://duraark.eu/voabularies/buildm#>' ,
-        'dc'         : '<http://purl.org/dc/elements/1.1/>'      ,
-        'dct'        : '<http://purl.org/dc/terms/>'             ,
-        'dbpedia-owl': '<http://dbpedia.org/ontology/>'          ,
-        'dbp-prop'   : '<http://dbpedia.org/property/>'          }
+ifc_query.rdf_formatter(
+    file.IfcProject.GlobalId >> formatters.expand_guid,
+    {   'xsd'        : '<http://www.w3.org/2001/XMLSchema#>'        ,
+        'duraark'    : '<http://duraark.eu/voabularies/buildm#>'    ,
+        'dc'         : '<http://purl.org/dc/elements/1.1/>'         ,
+        'dct'        : '<http://purl.org/dc/terms/>'                ,
+        'dbpedia-owl': '<http://dbpedia.org/ontology/>'             ,
+        'dbp-prop'   : '<http://dbpedia.org/property/>'             ,
+        'geo-pos'    : '<http://www.w3.org/2003/01/geo/wgs84_pos#>' }
 ) << [
 	
-	Single("IfcProject").GlobalId >> "duraark:object_identifier",
+	file.IfcProject.GlobalId >> "duraark:object_identifier",
 
-    (Single("IfcProject").LongName | Single("IfcProject").Name) >> "foaf:name",
+    (file.IfcProject.LongName | file.IfcProject.Name) >> "foaf:name",
     
-    Single("IfcProject").Description >> "dc:description",
+    file.IfcProject.Description >> "dc:description",
     
-    Single("IfcProject").OwnerHistory.CreationDate >> formatters.time
+    file.IfcProject.OwnerHistory.CreationDate >> formatters.time
         >> ("dbp-prop:startDate", "dbpedia-owl:buildingStartYear"),
     
-    Single("IfcProject").UnitsInContext.Units.filter(UnitType="LENGTHUNIT").Prefix +
-        Single("IfcProject").UnitsInContext.Units.filter(UnitType="LENGTHUNIT").Name
+    file.IfcProject.UnitsInContext.Units.filter(UnitType="LENGTHUNIT").Prefix +
+        file.IfcProject.UnitsInContext.Units.filter(UnitType="LENGTHUNIT").Name
         >> "duraark:length_unit",
         
-    Multiple("IfcApplication").ApplicationDeveloper.Name + ' ' +
-        Multiple("IfcApplication").ApplicationFullName + ' ' +
-        Multiple("IfcApplication").Version
+    file.IfcApplication.ApplicationDeveloper.Name + ' ' +
+        file.IfcApplication.ApplicationFullName + ' ' +
+        file.IfcApplication.Version
         >> "duraark:authoring_tool",
         
-    (Single("IfcSite").RefLatitude >> formatters.latitude) +
-        (Single("IfcSite").RefLongitude >> formatters.longitude)
+    (file.IfcSite.RefLatitude >> formatters.latitude) +
+        (file.IfcSite.RefLongitude >> formatters.longitude)
         >> "foaf:based_near",
         
-    Single("IfcBuilding").IsDecomposedBy.RelatedObjects >> formatters.count
+    file.IfcBuilding.IsDecomposedBy.RelatedObjects >> formatters.count
         >> "duraark:floor_count",
         
-    Multiple("IfcSpace") >> formatters.count >> "duraark:room_count",
+    file.IfcSpace >> formatters.count >> "duraark:room_count",
     
-    Single("IfcBuilding").BuildingAddress.AddressLines >> formatters.join
+    file.IfcBuilding.BuildingAddress.AddressLines >> formatters.join
         >> "dbpedia-owl:address",
         
-    Multiple("IfcOwnerHistory").OwningUser.ThePerson.GivenName + ' ' +
-        Multiple("IfcOwnerHistory").OwningUser.ThePerson.FamilyName
+    file.IfcOwnerHistory.OwningUser.ThePerson.GivenName + ' ' +
+        file.IfcOwnerHistory.OwningUser.ThePerson.FamilyName
         >> formatters.unique >> "dc:creator",
         
-    RDF_REPOSITORIES >> "duraark:enrichment_vocabulary"
+    file.rdf_vocabularies >> "duraark:enrichment_vocabulary"
 	
 ]
