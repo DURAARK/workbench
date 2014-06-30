@@ -1,7 +1,6 @@
 import re
 import sys
 
-get = lambda e,n: e.get_argument(e.get_argument_index(n))
 uri_pred = re.compile("^<(http://[^>]+)>$")
 uri_val = re.compile("^(http://.+)$")
 map = {'str':'string', 'int':'integer'}
@@ -10,15 +9,15 @@ def obtain(f):
     return_list = []
     es = f.by_type("IfcPropertySet")
     for e in es:
-        os = e.get_inverse("PropertyDefinitionOf")
+        os = e.PropertyDefinitionOf
         if len(os) == 1:
-            ro = get(os[0], "RelatedObjects")
+            ro = os[0].RelatedObjects
             for r in ro:
-                guid = get(r, "GlobalId")
-                props = get(e, "HasProperties")
+                guid = r.GlobalId
+                props = e.HasProperties
                 for prop in props:
-                    if prop.is_a("IfcPropertySingleValue"):
-                        name = get(prop, "Name")
+                    if prop.wrapped_data.is_a("IfcPropertySingleValue"):
+                        name = prop.Name
                         if name:
                             match = uri_pred.match(name)
                             predicate = object = None
@@ -29,9 +28,9 @@ def obtain(f):
                                 predicate_is_uri = True
                             else:
                                 predicate = '"%s"^^xsd:string'%(name)
-                            val = get(prop, "NominalValue")
+                            val = prop.NominalValue
                             if val:
-                                val = get(val, "wrappedValue")
+                                val = val.wrappedValue
                                 if isinstance(val, str):
                                     match = uri_val.match(val)
                                     if match:
