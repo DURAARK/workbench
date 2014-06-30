@@ -15,18 +15,18 @@ define([
         initialize: function(options) {
             console.log("options.myTableView = " + options.myTableView );         
         },
-        cellClicked: function(){
-            var data =      this.model.toJSON();
-            var aKey =      data["key"];
-            var aValue =    data["value"];
-            
-            var newValue = prompt("Please enter the new value",aValue);            
-            this.model.set({"key": aKey, "value": newValue});
-            this.model.save();
-        },
-        modelEvents: {
-            'change': 'fieldsChanged'
-        },
+
+        // cellClicked: function(){
+        //     var data =      this.model.toJSON();            
+        //     var aKey =      data["key"];
+        //     var aValue =    data["value"];
+        //     var newValue = prompt("Please enter the new value",aValue);            
+        //     this.model.set({"key": aKey, "value": newValue});
+        //     this.model.save();
+        // },
+        // modelEvents: {
+        //     'change': 'fieldsChanged'
+        // },
 
         fieldsChanged: function() {
             this.render();
@@ -44,7 +44,6 @@ define([
         template: TableTmpl,
         itemView: ListItemView,
         itemViewOptions: {
-            //stuff: "some stuff here placed is"
             myTableView: this
         },
 
@@ -58,7 +57,7 @@ define([
         template: SemanticObservatoryTmpl,
 
         regions: {
-            buildm: "#buildm-region",
+            semobs: "#semobs-region" 
         },
 
         events: {
@@ -77,7 +76,7 @@ define([
         },
 
         updateBuildmData: function(model) {
-            this.buildm.show(new TableView({
+            this.semobs.show(new TableView({
                 collection: this._modelToCollection(model)
             }));
         },

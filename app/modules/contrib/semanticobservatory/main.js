@@ -5,7 +5,7 @@ define([
     'core/uimodulebase',
     './mainview.js'
 ], function(Backbone, Marionette, WorkbenchUI, UIModuleBase, SemanticObservatoryLayout) {
-    //alert("Start of SemanticObservatory .. main.js")
+    
     WorkbenchUI.module('Contrib.SematicObservatory', UIModuleBase);
 
     var MyModule = WorkbenchUI.module("Contrib.SematicObservatory");
@@ -20,7 +20,15 @@ define([
 
             // First create the Model classes:
             var BuildmModel = Backbone.Model.extend({
-                urlRoot: "/services/buildm" //** TODO: this should be changed (copy-paste artifact)
+                //urlRoot: "/services/buildm" //** TODO: this should be changed (copy-paste artifact)
+                urlRoot: "https://dl.dropboxusercontent.com/u/985282/sdoinfo.json", // placeholder while this is down: "http://asev.l3s.uni-hannover.de:3000/sdoinfo",
+
+                
+
+                url: function() {
+                    return this.urlRoot;
+                }
+
             });
 
           
@@ -33,10 +41,13 @@ define([
                 } else {
                     this.mainRegion.show(MyModule._mainView);
                 }
-
+                console.log("Here01");
+                console.log("BuildmModel=" + BuildmModel);
                 // Use the WorkbenchUI.fetchModel() method here to grab the model with id 1. In the 'then' function 
                 // callback it is guaranteed the the data from the server is received and the model is accessible:
+                //WorkbenchUI.fetchModel(BuildmModel, 1).then(function(model) {
                 WorkbenchUI.fetchModel(BuildmModel, 1).then(function(model) {
+                    console.log("inside fetchmode..then()");
                     MyModule._mainView.updateBuildmData(model);
                 });
 
