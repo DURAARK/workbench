@@ -10,10 +10,7 @@ from functools import reduce
 ifc_file = None
 rdf_repos = []
 pattern_class = re.compile("").__class__
-external_namespaces_used = [
-    ('dura', '<http://duraark.org/ontology#>'),
-    ('xsd', '<http://www.w3.org/2001/XMLSchema#>')
-]
+external_namespaces_used = []
 
 def find_rdf_repos():
     def is_uri(s):
@@ -135,7 +132,7 @@ class query:
         return q
     def __rshift__(self, other):
         q = query([], self.prefix)
-        if isinstance(other, str): 
+        if isinstance(other, str) or (isinstance(other, (tuple, list)) and set(map(type,other)) == {str}): 
             # `other` is a string that describes the new name bound to the parameters in this query object
             q.params = self.params.bind(other)
         elif isinstance(other, query_count):
@@ -219,12 +216,15 @@ class latlon(formatter):
     def __getattr__(self, k):
         return [x[1] for x in self.items if x[0] == k][0]
     def to_rdf(self):
-        external_namespaces_used.append(('wgs84_pos', '<http://www.w3.org/2003/01/geo/wgs84_pos#>'))
-        return '[ wgs84_pos:lat "%.8f" ; wgs84_pos:lon "%.8f" ]'%(latlon.to_float(self.Latitude), latlon.to_float(self.Longitude))
+        external_namespaces_used.append(('geo-pos', '<http://www.w3.org/2003/01/geo/wgs84_pos#>'))
+        return '[ geo-pos:lat "%.8f" ; geo-pos:lon "%.8f" ]'%(latlon.to_float(self.Latitude), latlon.to_float(self.Longitude))
 
 
+class xsd_date(str):
+    def to_rdf(self): return '"%s"^^xsd:date'%self
+        
 class formatters:
-    time = lambda ts: datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+    time = lambda ts: xsd_date(datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'))
     latitude = lambda v: latlon('Latitude', v)
     longitude = lambda v: latlon('Longitude', v)
     join = lambda li: " ".join(li) if li else None
@@ -243,8 +243,9 @@ class JsonFormatter:
 json_formatter = JsonFormatter()
 
 class rdf_formatter:
-    def __init__(self, name_query):
+    def __init__(self, name_query, prefixes):
         self.uri = name_query.params.li[0][1]
+        self.prefixes = list(prefixes.items())
     def __lshift__(self, li):
         lines = []
         def escape(s):
@@ -270,13 +271,15 @@ class rdf_formatter:
             return ''.join(map(escape_char, s))
         def typify(s):
             if isinstance(s, int): return '"%d"^^xsd:integer'%s
-            elif isinstance(s, formatter): return s.to_rdf()
+            elif hasattr(s, 'to_rdf'): return s.to_rdf()
             else: return '"%s"^^xsd:string'%escape(str(s))
         for item in li:
             for p in item.params.li:
                 if p[1] is not None:
-                    lines.append("<project_%s> dura:%s %s ."%(self.uri,p[0],typify(p[1])))
-        for ns in external_namespaces_used:
+                    predicates = p[0] if isinstance(p[0], (tuple, list)) else [p[0]]
+                    for pred in predicates:
+                        lines.append("<project_%s> %s %s ."%(self.uri,pred,typify(p[1])))
+        for ns in self.prefixes + external_namespaces_used:
             print("@prefix %s: %s ."%ns)
         if len(external_namespaces_used): print("")
         for line in lines: print(line)

@@ -3,42 +3,50 @@ from ifc_query import *
 
 load(sys.argv[1])
 
-# json_formatter << [
-rdf_formatter(Single("IfcProject").GlobalId >> formatters.expand_guid) << [
+rdf_formatter(
+    Single("IfcProject").GlobalId >> formatters.expand_guid,
+    {   'xsd'        : '<http://www.w3.org/2001/XMLSchema#>'     ,
+        'duraark'    : '<http://duraark.eu/voabularies/buildm#>' ,
+        'dc'         : '<http://purl.org/dc/elements/1.1/>'      ,
+        'dct'        : '<http://purl.org/dc/terms/>'             ,
+        'dbpedia-owl': '<http://dbpedia.org/ontology/>'          ,
+        'dbp-prop'   : '<http://dbpedia.org/property/>'          }
+) << [
 	
-	Single("IfcProject").GlobalId >> "Digital_Object_Identifier",
+	Single("IfcProject").GlobalId >> "duraark:object_identifier",
 
-    (Single("IfcProject").LongName | Single("IfcProject").Name) >> "Digital_Object_Name",
+    (Single("IfcProject").LongName | Single("IfcProject").Name) >> "foaf:name",
     
-    Single("IfcProject").Description >> "Digital_Object_Description",
+    Single("IfcProject").Description >> "dc:description",
     
-    Single("IfcProject").OwnerHistory.CreationDate >> formatters.time >> "Digital_Object_Created",
+    Single("IfcProject").OwnerHistory.CreationDate >> formatters.time
+        >> ("dbp-prop:startDate", "dbpedia-owl:buildingStartYear"),
     
     Single("IfcProject").UnitsInContext.Units.filter(UnitType="LENGTHUNIT").Prefix +
         Single("IfcProject").UnitsInContext.Units.filter(UnitType="LENGTHUNIT").Name
-        >> "Digital_Object_Length_Unit",
+        >> "duraark:length_unit",
         
     Multiple("IfcApplication").ApplicationDeveloper.Name + ' ' +
         Multiple("IfcApplication").ApplicationFullName + ' ' +
         Multiple("IfcApplication").Version
-        >> "Digital_Object_Authoring_Tool",
+        >> "duraark:authoring_tool",
         
     (Single("IfcSite").RefLatitude >> formatters.latitude) +
         (Single("IfcSite").RefLongitude >> formatters.longitude)
-        >> "Physical_Asset_Location",
+        >> "foaf:based_near",
         
     Single("IfcBuilding").IsDecomposedBy.RelatedObjects >> formatters.count
-        >> "Physical_Asset_Number_of_Floors",
+        >> "duraark:floor_count",
         
-    Multiple("IfcSpace") >> formatters.count >> "Physical_Asset_Number_of_Rooms",
+    Multiple("IfcSpace") >> formatters.count >> "duraark:room_count",
     
     Single("IfcBuilding").BuildingAddress.AddressLines >> formatters.join
-        >> "Physical_Asset_Address",
+        >> "dbpedia-owl:address",
         
     Multiple("IfcOwnerHistory").OwningUser.ThePerson.GivenName + ' ' +
         Multiple("IfcOwnerHistory").OwningUser.ThePerson.FamilyName
-        >> formatters.unique >> "Physical_Asset_Creator",
+        >> formatters.unique >> "dc:creator",
         
-    RDF_REPOSITORIES >> "Digital_Object_Repositories_Used"
+    RDF_REPOSITORIES >> "duraark:enrichment_vocabulary"
 	
 ]
