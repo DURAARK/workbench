@@ -26,6 +26,11 @@ class query:
         def __repr__(self):
             return ",\n".join("  - %s"%v.instance for v in self.instances)
         def __len__(self): return len(self.instances)
+        def select(self, ty):
+            return query.instance_list(
+                self.prefix, 
+                [i for i in self.instances if i.instance.wrapped_data.is_a(ty)]
+            )
             
     class instance:
         def __init__(self, prefix, instance):
@@ -59,9 +64,15 @@ class query:
             return result
         def __and__(self, other):
             e = lambda s: s if s else ""
-            return query.parameter_list(
-                [(skv[0],e(skv[1]) + e(okv[1])) for skv, okv in zip(self.li, other.li)]
-            )
+            result = query.parameter_list()
+            for i in range(max(len(self.li), len(other.li))):
+                a1,b1, a2,b2 = '', None, '', None
+                try: a1, b1 = self.li[i]
+                except: pass
+                try: a2, b2 = other.li[i]
+                except: pass
+                result.li.append(('(%s + %s)'%(a1, a2), e(b1) + e(b2)))
+            return result
         def bind(self, name):
             return query.parameter_list([(name, v) for old_name, v in self.li])
         @staticmethod
@@ -83,10 +94,11 @@ class query:
     
     def __init__(self, instances, prefix=None):
         self.prefix = prefix or ""
+        if instances == [[]]: instances = []
         is_instance_list = isinstance(instances, query.instance_list)
         if not is_instance_list:
             classes = list(map(type, instances))
-            if query.instance in classes:
+            if query.instance in classes or len(instances) == 0:
                 is_instance_list = True
                 instances = query.instance_list(self.prefix, instances)                
         if is_instance_list:
@@ -95,8 +107,11 @@ class query:
         else:
             self.entities = None
             self.params = query.parameter_list([(self.prefix, v) for v in instances])
+    def select(self, ty):
+        return query(self.entities.select(ty), self.prefix)
     def __getattr__(self, k):
-        if self.params: raise AttributeError()
+        if self.params: 
+            return query([], "%s.%s"%(self.prefix,k))
         return query(getattr(self.entities, k), "%s.%s"%(self.prefix,k))
     def __or__(self, other):
         if self.entities and other.entities:
@@ -110,26 +125,26 @@ class query:
         q = query([], self.prefix)
         if isinstance(other, str) or (isinstance(other, (tuple, list)) and set(map(type,other)) == {str}): 
             # `other` is a string that describes the new name bound to the parameters in this query object
-            q.params = self.params.bind(other)
+            q.params = (self.params or query.parameter_list()).bind(other)
         elif isinstance(other, query_count):
             # `other` is the formatters.count object, which means we add a new result parameter and initialize it to
             # the amount of instances
             q.params = query.parameter_list.count(self)
         elif isinstance(other, query_unique):
             # `other` is the formatters.unique object, which means filter out non-unique parameters
-            q.params = self.params.unique()
+            q.params = (self.params or query.parameter_list()).unique()
         elif hasattr(other, '__call__'):
             # some lambda function, probably also an attribute of the formatters collection class
-            q.params = self.params.apply(other)
+            q.params = (self.params or query.parameter_list()).apply(other)
         else: raise
         return q
     def __add__(self, other):
         if isinstance(other, self.__class__):
             q = query([], self.prefix)
-            q.params = self.params & other.params
+            q.params = (self.params or query.parameter_list()) & (other.params or query.parameter_list())
             return q
         else:
-            return self >> (lambda s: s + other)
+            return self >> (lambda s: (s or '') + other)
             
     def filter(self, **kwargs):
         pattern_class = re.compile("").__class__
@@ -191,10 +206,14 @@ class latlon(formatter):
     def __repr__(self):
         return "%s: %s"%(self.k, ".".join(str(x) for x in self.v))
     def __getattr__(self, k):
-        return [x[1] for x in self.items if x[0] == k][0]
+        try: return [x[1] for x in self.items if x[0] == k][0]
+        except: return None
     def to_rdf(self):
         return '[ geo-pos:lat "%.8f" ; geo-pos:lon "%.8f" ]'%(latlon.to_float(self.Latitude), latlon.to_float(self.Longitude))
-
+    def __bool__(self):
+        return True if self.Latitude and self.Longitude else False
+    def __nonzero__(self):
+        return self.__bool__()
 
 class xsd_date(str):
     def to_rdf(self): return '"%s"^^xsd:date'%self
@@ -247,7 +266,7 @@ class rdf_formatter:
             return ''.join(map(escape_char, s))
         def typify(s):
             if isinstance(s, int): return '"%d"^^xsd:integer'%s
-            elif hasattr(s, 'to_rdf'): return s.to_rdf()
+            elif hasattr(s, 'to_rdf'): return s.to_rdf() if bool(s) else None
             else: return '"%s"^^xsd:string'%escape(str(s))
         for item in li:
             for p in item.params.li:
