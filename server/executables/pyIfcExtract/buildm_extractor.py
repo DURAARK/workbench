@@ -4,6 +4,8 @@ from ifc_query import formatters
 
 file = ifc_query.open(sys.argv[1])
 
+length_unit = file.IfcProject.UnitsInContext.Units.filter(UnitType="LENGTHUNIT")
+
 ifc_query.rdf_formatter(
     file.IfcProject.GlobalId >> formatters.expand_guid,
     {   'xsd'        : '<http://www.w3.org/2001/XMLSchema#>'        ,
@@ -24,9 +26,7 @@ ifc_query.rdf_formatter(
     file.IfcProject.OwnerHistory.CreationDate >> formatters.time
         >> ("dbp-prop:startDate", "dbpedia-owl:buildingStartYear"),
     
-    file.IfcProject.UnitsInContext.Units.filter(UnitType="LENGTHUNIT").Prefix +
-        file.IfcProject.UnitsInContext.Units.filter(UnitType="LENGTHUNIT").Name
-        >> "duraark:length_unit",
+    length_unit.select('IfcSIUnit').Prefix + length_unit.Name >> "duraark:length_unit",
         
     file.IfcApplication.ApplicationDeveloper.Name + ' ' +
         file.IfcApplication.ApplicationFullName + ' ' +
