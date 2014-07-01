@@ -88,6 +88,17 @@
       }
     },
     {
+      "id": "/services/semobs",
+      "interface": {
+        "command": {
+          "name": "node",
+          "options": "./server/executables/getsemobs/getsdoinfo.js",
+          "input": ""
+        },
+        "handler": "semobs"
+      }
+    },
+    {
       "id": "/services/ifcm",
       "interface": {
         "command": {

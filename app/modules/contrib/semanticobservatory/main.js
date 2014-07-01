@@ -19,15 +19,16 @@ define([
         WorkbenchUI.vent.on('module:semanticobservatory:show', function(region) {
 
             // First create the Model classes:
-            var BuildmModel = Backbone.Model.extend({
-                //urlRoot: "/services/buildm" //** TODO: this should be changed (copy-paste artifact)
-                urlRoot: "https://dl.dropboxusercontent.com/u/985282/sdoinfo.json", // placeholder while this is down: "http://asev.l3s.uni-hannover.de:3000/sdoinfo",
+            var SemObsModel = Backbone.Model.extend({                
+                urlRoot: "/services/semobs", //no way to do this directly??
+                //urlRoot: "http://asev.l3s.uni-hannover.de:3000/sdoinfo", //error!
+                // placeholder if the above is down: 
+                //urlRoot: "https://dl.dropboxusercontent.com/u/985282/sdoinfo.json", //works perfectly!
+                //urlRoot: "https://dl.dropboxusercontent.com/u/985282/sdoinfo",      //works perfectly!          
 
-                
-
-                url: function() {
-                    return this.urlRoot;
-                }
+                // url: function() {
+                //     return this.urlRoot;
+                // }
 
             });
 
@@ -41,12 +42,12 @@ define([
                 } else {
                     this.mainRegion.show(MyModule._mainView);
                 }
-                console.log("Here01");
-                console.log("BuildmModel=" + BuildmModel);
+                
+                console.log("SemObsModel=" + SemObsModel);
                 // Use the WorkbenchUI.fetchModel() method here to grab the model with id 1. In the 'then' function 
                 // callback it is guaranteed the the data from the server is received and the model is accessible:
                 //WorkbenchUI.fetchModel(BuildmModel, 1).then(function(model) {
-                WorkbenchUI.fetchModel(BuildmModel, 1).then(function(model) {
+                WorkbenchUI.fetchModel(SemObsModel,1).then(function(model) {
                     console.log("inside fetchmode..then()");
                     MyModule._mainView.updateBuildmData(model);
                 });

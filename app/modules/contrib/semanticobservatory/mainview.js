@@ -16,24 +16,9 @@ define([
             console.log("options.myTableView = " + options.myTableView );         
         },
 
-        // cellClicked: function(){
-        //     var data =      this.model.toJSON();            
-        //     var aKey =      data["key"];
-        //     var aValue =    data["value"];
-        //     var newValue = prompt("Please enter the new value",aValue);            
-        //     this.model.set({"key": aKey, "value": newValue});
-        //     this.model.save();
-        // },
-        // modelEvents: {
-        //     'change': 'fieldsChanged'
-        // },
 
         fieldsChanged: function() {
             this.render();
-            // console.log("save next.");
-            // this.model.save();
-            // console.log("save done.");
-            // //alert("this.parentModel = " + this.parentModel);
         }
     });
 
