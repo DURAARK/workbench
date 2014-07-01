@@ -1,6 +1,6 @@
 <div class="container">
 	<div class="hero-unit">
-		FileIdentification: Checks if the files specified in the SessionManager are valid. Uses the 'FileIdentification' service.</div>
+		FileIdentification: Checks if the files specified in the SessionManager are identifiable. Uses the 'FileIdentification' service.</div>
 
 	<div style='margin: 40px;'>
 		Checked files in this session:
@@ -8,6 +8,13 @@
 			<li>Duplex_A_20110907_optimized.ifc <strong>-> valid ifc file</strong></li>
 			<li>dummy.e57 <strong>-> valid e57 file</strong></li>
 		</ui>
+	</div>
+
+	<!-- This is the 'fileid' region of the template, where subregions can be 'shown' in. -->
+	<h3>File type identification</h3>
+	<div id="fileid-region">
+	  <img src="spinner.gif" alt="spinner">
+	  <p>Waiting for Droid to identify file. Typically takes 10-30 seconds per file. IFC is currently an unknown format for Droid, E57 is known.</p>
 	</div>
 
 	<button type="submit" class="btn btn-default js-previous">Previous</button>
