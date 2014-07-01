@@ -1,10 +1,11 @@
 define([
     'backbone.marionette',
     'workbenchui',
+    'vendor/rdfstore',
     'hbs!./templates/main',
     'hbs!./templates/list-item',
     'hbs!./templates/list-collection'
-], function(Marionette, WorkbenchUI, MetadataViewTmpl, ListItemTmpl, TableTmpl) {
+], function(Marionette, WorkbenchUI, rdfstore, MetadataViewTmpl, ListItemTmpl, TableTmpl) {
     // Represents on list item:
     var ListItemView = Backbone.Marionette.ItemView.extend({        
         template: ListItemTmpl,
@@ -84,9 +85,11 @@ define([
         },
 
         updateBuildmData: function(model) {
-            this.buildm.show(new TableView({
-                collection: this._modelToCollection(model)
-            }));
+            this._rdfBasedModelToCollection(model).then(function(collection) {
+                this.buildm.show(new TableView({
+                    collection: collection
+                }));
+            }.bind(this));
         },
 
         updateIfcmData: function(model) {
@@ -119,6 +122,31 @@ define([
             };
 
             return collection;
+        },
+        
+        _rdfBasedModelToCollection: function(model) {
+            var defer = $.Deferred();
+            var rdf = model.attributes.rdf;
+            var s = new rdfstore.Store({}, function(store) {
+                store.load("text/turtle", rdf, function(success, results) {
+                    store.execute("SELECT * WHERE { $s $p $o . }", function(succes, results) {
+                        var collection = new Backbone.Collection();
+                        results.forEach(function(result) {
+                            var key = result.p.value.indexOf('#') > -1
+                                ? result.p.value.split('#')
+                                : result.p.value.split('/');
+                            key = key[key.length - 1];
+                            var val = result.o.value;
+                            collection.push({
+                                key: key,
+                                value: val
+                            });
+                        });                        
+                        defer.resolve(collection);
+                    });
+                });
+            });            
+            return defer;
         }
     });
 

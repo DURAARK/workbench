@@ -1,8 +1,11 @@
+import os
 import sys
+import qudt
 import ifc_query
 from ifc_query import formatters
 
-file = ifc_query.open(sys.argv[1])
+fn = os.path.normpath(sys.argv[1])
+file = ifc_query.open(fn)
 
 length_unit = file.IfcProject.UnitsInContext.Units.filter(UnitType="LENGTHUNIT")
 
@@ -14,7 +17,9 @@ ifc_query.rdf_formatter(
         'dct'        : '<http://purl.org/dc/terms/>'                ,
         'dbpedia-owl': '<http://dbpedia.org/ontology/>'             ,
         'dbp-prop'   : '<http://dbpedia.org/property/>'             ,
-        'geo-pos'    : '<http://www.w3.org/2003/01/geo/wgs84_pos#>' }
+        'geo-pos'    : '<http://www.w3.org/2003/01/geo/wgs84_pos#>' ,
+        'qudt'       : '<http://www.qudt.org/qudt/owl/1.0.0/unit/>' ,
+        'foaf'       : '<http://xmlns.com/foaf/0.1/>'               }
 ) << [
 	
 	file.IfcProject.GlobalId >> "duraark:object_identifier",
@@ -26,7 +31,8 @@ ifc_query.rdf_formatter(
     file.IfcProject.OwnerHistory.CreationDate >> formatters.time
         >> ("dbp-prop:startDate", "dbpedia-owl:buildingStartYear"),
     
-    length_unit.select('IfcSIUnit').Prefix + length_unit.Name >> "duraark:length_unit",
+    length_unit.select('IfcSIUnit').Prefix + length_unit.Name
+        >> "duraark:length_unit",
         
     file.IfcApplication.ApplicationDeveloper.Name + ' ' +
         file.IfcApplication.ApplicationFullName + ' ' +
