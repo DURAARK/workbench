@@ -2,10 +2,11 @@ define([
     'backbone.marionette',
     'workbenchui',
     'vendor/rdfstore',
+    'vendor/xsd-validation',
     'hbs!./templates/main',
     'hbs!./templates/list-item',
     'hbs!./templates/list-collection'
-], function(Marionette, WorkbenchUI, rdfstore, MetadataViewTmpl, ListItemTmpl, TableTmpl) {
+], function(Marionette, WorkbenchUI, rdfstore, xsd, MetadataViewTmpl, ListItemTmpl, TableTmpl) {
     // Represents on list item:
     var ListItemView = Backbone.Marionette.ItemView.extend({        
         template: ListItemTmpl,
@@ -25,9 +26,15 @@ define([
             var aValue =    data["value"];
             //alert("Key: " + aKey + " og Value: " + aValue);
             
-            var newValue = prompt("Please enter the new value",aValue);            
-            this.model.set({"key": aKey, "value": newValue});
-            this.model.save();
+            var newValue = prompt("Please enter the new value",aValue);
+            if (newValue !== null) {
+                if (!data.value_type || xsd.validate(data.value_type, newValue)) {
+                    this.model.set({"key": aKey, "value": newValue, "value_type": data.value_type});
+                    this.model.save();
+                } else {
+                    alert("Value '" + newValue + "' is not valid for type '" + data.value_type + "'");
+                }
+            }
         },
         modelEvents: {
             'change': 'fieldsChanged'
@@ -137,9 +144,11 @@ define([
                                 : result.p.value.split('/');
                             key = key[key.length - 1];
                             var val = result.o.value;
+                            var ty = result.o.type;
                             collection.push({
                                 key: key,
-                                value: val
+                                value: val,
+                                value_type: ty
                             });
                         });                        
                         defer.resolve(collection);
