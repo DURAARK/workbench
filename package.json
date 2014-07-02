@@ -8,7 +8,9 @@
     "baucis": "~0.4.6",
     "express-hbs": "~0.2.0",
     "underscore": "~1.4.4",
-    "npmlog": "~0.1.0"
+    "npmlog": "~0.1.0",
+    "multipart": "~0.1.5",
+    "formidable": "~1.0.15"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
