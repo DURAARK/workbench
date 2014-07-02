@@ -60,7 +60,7 @@ Workbench.prototype.setupRoutes = function(router_config) {
 
 	// Provide an admin interface as start page: 
 	this._router.get('/', function(req, res) {
-		console.log('wwwRoot: ' + this._state.get('wwwRoot') + '/index.html');
+		console.log('===wwwRoot: ' + this._state.get('wwwRoot') + '/index.html');
 		res.sendfile(this._state.get('wwwRoot') + '/index.html');
 	}.bind(this));
 

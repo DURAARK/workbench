@@ -46,9 +46,9 @@
       "id": "/services/fileid",
       "interface": {
         "command": {
-          "name": "./server/executables/dodroid.bat",
-          "options": "param1 param2 param3",
-          "input": "localhost"
+          "name": "node",
+          "options": "./server/executables/droid/shelldroid.js",
+          "input": ""
         },
         "handler": "fileid"
       }

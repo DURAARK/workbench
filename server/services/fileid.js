@@ -3,7 +3,7 @@ var ConsoleService = require('../core/console-service'),
     fs = require('fs'),
     path = require('path');
 
-
+console.log('=== Invoking fileid.js');
 var FileId = module.exports = function(opts, logger) {
     ConsoleService.call(this, opts, logger);
 
@@ -24,7 +24,7 @@ FileId.prototype.onStdErr = function(data, res) {
 // The 'output_info' is an object that contains information on where the created output file is located.
 FileId.prototype.onStdOut = function(data, res) {
     // 'output_info' contains information on the output file that was created by the command:
-    console.log('[FileId:onStdOut] data: ' + JSON.stringify(data.toString()));
+    console.log('[FileId:onStdOut] data: ' + data.toString() );//+ JSON.stringify(data.toString()));
 
     // Simply return the json string given in the output:
     res.send(data.toString());
