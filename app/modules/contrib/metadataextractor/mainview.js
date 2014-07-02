@@ -138,18 +138,32 @@ define([
                 store.load("text/turtle", rdf, function(success, results) {
                     store.execute("SELECT * WHERE { $s $p $o . }", function(succes, results) {
                         var collection = new Backbone.Collection();
+                        var blanks = {};
+                        var formatKey = function(a) {
+                            var b = a.indexOf('#') > -1
+                                ? a.split('#')
+                                : a.split('/');
+                            return b[b.length - 1];
+                        };
                         results.forEach(function(result) {
-                            var key = result.p.value.indexOf('#') > -1
-                                ? result.p.value.split('#')
-                                : result.p.value.split('/');
-                            key = key[key.length - 1];
-                            var val = result.o.value;
-                            var ty = result.o.type;
-                            collection.push({
-                                key: key,
-                                value: val,
-                                value_type: ty
-                            });
+                            if (result.o.token === 'blank') {
+                                blanks[result.o.value] = result;
+                            }
+                        });
+                        results.forEach(function(result) {
+                            if (result.o.token !== 'blank') {
+                                var key = formatKey(result.p.value);
+                                var val = result.o.value;
+                                var ty = result.o.type;
+                                var blank = result.s.token === 'blank' ? formatKey(blanks[result.s.value].p.value) : null;
+                                if (blank) key = blank + ' > ' + key;
+                                collection.push({
+                                    key: key,
+                                    value: val,
+                                    value_type: ty,
+                                    blank_key: blank
+                                });
+                            }
                         });                        
                         defer.resolve(collection);
                     });
