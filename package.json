@@ -101,6 +101,17 @@
       }
     },
     {
+      "id": "/services/probado",
+      "interface": {
+        "command": {
+          "name": "node",
+          "options": "./server/executables/probado/probado-request.js",
+          "input": ""
+        },
+        "handler": "probado"
+      }
+    },
+    {
       "id": "/services/ifcm",
       "interface": {
         "command": {
