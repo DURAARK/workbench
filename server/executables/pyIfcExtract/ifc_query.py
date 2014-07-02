@@ -204,14 +204,14 @@ class latlon(formatter):
     def __add__(self, other):
         return latlon(self.items + other.items)
     def __repr__(self):
-        return "%s: %s"%(self.k, ".".join(str(x) for x in self.v))
+        return "Latlon<%s>"%str(self.items)
     def __getattr__(self, k):
         try: return [x[1] for x in self.items if x[0] == k][0]
         except: return None
     def to_rdf(self):
         return '[ geo-pos:lat "%.8f" ; geo-pos:lon "%.8f" ]'%(latlon.to_float(self.Latitude), latlon.to_float(self.Longitude))
     def __bool__(self):
-        return True if self.Latitude and self.Longitude else False
+        return True if self.Latitude or self.Longitude else False
     def __nonzero__(self):
         return self.__bool__()
 
