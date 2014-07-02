@@ -1,4 +1,4 @@
-var terminal = require('child_process').spawn('bash');
+var terminal = require('child_process').spawn('bash'); //swith for cmd on windows?
 
 
 terminal.stdout.on('data', function (data) {
