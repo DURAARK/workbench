@@ -29,7 +29,8 @@ define([
             var newValue = prompt("Please enter the new value",aValue);
             if (newValue !== null) {
                 if (!data.value_type || xsd.validate(data.value_type, newValue)) {
-                    this.model.set({"key": aKey, "value": newValue, "value_type": data.value_type});
+                    data.value = newValue;
+                    this.model.set(data);
                     this.model.save();
                 } else {
                     alert("Value '" + newValue + "' is not valid for type '" + data.value_type + "'");
@@ -78,13 +79,18 @@ define([
         events: {
             'click .js-next': function() {
                 console.log('next clicked --> module:semanticobservatory:show');
+                var rdf = this._collectionToRdf(this._buildmCollection);
+                console.log("===============================");
+                console.log(rdf);
+                console.log("===============================");
+                // this.submitRdfToServer(rdf).then(function() {
                 WorkbenchUI.vent.trigger('module:semanticobservatory:show');   
                 console.log('after vent.trigger by click..');
             },
             'click .js-previous': function() {
                 console.log('previous');
                 WorkbenchUI.vent.trigger('module:fileidentification:show');
-            }
+            }.bind(this)
         },
 
         initialize: function() {
@@ -93,6 +99,7 @@ define([
 
         updateBuildmData: function(model) {
             this._rdfBasedModelToCollection(model).then(function(collection) {
+                this._buildmCollection = collection;
                 this.buildm.show(new TableView({
                     collection: collection
                 }));
@@ -155,13 +162,21 @@ define([
                                 var key = formatKey(result.p.value);
                                 var val = result.o.value;
                                 var ty = result.o.type;
-                                var blank = result.s.token === 'blank' ? formatKey(blanks[result.s.value].p.value) : null;
-                                if (blank) key = blank + ' > ' + key;
+                                var blanknode_predicate, blanknode_identifier;
+                                blanknode_predicate = blanknode_identifier = null;
+                                if (result.s.token === 'blank') {
+                                    blanknode_predicate = blanks[result.s.value].p.value;
+                                    blanknode_identifier = result.s.value;
+                                    key = formatKey(blanks[result.s.value].p.value) + ' > ' + key;
+                                }
                                 collection.push({
-                                    key: key,
+                                    subject: result.s.value,
+                                    predicate: result.p.value,
                                     value: val,
                                     value_type: ty,
-                                    blank_key: blank
+                                    key: key,
+                                    blanknode_predicate: blanknode_predicate,
+                                    blanknode_identifier: blanknode_identifier
                                 });
                             }
                         });                        
@@ -170,6 +185,52 @@ define([
                 });
             });            
             return defer;
+        },
+        
+        _collectionToRdf: function(collection) {
+            console.log(collection);
+            var store = rdfstore.create();
+            var rdf = store.rdf;
+            var graph = rdf.createGraph();
+            var blanks = {};
+            collection.forEach(function(model) {
+                var attr = model.attributes;
+                if (attr.blanknode_identifier) {
+                    var li = blanks[attr.blanknode_identifier] || [];
+                    li.push(attr);
+                    blanks[attr.blanknode_identifier] = li;
+                }
+            });
+            var mainsub = null;
+            collection.forEach(function(model) {
+                var attr = model.attributes;
+                if (attr.blanknode_identifier === null) {
+                    graph.add(rdf.createTriple(
+                        mainsub || (mainsub = rdf.createNamedNode(attr.subject)),
+                        rdf.createNamedNode(attr.predicate),
+                        rdf.createLiteral(attr.value, null, attr.value_type)
+                    ));
+                }
+            });
+            Object.keys(blanks).forEach(function(nodeId) {
+                var attr_list = blanks[nodeId];
+                var sub = rdf.createBlankNode();
+                var last;
+                attr_list.forEach(function(attrs) {
+                    graph.add(rdf.createTriple(
+                        sub,
+                        rdf.createNamedNode(attrs.predicate),
+                        rdf.createLiteral(attrs.value, null, attrs.value_type)
+                    ));
+                    last = attrs;
+                });
+                graph.add(rdf.createTriple(
+                    mainsub,
+                    rdf.createNamedNode(last.blanknode_predicate),
+                    sub
+                ));
+            });
+            return graph.toNT();
         }
     });
 
