@@ -2,11 +2,12 @@ define([
     'backbone.marionette',
     'workbenchui',
     'vendor/rdfstore',
+    'vendor/rdfapi',
     'vendor/xsd-validation',
     'hbs!./templates/main',
     'hbs!./templates/list-item',
     'hbs!./templates/list-collection'
-], function(Marionette, WorkbenchUI, rdfstore, xsd, MetadataViewTmpl, ListItemTmpl, TableTmpl) {
+], function(Marionette, WorkbenchUI, rdfstore, rdfapi, xsd, MetadataViewTmpl, ListItemTmpl, TableTmpl) {
     // Represents on list item:
     var ListItemView = Backbone.Marionette.ItemView.extend({        
         template: ListItemTmpl,
@@ -79,13 +80,14 @@ define([
         events: {
             'click .js-next': function() {
                 console.log('next clicked --> module:semanticobservatory:show');
-                var rdf = this._collectionToRdf(this._buildmCollection);
-                console.log("===============================");
-                console.log(rdf);
-                console.log("===============================");
-                // this.submitRdfToServer(rdf).then(function() {
-                WorkbenchUI.vent.trigger('module:semanticobservatory:show');   
-                console.log('after vent.trigger by click..');
+                this._collectionToRdf(this._buildmCollection).then(function(rdf) {
+                    console.log("===============================");
+                    console.log(rdf);
+                    console.log("===============================");
+                    // this.submitRdfToServer(rdf).then(function() {
+                    WorkbenchUI.vent.trigger('module:semanticobservatory:show');   
+                    console.log('after vent.trigger by click..');
+                });
             },
             'click .js-previous': function() {
                 console.log('previous');
@@ -188,7 +190,7 @@ define([
         },
         
         _collectionToRdf: function(collection) {
-            console.log(collection);
+            var defer = $.Deferred();
             var store = rdfstore.create();
             var rdf = store.rdf;
             var graph = rdf.createGraph();
@@ -230,7 +232,11 @@ define([
                     sub
                 ));
             });
-            return graph.toNT();
+            
+            new rdfapi.parsers.Turtle(rdfapi.data.context).parse(graph.toNT(), function(graph) {
+                defer.resolve(rdfapi.turtle(graph));
+            });
+            return defer;
         }
     });
 
