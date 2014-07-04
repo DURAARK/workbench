@@ -3,7 +3,7 @@ var spawn = require('child_process').spawn,
 
 
 var ConsoleService = module.exports = function(opts, logger) {
-    this.opts = opts;
+    this.opts = opts.interface.command;
 
     this.log = logger;
     if (!this.log) {

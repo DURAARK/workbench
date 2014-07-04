@@ -8,7 +8,7 @@ define([
     'hbs!./templates/list-collection'
 ], function(Marionette, WorkbenchUI, rdfstore, xsd, MetadataViewTmpl, ListItemTmpl, TableTmpl) {
     // Represents on list item:
-    var ListItemView = Backbone.Marionette.ItemView.extend({        
+    var ListItemView = Backbone.Marionette.ItemView.extend({
         template: ListItemTmpl,
         tagName: 'tr',
         events: {
@@ -16,18 +16,19 @@ define([
         },
         initialize: function(options) { //***
             //alert("1");
-            console.log("options.myTableView = " + options.myTableView );
+            console.log("options.myTableView = " + options.myTableView);
             //this.stuff = options.stuff;            
         },
-        cellClicked: function(){
+        cellClicked: function() {
             //alert(this.model.escape("value"));
-            var data =      this.model.toJSON();
-            var aKey =      data["key"];
-            var aValue =    data["value"];
+            var data = this.model.toJSON();
+            var aKey = data["key"];
+            var aValue = data["value"];
             //alert("Key: " + aKey + " og Value: " + aValue);
-            
-            var newValue = prompt("Please enter the new value",aValue);
+
+            var newValue = prompt("Please enter the new value", aValue);
             if (newValue !== null) {
+                // TODO: validation
                 if (!data.value_type || xsd.validate(data.value_type, newValue)) {
                     data.value = newValue;
                     this.model.set(data);
@@ -84,7 +85,7 @@ define([
                 console.log(rdf);
                 console.log("===============================");
                 // this.submitRdfToServer(rdf).then(function() {
-                WorkbenchUI.vent.trigger('module:semanticobservatory:show');   
+                WorkbenchUI.vent.trigger('module:semanticobservatory:show');
                 console.log('after vent.trigger by click..');
             },
             'click .js-previous': function() {
@@ -93,9 +94,7 @@ define([
             }.bind(this)
         },
 
-        initialize: function() {
-
-        },
+        initialize: function() {},
 
         updateBuildmData: function(model) {
             this._rdfBasedModelToCollection(model).then(function(collection) {
@@ -137,7 +136,7 @@ define([
 
             return collection;
         },
-        
+
         _rdfBasedModelToCollection: function(model) {
             var defer = $.Deferred();
             var rdf = model.attributes.rdf;
@@ -147,9 +146,7 @@ define([
                         var collection = new Backbone.Collection();
                         var blanks = {};
                         var formatKey = function(a) {
-                            var b = a.indexOf('#') > -1
-                                ? a.split('#')
-                                : a.split('/');
+                            var b = a.indexOf('#') > -1 ? a.split('#') : a.split('/');
                             return b[b.length - 1];
                         };
                         results.forEach(function(result) {
@@ -179,14 +176,14 @@ define([
                                     blanknode_identifier: blanknode_identifier
                                 });
                             }
-                        });                        
+                        });
                         defer.resolve(collection);
                     });
                 });
-            });            
+            });
             return defer;
         },
-        
+
         _collectionToRdf: function(collection) {
             console.log(collection);
             var store = rdfstore.create();

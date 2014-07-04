@@ -50,6 +50,8 @@ var ServiceProviderMixin = module.exports = function(router, opts, logger) {
     this.router = router;
     this.opts = opts;
 
+    this._session_manager = opts.sessionManager;
+
     this.log = logger;
     if (!this.log) {
         this.log = require('npmlog');
@@ -62,13 +64,17 @@ ServiceProviderMixin.prototype.registerEndpoints = function(endpoint_cfgs) {
     _.forEach(endpoint_cfgs, function(config, key) {
         this.log.info('Loading module "' + config.id + '" from ../../services/' + config.interface.handler);
 
-        var ExecutableService = require('../../services/' + config.interface.handler);
+        var Service = require('../../services/' + config.interface.handler);
 
-        var executable_info = config.interface.command;
+        // var executable_info = config.interface.command;
 
         // console.log('command: ' + JSON.stringify(executable_info));
 
-        var service = new ExecutableService(executable_info, this.log);
+        var service = new Service(config, this._session_manager, this.log);
+        if (service.findAll) {
+            this.router.get(config.id, service.findAll.bind(service));
+            this.log.info('   ... registered GET verb for: ' + config.id + '/');
+        }
         if (service.findById) {
             this.router.get(config.id + '/:id', service.findById.bind(service));
             this.log.info('   ... registered GET verb for: ' + config.id + '/:id');

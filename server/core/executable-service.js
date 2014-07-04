@@ -2,8 +2,8 @@ var spawn = require('child_process').spawn,
     path = require('path');
 
 
-var ExecutableFileOutputService = module.exports = function(opts, logger) {
-    this.opts = opts;
+var ExecutableFileOutputService = module.exports = function(opts, session_manager, logger) {
+    this.opts = opts.interface.command;
 
     this.log = logger;
     if (!this.log) {
