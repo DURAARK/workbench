@@ -17,7 +17,7 @@ define([
         WorkbenchUI.vent.on('module:fileidentification:show', function(region) {
             console.log('module:fileidentification:show');
 
-             
+
 
             // First create the Model classes:
             var FileIdModel = Backbone.Model.extend({
@@ -37,8 +37,8 @@ define([
 
                 // Use the WorkbenchUI.fetchModel() method here to grab the model with id 1. In the 'then' function 
                 // callback it is guaranteed the the data from the server is received and the model is accessible:
-                WorkbenchUI.fetchModel(FileIdModel, 1).then(function(model) {
-                    console.log('=== model : ' + JSON.stringify(model) );
+                WorkbenchUI.fetchModel(FileIdModel, 2).then(function(model) {
+                    console.log('=== model : ' + JSON.stringify(model));
                     MyModule._mainView.updateBuildmData(model);
                 });
 
@@ -56,7 +56,7 @@ define([
                 MyModule._mainView.delegateEvents();
             }
 
-            
+
         }.bind(this));
 
         console.log('[WorkbenchUI.Contrib.FileIdentification] started');

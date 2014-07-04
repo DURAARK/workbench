@@ -4,12 +4,17 @@ var spawn = require('child_process').spawn,
 
 var ExecutableFileOutputService = module.exports = function(opts, session_manager, logger) {
     this.opts = opts.interface.command;
+    this._sessionManager = session_manager;
 
     this.log = logger;
     if (!this.log) {
         this.log = require('npmlog');
     }
 }
+
+ExecutableFileOutputService.prototype.getSessionManager = function() {
+    return this._sessionManager;
+};
 
 ExecutableFileOutputService.prototype.findById = function(req, res) {
     this.log.info('', '[ExecutableFileOutputService::findById] Query ID: "%s"', req.params.id);
