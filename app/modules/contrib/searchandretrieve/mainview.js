@@ -47,22 +47,9 @@ define([
 
         events: {
         	'click .js-search': function() {
-                console.log('===> Probado search clicked!!');
                 var aSearchterm = $("#searchstringinput").val();
-                alert("Textbox contains: " + aSearchterm);
-                //updateBuildmData(workbenchui.fetch())
                 WorkbenchUI.vent.trigger('module:searchandretrieve:show', aSearchterm);
             }
-
-
-            // 'click .js-next': function() {
-            //     console.log('next clicked');
-            //     WorkbenchUI.vent.trigger('module:semanticenrichment:show');
-            // },
-            // 'click .js-previous': function() {
-            //     console.log('previous');
-            //     WorkbenchUI.vent.trigger('module:metadataextractor:show');
-            // }
         },
 
         initialize: function() {
