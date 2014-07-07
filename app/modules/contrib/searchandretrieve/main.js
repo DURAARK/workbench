@@ -20,11 +20,8 @@ define([
 
             // First create the Model classes:
             var SemObsModel = Backbone.Model.extend({                
-                urlRoot: "/services/probado", //no way to do this directly??
-                //urlRoot: "http://asev.l3s.uni-hannover.de:3000/sdoinfo", //error!
-                // placeholder if the above is down: 
-                //urlRoot: "https://dl.dropboxusercontent.com/u/985282/sdoinfo.json", //works perfectly!
-                //urlRoot: "https://dl.dropboxusercontent.com/u/985282/sdoinfo",      //works perfectly!          
+                urlRoot: "/services/probado" //no way to do this directly??
+                //urlRoot: "http://asev.l3s.uni-hannover.de:3000/sdoinfo", //error!      
 
                 // url: function() {
                 //     return this.urlRoot;
@@ -47,17 +44,26 @@ define([
                 // Use the WorkbenchUI.fetchModel() method here to grab the model with id 1. In the 'then' function 
                 // callback it is guaranteed the the data from the server is received and the model is accessible:
                 //WorkbenchUI.fetchModel(BuildmModel, 1).then(function(model) {
-                WorkbenchUI.fetchModel(SemObsModel,1).then(function(model) {
+                WorkbenchUI.fetchModel(SemObsModel,"start=0&count=10").then(function(model) { //search uses: fulltextQuery=Kamille&start=0&count=10
+                //WorkbenchUI.fetchModel(SemObsModel,"fulltextQuery=Kamille&start=0&count=10").then(function(model) { //FIXME: security..
                     console.log("inside fetchmode..then()");
                     MyModule._mainView.updateBuildmData(model);
                 });
 
             } else {
-                if (typeof region !== 'undefined') {
-                    region.show(MyModule._mainView);
-                } else {
-                    this.mainRegion.show(MyModule._mainView);
-                }
+                console.log("==> This is the else zone!!");
+                // if (typeof region !== 'undefined') {
+                //     region.show(MyModule._mainView);
+                // } else {
+                //     this.mainRegion.show(MyModule._mainView);
+                // }
+
+                //***
+                WorkbenchUI.fetchModel(SemObsModel,"fulltextQuery=Kamille&start=0&count=10").then(function(model) { //search uses: fulltextQuery=Kamille&start=0&count=10
+                //WorkbenchUI.fetchModel(SemObsModel,"fulltextQuery=Kamille&start=0&count=10").then(function(model) { //FIXME: security..
+                    console.log("inside fetchmode..then()");
+                    MyModule._mainView.updateBuildmData(model);
+                });
 
                 // For the first show in the lifetime of the _mainView the events hash is correctly
                 // evaluated. When the _mainView gets closed and is reopened again, the events
