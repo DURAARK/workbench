@@ -1,7 +1,7 @@
 
 var request = require('request');
 
-request.get('https://ogo.cgv.tugraz.at/api/Models?start=0&count=10', 
+request.get('https://ogo.cgv.tugraz.at/api/Models?start=0&count=10', //start is 0
     function(error, response, body){    	
     	body=body.replace(/<\?xml(.*?)<pos>/gm, ""); //No xml in our json!
     	body=body.replace(/<\/pos><\/Point>/gm, "");    	
