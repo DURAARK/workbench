@@ -4,16 +4,21 @@
 # Do not make changes to this file unless you know what you are doing--modify
 # the SWIG interface file instead.
 
-
+# TK: NB: Changes are made to facilitate loading appropriate binary for current platform
 
 from sys import version_info
 if version_info >= (2,6,0):
+    def get_search_path():
+        import os, platform
+        dn = os.path.dirname(__file__)
+        if os.path.exists(os.path.join(dn, 'lib')):
+            dn = os.path.join(dn, 'lib', platform.system(), platform.architecture()[0])
+        return dn
     def swig_import_helper():
-        from os.path import dirname
         import imp
         fp = None
         try:
-            fp, pathname, description = imp.find_module('_ifc_wrapper', [dirname(__file__)])
+            fp, pathname, description = imp.find_module('_ifc_wrapper', [get_search_path()])
         except ImportError:
             import _ifc_wrapper
             return _ifc_wrapper
@@ -25,6 +30,7 @@ if version_info >= (2,6,0):
             return _mod
     _ifc_wrapper = swig_import_helper()
     del swig_import_helper
+    del get_search_path
 else:
     import _ifc_wrapper
 del version_info
