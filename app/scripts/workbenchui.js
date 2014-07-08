@@ -25,7 +25,7 @@ define([
     WorkbenchUI.fetchModel = function(model_constructor, id) {
         // Create a new model instance with the given id. When you call mymodel.fetch() a request
         // to the url '/metadata/ifc/id' will be send to the server:
-        console.log('WorkbenchUI.fetchModel');
+        console.log('===> WorkbenchUI.fetchModel with id=' + id);
         var mymodel = new model_constructor({
             id: id
         });

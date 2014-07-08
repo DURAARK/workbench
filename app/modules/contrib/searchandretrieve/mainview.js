@@ -46,14 +46,10 @@ define([
         },
 
         events: {
-            // 'click .js-next': function() {
-            //     console.log('next clicked');
-            //     WorkbenchUI.vent.trigger('module:semanticenrichment:show');
-            // },
-            // 'click .js-previous': function() {
-            //     console.log('previous');
-            //     WorkbenchUI.vent.trigger('module:metadataextractor:show');
-            // }
+        	'click .js-search': function() {
+                var aSearchterm = $("#searchstringinput").val();
+                WorkbenchUI.vent.trigger('module:searchandretrieve:show', aSearchterm);
+            }
         },
 
         initialize: function() {

@@ -17,13 +17,15 @@ ConsoleService.prototype.findById = function(req, res) {
     var id = req.params['id'],
         inputparam = null;
 
+    console.log('==> ConsoleService.prototype.findById and id==' + id);
+
     if (this.opts.input) {
         inputparam = this.opts.input;
     } else {
         // FIXXME: ask SessionManager for the filename corresponding to the id:
-        inputparam = '/usr';
+        inputparam = id; //'/usr'; //** FIXME: This is supergreat for security, never sanitize user input, we need more trust in the world (wide web)!
     }
-
+    //console.log('SessionManager=' + SessionManager); //***
     // If the command starts with './' we resolve to the absolute path:
     var exec_path = this.opts.name;
     if (this.opts.name.indexOf('./') === 0) {
