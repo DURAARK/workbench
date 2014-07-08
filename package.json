@@ -82,7 +82,7 @@
       "id": "/services/buildm",
       "interface": {
         "command": {
-          "name": "python",
+          "name": "python3",
           "options": "./server/executables/pyIfcExtract/buildm_extractor.py",
           "input": "./server/fixtures/repository/Duplex_A_20110907_optimized.ifc"
         },
@@ -115,7 +115,7 @@
       "id": "/services/ifcm",
       "interface": {
         "command": {
-          "name": "python",
+          "name": "python3",
           "options": "./server/executables/ifcm_extractor_dummy.py",
           "input": "./server/fixtures/Duplex_A_20110907_optimized.ifc"
         },
@@ -126,7 +126,7 @@
       "id": "/services/e57m",
       "interface": {
         "command": {
-          "name": "python",
+          "name": "python3",
           "options": "./server/executables/e57m_extractor_dummy.py",
           "input": "./server/fixtures/dummy.e57"
         },
