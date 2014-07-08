@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- konfigurationsfil för eARD sipgenerator--><!--Skapad av Göran Lindqvist--><!--LDB-Centrum | LTU--><eARD_sip>
-	<uid>UUID:paketuid</uid>
+	<uid>UUID:error</uid>
 	<a/>
-	<katSystem>/home/user1/duraark/built/system</katSystem>
-	<katMetadata>/home/user1/duraark/built/metadata</katMetadata>
-	<katContent>/home/user1/duraark/built/content</katContent>
-	<utFilContent>/home/user1/duraark/temp/cHashsum.txt</utFilContent>
-	<utFilMets>/home/user1/duraark/built/sip.xml</utFilMets>
-	<katTarPaket>/home/user1/duraark/sip/</katTarPaket>
-	<katTarStart>/home/user1/duraark/built/</katTarStart>
-	<patheARDsip>/home/user1/duraark/run/eARDsip.jar</patheARDsip>
+	<katSystem>server/executables/sipgen/SIP_Generator/built/system</katSystem>
+	<katMetadata>server/executables/sipgen/SIP_Generator/built/metadata</katMetadata>
+	<katContent>server/executables/sipgen/SIP_Generator/built/content</katContent>
+	<utFilContent>server/executables/sipgen/SIP_Generator/temp/cHashsum.txt</utFilContent>
+	<utFilMets>server/executables/sipgen/SIP_Generator/built/sip.xml</utFilMets>
+	<katTarPaket>server/executables/sipgen/SIP_Generator/sip/</katTarPaket>
+	<katTarStart>server/executables/sipgen/SIP_Generator/built/</katTarStart>
+	<patheARDsip>server/executables/sipgen/SIP_Generator/run/eARDsip.jar</patheARDsip>
 	<hashSumType>md5</hashSumType>
 	<md5Lista/>
 	<config_db>
@@ -20,10 +20,10 @@
 	</config_db>
 	<!--Config för droidning -->
 	<config_filanalys>
-		<katalogOverSubkat>/home/user1/duraark/built/</katalogOverSubkat>
-		<pathDroidJar>/home/user1/duraark/run/droid/droid.jar</pathDroidJar>
-		<argSignaturfil>/home/user1/duraark/run/droid/DROID_SignatureFile_V74.xml</argSignaturfil>
-		<argUtskriftfil>/home/user1/duraark/temp/outputDroid</argUtskriftfil>
-		<droidInputFil>/home/user1/duraark/temp/DroidInputFil</droidInputFil>
+		<katalogOverSubkat>server/executables/sipgen/SIP_Generator/built/</katalogOverSubkat>
+		<pathDroidJar>server/executables/sipgen/SIP_Generator/run/droid/droid.jar</pathDroidJar>
+		<argSignaturfil>server/executables/sipgen/SIP_Generator/run/droid/DROID_SignatureFile_V74.xml</argSignaturfil>
+		<argUtskriftfil>server/executables/sipgen/SIP_Generator/temp/outputDroid</argUtskriftfil>
+		<droidInputFil>server/executables/sipgen/SIP_Generator/temp/DroidInputFil</droidInputFil>
 	</config_filanalys>
 </eARD_sip>
