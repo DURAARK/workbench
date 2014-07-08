@@ -27,5 +27,5 @@ BuildmIFC.prototype.onStdOut = function(data, res) {
     console.log('[BuildmIFC:onStdOut] data: ' + JSON.stringify(data.toString()));
 
     // Simply return the json string given in the output:
-    res.send(data.toString());
+    res.send(JSON.stringify({rdf:data.toString()}));
 }
