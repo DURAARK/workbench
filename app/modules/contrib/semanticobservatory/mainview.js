@@ -53,6 +53,12 @@ define([
             'click .js-previous': function() {
                 console.log('previous');
                 WorkbenchUI.vent.trigger('module:metadataextractor:show');
+            },
+            'click .js-search': function() {   
+                //Show spinner while we wait for search results from Probado             
+                document.getElementById("semobs-region").innerHTML = '<img src="spinner.gif" alt="spinner"><p>Waiting for webservice to provide fresh info</p>';
+                var aSearchterm = $("#searchstringinput").val();
+                WorkbenchUI.vent.trigger('module:semanticobservatory:show', aSearchterm);
             }
         },
 

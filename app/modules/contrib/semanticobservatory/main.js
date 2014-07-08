@@ -16,7 +16,7 @@ define([
         
 
         // 2. Register eventhandler to show the view:        
-        WorkbenchUI.vent.on('module:semanticobservatory:show', function(region) {
+        WorkbenchUI.vent.on('module:semanticobservatory:show', function(aSearchterm) {
 
             // First create the Model classes:
             var SemObsModel = Backbone.Model.extend({                
@@ -47,17 +47,24 @@ define([
                 // Use the WorkbenchUI.fetchModel() method here to grab the model with id 1. In the 'then' function 
                 // callback it is guaranteed the the data from the server is received and the model is accessible:
                 //WorkbenchUI.fetchModel(BuildmModel, 1).then(function(model) {
-                WorkbenchUI.fetchModel(SemObsModel,1).then(function(model) {
+                WorkbenchUI.fetchModel(SemObsModel,"List").then(function(model) {
                     console.log("inside fetchmode..then()");
                     MyModule._mainView.updateBuildmData(model);
                 });
 
             } else {
-                if (typeof region !== 'undefined') {
-                    region.show(MyModule._mainView);
-                } else {
-                    this.mainRegion.show(MyModule._mainView);
-                }
+                // if (typeof region !== 'undefined') {
+                //     region.show(MyModule._mainView);
+                // } else {
+                //     this.mainRegion.show(MyModule._mainView);
+                // }
+
+                console.log("==> This is the else zone of SemanticObservatory!!");
+                
+                //*** TODO: / //FIXME: security..
+                WorkbenchUI.fetchModel(SemObsModel,"Search=" + aSearchterm).then(function(model) { //search uses: fulltextQuery=Kamille&start=0&count=10
+                    MyModule._mainView.updateBuildmData(model);
+                });
 
                 // For the first show in the lifetime of the _mainView the events hash is correctly
                 // evaluated. When the _mainView gets closed and is reopened again, the events
