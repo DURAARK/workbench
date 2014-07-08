@@ -46,7 +46,9 @@ define([
         },
 
         events: {
-        	'click .js-search': function() {
+        	'click .js-search': function() {   
+                //Show spinner while we wait for search results from Probado             
+                document.getElementById("probado-region").innerHTML = '<img src="spinner.gif" alt="spinner"><p>Waiting for webservice to provide fresh info</p>';
                 var aSearchterm = $("#searchstringinput").val();
                 WorkbenchUI.vent.trigger('module:searchandretrieve:show', aSearchterm);
             }
