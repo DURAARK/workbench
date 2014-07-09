@@ -39,10 +39,8 @@ define([
                 // callback it is guaranteed the the data from the server is received and the model is accessible:
                 //WorkbenchUI.fetchModel(BuildmModel, 1).then(function(model) {
                 WorkbenchUI.fetchModel(SemObsModel,"List").then(function(model) {
-                    if(typeof model=="undefined"){
-			//TODO: get this -- or something similiar -- to work..
-                        document.getElementById("semobs-region").innerHTML = 'No meaningful result from endpoint. Maybe the endpoint is down?';
-	            	alert('No meaningful result from endpoint. Maybe the endpoint is down?');
+                    if(typeof model=="undefined"){			                        
+	            	  alert('No meaningful result from endpoint. Maybe the endpoint is down?');
                     };    
                     //console.log("inside fetchmode..then()");
                     MyModule._mainView.updateBuildmData(model);
@@ -61,8 +59,8 @@ define([
                 WorkbenchUI.fetchModel(SemObsModel,"Search=" + aSearchterm).then(function(model) { //search uses: fulltextQuery=Kamille&start=0&count=10
                 if(typeof model=="undefined"){
                     //TODO: get this -- or something similiar -- to work..
-                    window.document.getElementById("semobs-region").innerHTML = 'No meaningful result from endpoint. Maybe the endpoint is down?';
-                    alert('No meaningful result from endpoint. Maybe the endpoint is down?');
+                    //window.document.getElementById("semobs-region").innerHTML = 'No meaningful result from endpoint. Maybe the endpoint is down?';
+                    alert('Problem. Maybe the endpoint is down?');
                 };                    
                     MyModule._mainView.updateBuildmData(model);
                 });
