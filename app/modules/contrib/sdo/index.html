@@ -1,103 +1,16 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link href="css/bootstrap.min.css" rel="stylesheet">
-		<link href="css/styles.css" rel ="stylesheet">
+
 		<title>Linked Dataset Crawling</title>
 	</head>
 	<body>
-		 <div class=" nvbar nav navbar navbar-inverse navbar-static-top ">
-		 
-			<div class="container">
-			
-			<a href="#" class="navbar-brand txtstyle">Iterative Linked Dataset Crawler</a>
-			
-			<button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			
-				<div class="collapse navbar-collapse navHeaderCollapse">
-					<ul class="nav navbar-nav navbar-right">
-						<li class="active"><a href="#">Home</a></li>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">About<b class="caret"></b></a>
-							<ul class="dropdown-menu">
-							<li><a href="#">Datasets</a></li>
-							<li><a href="#">Resources</a></li>
-							
-						</ul>
-						</li>
-						
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li><a href="crawl_metadata.html">Crawl Datasets</a></li>
-							</ul>
-						</li>
-						<li><a href="#">Contact</a></li>
-					</ul>
-				</div>	
-			</div>
-		 </div>
-		 
-		 <div class="container">
-			<div class="jumbotron">
-				<center>
-					<h2>Linked Dataset Crawling Module</h2>
-					<p>At Every time the the crawler retrieves the meta-data <small>(i.e the corresponding endpoints)</small> of datasets from the Linked Open Data Cloud(LOD).</p>
-					<a class="btn btn-default" href="view_metadata.html">View Metadata</a>
-					<a class="btn btn-info" href="view_dataset_attributes.html">View Dataset Attributes</a>
-				</center>	
-			</div>
-		 </div> 
-		 
-		 <div class="container">
-			<div class="row">
-				<div class="col-md-8">
-				<h4><a href="#">Recent Datasets Updates</a></h4>
-				<h6>Date:01.04.2014</h6>
-				<ul>
-					<li><a href="#">Enipedia - url modified</a></li><br>
-					<li><a href="#">Yovisto - author_email modified</a></li><br>
-					<li><a href="#">Data.gov - title changed</a></li><br>
-					<li><a href="#">Semantic Web Dog Food Corpus - license changed</a></li><br>
-					<li><a href="#">ElectricityTransmission - url changed</a></li><br>
-					<li><a href="#">TCMGeneDIT - author_email modified </a></li><br>
-					<li><a href="#">Spanish Linguistic - url modified</a></li><br>
-					<li><a href="#">CTIC Public Dataset Catalogs - title changed</a></li><br>
-				</ul>
-				<a href ="dataset_status_timestamp_view.html" class="btn btn-default">View Specific Timestamp Dataset Status &raquo;</a>
-				</div>	
-				
-				<div class="col-md-4">
-				<h4><a href="#">Recent Resource Updates</a></h4>
-				<h6>Date:01.04.2014</h6>
-				<ul>
-					<li><a href="#">http://xmlns.com/foaf/0.1/Organization - 24 instances</a></li><br>
-					<li><a href="#">http://enipedia.tudelft.nl/wiki/Category - 4 instances)</a></li><br>
-					<li><a href="#">http://www.aktors.org/ontology/portal - 50 instances</a></li><br>
-					<li><a href="#">http://prtr.ec.europa.eu/rdf/schema.rdf - 90 instances</a></li><br>
-					<li><a href="#">http://www.openlinksw.com/schemas/virtrdf - 3 instances</a></li><br>
-					<li><a href="#">http://www.w3.org/ns/sparql-service-description - 8 instances</a></li><br>
-					<li><a href="#">http://enipedia.tudelft.nl/wiki/Category - 15 instances</a></li><br><br><br>
-				</ul>
-				<a href ="resource_status_timestamp_view.html" class="btn btn-default">View Specific Timestamp Resource Status &raquo;</a>
-				</div>	
-				
-			</div>
-		</div>
-	
-		
-		<div class="navbar navbar-inverse navbar-fixed-bottom footer">
-			<div class="container">
-				<p class="txtstyle navbar-text pull-left">L3S Research Center-Hanover</p>
-				<a class="navbar-btn btn-default btn pull-right" href="http://www.l3s.de/en/home/">L3S Homepage</a>
-			</div>
-		 </div>
-		 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-		 <script src="js/bootstrap.min.js"></script>
+	<div id="iframe-box">
+		<h1>IFRAME showing content from the SDO</h1>		 		
+		<iframe name='myiframe' id='myiframe' src='http://data-observatory.org/dataset_crawler/index.php' style='position:absolute; top:0px; left:0px; width:100%; height:100%; z-index:999' onload='sendParams();' frameborder='no'>
+</iframe>
+
+  	</div>
+</iframe>`
 	</body>
 </html>
