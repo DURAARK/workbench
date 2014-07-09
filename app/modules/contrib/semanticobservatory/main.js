@@ -21,15 +21,6 @@ define([
             // First create the Model classes:
             var SemObsModel = Backbone.Model.extend({                
                 urlRoot: "/services/semobs", //no way to do this directly??
-                //urlRoot: "http://asev.l3s.uni-hannover.de:3000/sdoinfo", //error!
-                // placeholder if the above is down: 
-                //urlRoot: "https://dl.dropboxusercontent.com/u/985282/sdoinfo.json", //works perfectly!
-                //urlRoot: "https://dl.dropboxusercontent.com/u/985282/sdoinfo",      //works perfectly!          
-
-                // url: function() {
-                //     return this.urlRoot;
-                // }
-
             });
 
           
@@ -48,7 +39,12 @@ define([
                 // callback it is guaranteed the the data from the server is received and the model is accessible:
                 //WorkbenchUI.fetchModel(BuildmModel, 1).then(function(model) {
                 WorkbenchUI.fetchModel(SemObsModel,"List").then(function(model) {
-                    console.log("inside fetchmode..then()");
+                    if(typeof model=="undefined"){
+			//TODO: get this -- or something similiar -- to work..
+                        document.getElementById("semobs-region").innerHTML = 'No meaningful result from endpoint. Maybe the endpoint is down?';
+	            	alert('No meaningful result from endpoint. Maybe the endpoint is down?');
+                    };    
+                    //console.log("inside fetchmode..then()");
                     MyModule._mainView.updateBuildmData(model);
                 });
 
@@ -63,6 +59,11 @@ define([
                 
                 //*** TODO: / //FIXME: security..
                 WorkbenchUI.fetchModel(SemObsModel,"Search=" + aSearchterm).then(function(model) { //search uses: fulltextQuery=Kamille&start=0&count=10
+                if(typeof model=="undefined"){
+                    //TODO: get this -- or something similiar -- to work..
+                    window.document.getElementById("semobs-region").innerHTML = 'No meaningful result from endpoint. Maybe the endpoint is down?';
+                    alert('No meaningful result from endpoint. Maybe the endpoint is down?');
+                };                    
                     MyModule._mainView.updateBuildmData(model);
                 });
 

@@ -36,15 +36,21 @@ define([
                 // Use the WorkbenchUI.fetchModel() method here to grab the model with id 1. In the 'then' function 
                 // callback it is guaranteed the the data from the server is received and the model is accessible:
                 //WorkbenchUI.fetchModel(BuildmModel, 1).then(function(model) {
-                WorkbenchUI.fetchModel(SemObsModel,"start=0&count=10").then(function(model) {              
+                WorkbenchUI.fetchModel(SemObsModel,"start=0&count=10").then(function(model) {
+                    if(typeof model=="undefined"){
+                        alert('No meaningful result from endpoint. Maybe the endpoint is down?');
+                    };                  
                     MyModule._mainView.updateBuildmData(model);
                 });
 
             } else {
                 console.log("==> This is the else zone!!");
-                
+
                 //*** TODO: / //FIXME: security..
                 WorkbenchUI.fetchModel(SemObsModel,"fulltextQuery=" + aSearchterm + "&start=0&count=10").then(function(model) { //search uses: fulltextQuery=Kamille&start=0&count=10
+                    if(typeof model=="undefined"){
+                        alert('No meaningful result from endpoint. Maybe the endpoint is down?');
+                    };    
                     MyModule._mainView.updateBuildmData(model);
                 });
 
