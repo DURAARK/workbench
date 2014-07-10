@@ -57,11 +57,12 @@ define([
                 
                 //*** TODO: / //FIXME: security..
                 WorkbenchUI.fetchModel(SemObsModel,"Search=" + aSearchterm).then(function(model) { //search uses: fulltextQuery=Kamille&start=0&count=10
-                if(typeof model=="undefined"){
-                    //TODO: get this -- or something similiar -- to work..
-                    //window.document.getElementById("semobs-region").innerHTML = 'No meaningful result from endpoint. Maybe the endpoint is down?';
-                    alert('Problem. Maybe the endpoint is down?');
-                };                    
+                    if(typeof model=== "undefined"){
+                        //TODO: get this -- or something similiar -- to work..
+                        //window.document.getElementById("semobs-region").innerHTML = 'No meaningful result from endpoint. Maybe the endpoint is down?';
+                        //alert('[1] Problem. Maybe the endpoint is down?');
+                        console.log('[1] Problem. Maybe the endpoint is down?');
+                    };                    
                     MyModule._mainView.updateBuildmData(model);
                 });
 

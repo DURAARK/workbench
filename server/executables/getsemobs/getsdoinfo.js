@@ -43,7 +43,7 @@ http.get(options, function(res) {
 		body=body.replace(/\\\"/gm, "\"");  //no extra escape characters, please
 	}
 	//fs.writeFileSync('/home/dagedv/2nd_workbench-app/workbench-app/server/debug/sdo_' + new Date().toISOString() + '.json', body); 
-        fs.writeFileSync('debug_sdo_search.json', body); //TODO: remove after debugged NB NB Identify underlying problem, some timing issue????
+        //fs.writeFileSync('debug_sdo_search.json', body); //TODO: remove after debugged NB NB Identify underlying problem, some timing issue????
     	console.log(body);
   });
 }).on('error', function(e) {
