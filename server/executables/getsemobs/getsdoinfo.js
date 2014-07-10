@@ -37,7 +37,7 @@ http.get(options, function(res) {
 	if(gotSearch){    
 		var ja = JSON.parse(body);
 	    	var son = ja.results.bindings; //we only want the results.bindings part
-		son = son.slice(0, 10); //FIXME: attempt to see if possible timing problem is amended by shorter array?????
+		son = son.slice(0, 10); //FIXME: attempt to see if possible timing problem is amended by shorter array????? It works, but exactly why? The data arrives byte by byte correctly, something with reading from standard out?
 	    	var astring = JSON.stringify(son); 
 		body = astring;
 		body=body.replace(/\\\"/gm, "\"");  //no extra escape characters, please
