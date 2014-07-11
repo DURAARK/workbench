@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- konfigurationsfil för eARD sipgenerator--><!--Skapad av Göran Lindqvist--><!--LDB-Centrum | LTU--><eARD_sip>
-	<uid>UUID:error</uid>
+	<uid>UUID:6e2e1358-f979-4c1d-afb3-09635b575370</uid>
 	<a/>
 	<katSystem>server/executables/sipgen/SIP_Generator/built/system</katSystem>
 	<katMetadata>server/executables/sipgen/SIP_Generator/built/metadata</katMetadata>
@@ -12,11 +12,11 @@
 	<hashSumType>md5</hashSumType>
 	<md5Lista/>
 	<config_db>
-		<!--MySQL -->
-		<jdbcreg01>com.mysql.jdbc.Driver</jdbcreg01>
-		<url01>jdbc:mysql://localhost:3306/sip_db</url01>
-		<user01>root</user01>
-		<pw01>rishe</pw01>
+		<!--sqlite -->
+		<jdbcreg01>org.sqlite.JDBC</jdbcreg01> <!-- used by Class.forName(..) original = com.mysql.jdbc.Driver -->
+		<url01>jdbc:sqlite:sip_db.db</url01> <!-- original:  jdbc:mysql://localhost:3306/sip_db -->
+		<user01/><!-- original: root -->
+		<pw01/><!-- original: rishe -->
 	</config_db>
 	<!--Config för droidning -->
 	<config_filanalys>
