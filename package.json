@@ -117,7 +117,7 @@
         "command": {
           "name": "python3",
           "options": "./server/executables/ifcm_extractor_dummy.py",
-          "input": "./server/fixtures/Duplex_A_20110907_optimized.ifc"
+          "input": "./server/fixtures/repository/Duplex_A_20110907_optimized.ifc"
         },
         "handler": "ifcm"
       }
