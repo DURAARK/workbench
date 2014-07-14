@@ -101,6 +101,17 @@
       }
     },
     {
+      "id": "/services/semanticenrichment",
+      "interface": {
+        "command": {
+          "name": "node",
+          "options": "./server/executables/ifcEnrichment/ifcEnrichmentListReader.js",
+          "input": "./server/output/enrichmentTriples.txt"
+        },
+        "handler": "semanticenrichment"
+      }
+    },
+    {
       "id": "/services/probado",
       "interface": {
         "command": {
