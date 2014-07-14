@@ -1,36 +1,10 @@
-/*define([
-	'backbone.marionette',
-	'workbenchui',
-	'hbs!./templates/main'
-], function(Marionette, WorkbenchUI, MainViewTmpl) {
-	var MainView = Marionette.ItemView.extend({
-		template: MainViewTmpl,
-
-		events: {
-			'click .js-upload': function() {
-				console.log('upload clicked');
-				alert('Rosetta-SIP generated and uploaded to Rosetta!');
-				WorkbenchUI.vent.trigger('module:searchandretrieve:show');
-			},
-			'click .js-previous': function() {
-				console.log('previous');
-				WorkbenchUI.vent.trigger('module:semanticenrichment:show');
-			}
-		}
-	});
-
-	return MainView;
-});*/
-
-//============================================================0
-
 define([
     'backbone.marionette',
     'workbenchui',
     'hbs!./templates/main',
     'hbs!./templates/list-item',
     'hbs!./templates/list-collection'
-], function(Marionette, WorkbenchUI, SemanticObservatoryTmpl, ListItemTmpl, TableTmpl) {
+], function(Marionette, WorkbenchUI, SipGeneratorTmpl, ListItemTmpl, TableTmpl) {
     // Represents on list item:
     var ListItemView = Backbone.Marionette.ItemView.extend({        
         template: ListItemTmpl,
@@ -39,7 +13,7 @@ define([
             "click td": "cellClicked"
         },
         initialize: function(options) {
-            console.log("options.myTableView = " + options.myTableView );         
+            //console.log("options.myTableView = " + options.myTableView );         
         },
 
 
@@ -65,19 +39,19 @@ define([
 
     // Represents the main page, including the TableView in the 'list' region when the 'onShow' method is called:
     var MainView = Backbone.Marionette.Layout.extend({
-        template: SemanticObservatoryTmpl,
+        template: SipGeneratorTmpl,
 
         regions: {
             sipgen: "#sipgen-region" 
         },
 
         events: {
-        	'click .js-search': function() {   //TODO -- remove this one??
-                //Show spinner while we wait for search results from Probado             
-                document.getElementById("sipgen-region").innerHTML = '<img src="spinner.gif" alt="spinner"><p>Waiting for webservice to provide fresh info</p>';
-                var aSearchterm = $("#searchstringinput").val();
-                WorkbenchUI.vent.trigger('module:sipgenerator:show', aSearchterm);
-            },         
+        	// 'click .js-search': function() {   //TODO -- remove this one??
+         //        //Show spinner while we wait for search results from Probado             
+         //        document.getElementById("sipgen-region").innerHTML = '<img src="spinner.gif" alt="spinner"><p>Waiting for webservice to provide fresh info</p>';
+         //        var aSearchterm = $("#searchstringinput").val();
+         //        WorkbenchUI.vent.trigger('module:sipgenerator:show', aSearchterm);
+         //    },         
 			'click .js-upload': function() {
 				console.log('upload clicked');
 				alert('Rosetta-SIP generated and uploaded to Rosetta!');
@@ -96,7 +70,7 @@ define([
 
         updateBuildmData: function(model) {
             this.sipgen.show(new TableView({
-                collection: this._modelToCollection(model)
+                collection: this._modelToCollection(model) //** TODO: add static placeholde model containg SIP file info here
             }));
         },
 

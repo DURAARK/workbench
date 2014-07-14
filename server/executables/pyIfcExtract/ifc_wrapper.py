@@ -12,7 +12,7 @@ if version_info >= (2,6,0):
         import os, platform
         dn = os.path.dirname(__file__)
         if os.path.exists(os.path.join(dn, 'lib')):
-            dn = os.path.join(dn, 'lib', platform.system(), platform.architecture()[0])
+            dn = os.path.join(dn, 'lib', platform.python_version(), platform.system(), platform.architecture()[0])
         return dn
     def swig_import_helper():
         import imp
