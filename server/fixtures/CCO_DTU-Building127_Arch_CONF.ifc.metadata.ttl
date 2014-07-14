@@ -1,0 +1,26 @@
+@prefix dbpedia-owl: <http://dbpedia.org/ontology/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix geo-pos: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix dbp-prop: <http://dbpedia.org/property/> .
+@prefix duraark: <http://duraark.eu/voabularies/buildm#> .
+@prefix qudt: <http://www.qudt.org/qudt/owl/1.0.0/unit/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<project_a8346b197cc64f00a35f228897de4f71> duraark:object_identifier "2eD6iPVCPF0ADV8eYNtazn"^^xsd:string .
+<project_a8346b197cc64f00a35f228897de4f71> foaf:name "DTU 127"^^xsd:string .
+<project_a8346b197cc64f00a35f228897de4f71> dbp-prop:startDate "1970-01-01 01:00:00"^^xsd:date .
+<project_a8346b197cc64f00a35f228897de4f71> dbpedia-owl:buildingStartYear "1970-01-01 01:00:00"^^xsd:date .
+<project_a8346b197cc64f00a35f228897de4f71> duraark:length_unit "MILLIMETRE"^^xsd:string .
+<project_a8346b197cc64f00a35f228897de4f71> duraark:authoring_tool "Autodesk Revit 2013 Autodesk Revit 2013 2013"^^xsd:string .
+<project_a8346b197cc64f00a35f228897de4f71> duraark:authoring_tool "Eindhoven University of Technology ifcspfrdfcat 0.01a"^^xsd:string .
+<project_a8346b197cc64f00a35f228897de4f71> foaf:based_near [ geo-pos:lat "55.68300000" ; geo-pos:lon "12.55000000" ] .
+<project_a8346b197cc64f00a35f228897de4f71> duraark:floor_count "8"^^xsd:integer .
+<project_a8346b197cc64f00a35f228897de4f71> duraark:room_count "55"^^xsd:integer .
+<project_a8346b197cc64f00a35f228897de4f71> dbpedia-owl:address "Lyngby"^^xsd:string .
+<project_a8346b197cc64f00a35f228897de4f71> dc:creator "Morten Jensen"^^xsd:string .
+<project_a8346b197cc64f00a35f228897de4f71> duraark:enrichment_vocabulary "http://dbpedia.org/property"^^xsd:string .
+<project_a8346b197cc64f00a35f228897de4f71> duraark:enrichment_vocabulary "http://sws.geonames.org"^^xsd:string .
+<project_a8346b197cc64f00a35f228897de4f71> duraark:enrichment_vocabulary "http://vocab.getty.edu/aat"^^xsd:string .
+<project_a8346b197cc64f00a35f228897de4f71> duraark:enrichment_vocabulary "http://vocab.getty.edu/ontology"^^xsd:string .

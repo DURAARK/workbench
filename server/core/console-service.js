@@ -2,8 +2,9 @@ var spawn = require('child_process').spawn,
     path = require('path');
 
 
-var ConsoleService = module.exports = function(opts, logger) {
-    this.opts = opts;
+var ConsoleService = module.exports = function(opts, sessionManager, logger) {
+    this.opts = opts.interface.command;
+    this._sessionManager = sessionManager;
 
     this.log = logger;
     if (!this.log) {
@@ -11,21 +12,30 @@ var ConsoleService = module.exports = function(opts, logger) {
     }
 }
 
+ConsoleService.prototype.getSessionManager = function() {
+    return this._sessionManager;
+};
+
 ConsoleService.prototype.findById = function(req, res) {
     // this.log.info('', '[ConsoleService::findById] Query ID: "%s"', req.params.id);
 
     var id = req.params['id'],
         inputparam = null;
 
-    console.log('==> ConsoleService.prototype.findById and id==' + id);
+    // if (this.opts.input) {
+    //     inputparam = this.opts.input;
+    // } else {
+    //     // FIXXME: ask SessionManager for the filename corresponding to the id:
+    //     inputparam = '/usr';
+    // }
 
-    if (this.opts.input) {
-        inputparam = this.opts.input;
-    } else {
-        // FIXXME: ask SessionManager for the filename corresponding to the id:
-        inputparam = id; //'/usr'; //** FIXME: This is supergreat for security, never sanitize user input, we need more trust in the world (wide web)!
-    }
-    //console.log('SessionManager=' + SessionManager); //***
+    var file_path = this.getSessionManager().getFileInfo(req.params.id).path;
+
+    this.getSessionManager().dump();
+
+    console.log('working on: ' + file_path);
+    inputparam = file_path;
+
     // If the command starts with './' we resolve to the absolute path:
     var exec_path = this.opts.name;
     if (this.opts.name.indexOf('./') === 0) {

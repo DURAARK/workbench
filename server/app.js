@@ -14,15 +14,18 @@ var multipart = require("multipart");
 var ServiceProviderMixin = require('./core/service-provider-mixin/index.js');
 var _config = require(__dirname + '/../package.json');
 var Workbench = require('./core/workbench');
+var SessionManager = require('./core/session-manager');
+
 /* ----------------------------------------------------------------------------
  * Webserver setup
  * --------------------------------------------------------------------------*/
 
 var formidable = require('formidable'),
     http = require('http'),
-    util = require('util')     ;
+    util = require('util');
 
-var app = express();
+var app = express(),
+    sessionManager = new SessionManager();
 
 app.configure(function() {
     app.set('port', process.env.PORT || 3000);
@@ -33,7 +36,10 @@ app.configure(function() {
 
 
 //for file upload
- app.use(express.bodyParser( {uploadDir: path.join(__dirname, '../server/uploads'), keepExtensions: true } )); //puts the parsed body in req.body
+app.use(express.bodyParser({
+    uploadDir: path.join(__dirname, '../server/uploads'),
+    keepExtensions: true
+})); //puts the parsed body in req.body
 
 
 // mount static
@@ -43,15 +49,16 @@ app.use(express.static(path.join(__dirname + '../app/modules/contrib/sdo')));
 
 
 //TODO: make ajaxy
-app.post('/upload',function(req,res){
+app.post('/upload', function(req, res) {
     console.log('FIRST TEST: ' + JSON.stringify(req.files));
-    console.log('second TEST: ' +req.files.theFile.name);
-    fs.readFile(req.files.theFile.path, function (err, data) {
-        var newPath = "/home/dagedv/Skrivebord/stuff/"+req.files.theFile.name;
-        fs.writeFile(newPath, data, function (err) {
-          res.send('/ POST OK');
-        });
-    });
+    console.log('second TEST: ' + req.files.theFile.name);
+
+    for (var idx = 0; idx < Object.keys(req.files).length; idx++) {
+        var key = Object.keys(req.files)[idx];
+        var file_info = req.files[key];
+
+        sessionManager.addFile(file_info);
+    };
 });
 
 // start server
@@ -66,5 +73,8 @@ http.createServer(app).listen(app.get('port'), function() {
 
 var app = new Workbench({
     router: app,
-    config: '../package.json'
+    config: '../package.json',
+    sessionManager: sessionManager
 });
+
+console.log('Started server on port: ' + (process.env.PORT || 3000));
