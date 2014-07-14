@@ -10,7 +10,8 @@
         "underscore": "~1.4.4",
         "npmlog": "~0.1.0",
         "multipart": "~0.1.5",
-        "formidable": "~1.0.15"
+        "formidable": "~1.0.15",
+        "mysql": "~2.4.0"
     },
     "devDependencies": {
         "grunt": "~0.4.1",
@@ -118,6 +119,11 @@
         "id": "/services/session",
         "interface": {
             "handler": "session-manager"
+        }
+    }, {
+        "id": "/services/sdoinfo",
+        "interface": {
+            "handler": "sdoinfo/sdoinfo"
         }
     }],
     "app": {
