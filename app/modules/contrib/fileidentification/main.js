@@ -17,13 +17,21 @@ define([
         WorkbenchUI.vent.on('module:fileidentification:show', function(region) {
             console.log('module:fileidentification:show');
 
-
-
-            // First create the Model classes:
             var FileIdModel = Backbone.Model.extend({
-                urlRoot: "/services/fileid"
-            });
+                urlRoot: "/services/fileid",
 
+                // initialize: function() {
+                //     this.bind("change:format", function() {
+                //         console.log('format: ' + this.get('format'));
+                //         if (this.get('format') === 'fmt/643') {
+                //             this.set('formatString', 'E57 (pointcloud format)');
+                //             this.set('valid', true);
+                //         } else {
+                //             this.set('valid', false);
+                //         }
+                //     }.bind(this));
+                // }
+            });
 
             if (!MyModule._mainView) {
                 // Create emtpy main view and show it:
@@ -37,8 +45,7 @@ define([
 
                 // Use the WorkbenchUI.fetchModel() method here to grab the model with id 1. In the 'then' function 
                 // callback it is guaranteed the the data from the server is received and the model is accessible:
-                WorkbenchUI.fetchModel(FileIdModel, 2).then(function(model) {
-                    console.log('=== model : ' + JSON.stringify(model));
+                WorkbenchUI.fetchModel(FileIdModel, 0).then(function(model) {
                     MyModule._mainView.updateBuildmData(model);
                 });
 

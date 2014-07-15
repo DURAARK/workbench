@@ -1,11 +1,9 @@
 var SessionManager = require('./session-manager'),
+    FileIdentifier = require('./file-identifier'),
     ServiceProviderMixin = require('./service-provider-mixin/index.js'),
     LoggerMixin = require('./logger-mixin'),
     _ = require('underscore'),
-    express = require('express'),
-    path = require('path'),
-    formidable = require('formidable'),
-    fs = require('fs');
+    path = require('path');
 
 var Workbench = module.exports = function(opts) {
     this._config = require(__dirname + '/../' + opts.config);
@@ -14,10 +12,16 @@ var Workbench = module.exports = function(opts) {
     this._router = opts.router;
     this.log = opts.logger;
 
-    this._sessionManager = new SessionManager();
+    this._sessionManager = new SessionManager({
+        appRoot: this._appRoot
+    });
+
+    this._fileIdentifier = new FileIdentifier({
+        appRoot: this._appRoot
+    });
 
     ServiceProviderMixin.call(this, this._router, {
-        sessionManager: opts.sessionManager,
+        sessionManager: this.sessionManager,
         appRoot: this._appRoot
     }, this.log);
 
@@ -31,6 +35,7 @@ var Workbench = module.exports = function(opts) {
 
     this.registerUploadService();
     this.registerNewSessionService();
+    this.registerFileIdService();
     this.registerEndpoints(this._config.services);
 }
 
@@ -45,13 +50,35 @@ Workbench.prototype.addSession = function(config) {
         files: []
     };
 
-    this._sessions.push(session);
-
     if (session.options.demo_mode) {
-        this._sessionManager.addFile({});
+        this.addDemoFiles(session);
     }
 
+    this._sessions.push(session);
+
     return session;
+};
+
+Workbench.prototype.addDemoFiles = function(session) {
+    this._sessionManager.addFile({
+        name: 'CCO_DTU-Building127_Arch_CONF.ifc',
+        path: path.join(this._appRoot, 'fixtures/repository/CCO_DTU-Building127_Arch_CONF.ifc'),
+        type: 'ifc'
+    });
+
+    this._sessionManager.addFile({
+        name: 'CCO_DTU-Building127_Arch_CONF.e57',
+        path: path.join(this._appRoot, 'fixtures/repository/CCO_DTU-Building127_Arch_CONF.e57'),
+        type: 'e57'
+    });
+
+    this._sessionManager.addFile({
+        name: 'CCO_DTU-Building127_Arch_CONF.ttl',
+        path: path.join(this._appRoot, 'fixtures/repository/CCO_DTU-Building127_Arch_CONF.ttl'),
+        type: 'rdf'
+    });
+
+    session.files = this._sessionManager.getInfos();
 };
 
 Workbench.prototype.sessionManager = function() {
@@ -83,38 +110,45 @@ Workbench.prototype.registerNewSessionService = function() {
     }.bind(this));
 };
 
+Workbench.prototype.registerFileIdService = function() {
+    this._router.get('/services/fileid', function(req, res) {
+        res.json(this._sessions);
+    }.bind(this));
+
+    this._router.get('/services/fileid/:id', function(req, res) {
+        console.log('identification: asdflkjasdlfkjasdfasdf');
+        var id = req.param('id');
+        if (id < this._sessions.length) {
+            var files = this._sessions[id].files;
+            if (files.length) {
+                var e57_file = _.find(files, function(file) {
+                    return file.type === 'e57'
+                });
+
+                this._fileIdentifier.identify(e57_file.path, function(info) {
+                    info.format = info.format.replace(/(\r\n|\n|\r)/gm, "");
+
+                    if (info.format === 'fmt/643') {
+                        info['valid'] = true;
+                        info['formatString'] = 'E57 (pointcloud)';
+                    } else {
+                        info['valid'] = false;
+                    }
+
+                    res.send(info);
+                })
+            } else {
+                // FIXXME: return proper status code!
+                res.send({});
+            }
+        } else {
+            res.status(404).send('No session with id "' + id + '" is found');
+        }
+    }.bind(this));
+};
+
 Workbench.prototype.registerUploadService = function() {
     this._router.post('/upload', function(req, res) {
-        var form = new formidable.IncomingForm();
-        form.keepExtensions = true;
-        form.uploadDir = path.join(this._appRoot, '../server/uploads');
-
-        form.on('file', function(field, file) {
-            //var dest_path = path.join(form.uploadDir, file.name);
-            //fs.rename(file.path, dest_path);
-
-            this._sessionManager.addFile({
-                name: file.name,
-                path: file.path
-            });
-        }.bind(this));
-
-        form.on('error', function(err) {
-            console.log('[Workbench] An error has occured with form upload');
-            console.log(err);
-            req.resume();
-        })
-
-        form.on('aborted', function(err) {
-            console.log('[Workbench] User aborted upload');
-        });
-
-        form.on('end', function() {
-            console.log('[Workbench] upload done');
-        });
-
-        form.parse(req, function() {
-            // console.log('parsed')
-        });
+        this._sessionManager.handleUpload(req, res);
     }.bind(this));
 };

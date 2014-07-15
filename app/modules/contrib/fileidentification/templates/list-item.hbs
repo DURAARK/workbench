@@ -1,3 +1,9 @@
-<td>{{value.key}}</td> 
-<td>{{value.value}}</td>
+<td>{{name}}</td> 
+{{#if valid}}
+<td class="success">{{formatString}}</td>
+{{else}}
+<td class='error'>INVALID FILE</td>
+{{/if}}
+
+
 

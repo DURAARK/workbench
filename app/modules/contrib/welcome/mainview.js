@@ -32,7 +32,7 @@ define([
                     console.log(session.toJSON());
 
                     if (session.get('options').demo_mode) {
-                        WorkbenchUI.vent.trigger('module:metadataextractor:show');
+                        WorkbenchUI.vent.trigger('module:fileidentification:show');
                     } else {
                         WorkbenchUI.vent.trigger('module:sessionmanager:show');
                     }
