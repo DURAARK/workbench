@@ -23,13 +23,13 @@ define([
                 urlRoot: "/services/buildm"
             });
 
-            var IfcmModel = Backbone.Model.extend({
-                urlRoot: "/services/ifcm"
-            });
+            // var IfcmModel = Backbone.Model.extend({
+            //     urlRoot: "/services/ifcm"
+            // });
 
-            var E57mModel = Backbone.Model.extend({
-                urlRoot: "/services/e57m"
-            });
+            // var E57mModel = Backbone.Model.extend({
+            //     urlRoot: "/services/e57m"
+            // });
 
             if (!MyModule._mainView) {
                 // Create emtpy main view and show it:
@@ -43,17 +43,18 @@ define([
 
                 // Use the WorkbenchUI.fetchModel() method here to grab the model with id 1. In the 'then' function 
                 // callback it is guaranteed the the data from the server is received and the model is accessible:
-                WorkbenchUI.fetchModel(BuildmModel, 1).then(function(model) {
+                // FIXXME: the session id is hardcoded for the moment!
+                WorkbenchUI.fetchModel(BuildmModel, 0).then(function(model) {
                     MyModule._mainView.updateBuildmData(model);
                 });
 
-                WorkbenchUI.fetchModel(IfcmModel, 1).then(function(model) {
-                    MyModule._mainView.updateIfcmData(model);
-                });
+                // WorkbenchUI.fetchModel(IfcmModel, 1).then(function(model) {
+                //     MyModule._mainView.updateIfcmData(model);
+                // });
 
-                WorkbenchUI.fetchModel(E57mModel, 1).then(function(model) {
-                    MyModule._mainView.updateE57mData(model);
-                });
+                // WorkbenchUI.fetchModel(E57mModel, 1).then(function(model) {
+                //     MyModule._mainView.updateE57mData(model);
+                // });
             } else {
                 if (typeof region !== 'undefined') {
                     region.show(MyModule._mainView);

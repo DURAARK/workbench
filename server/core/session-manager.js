@@ -4,6 +4,8 @@ var path = require('path'),
 var SessionManager = module.exports = function(opts) {
     this._appRoot = opts.appRoot;
     this._fileInfos = [];
+    // FIXXME: create and manage inside here!
+    this._sessions = opts.sessions;
 }
 
 SessionManager.prototype.addFile = function(file_info) {
@@ -19,6 +21,10 @@ SessionManager.prototype.addFile = function(file_info) {
         type: file_info.type
     });
 }
+
+SessionManager.prototype.getSessions = function() {
+    return this._sessions;
+};
 
 SessionManager.prototype.getFileInfo = function(id) {
     console.log('[SessionManager::getFileInfo] id: ' + id);

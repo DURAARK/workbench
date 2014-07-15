@@ -10,6 +10,23 @@ var BuildmIFC = module.exports = function(opts, logger) {
 }
 _.extend(BuildmIFC.prototype, ConsoleService.prototype);
 
+BuildmIFC.prototype.selectFile = function(session_id) {
+    var sessions = this.getSessionManager().getSessions();
+
+    if (session_id < sessions.length) {
+
+        var ifc_file = _.find(sessions[session_id].files, function(file) {
+            return file.type === 'ifc'
+        });
+
+        console.log('[BuildmIFC::selectFile] selected file: ' + ifc_file.path);
+
+        return ifc_file.path;
+    } else {
+        return null;
+    }
+};
+
 BuildmIFC.prototype.onStdErr = function(data, res) {
     console.log('[BuildmIFC:onStdErr] \n' + data.toString());
 
@@ -27,5 +44,7 @@ BuildmIFC.prototype.onStdOut = function(data, res) {
     console.log('[BuildmIFC:onStdOut] data: ' + JSON.stringify(data.toString()));
 
     // Simply return the json string given in the output:
-    res.send(JSON.stringify({rdf:data.toString()}));
+    res.send(JSON.stringify({
+        rdf: data.toString()
+    }));
 }

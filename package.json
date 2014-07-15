@@ -1,162 +1,150 @@
 {
-  "name": "workbench",
-  "version": "0.0.1",
-  "dependencies": {
-    "request": "~2.21.0",
-    "async": "~0.2.8",
-    "baucis": "~0.4.6",
-    "express-hbs": "~0.2.0",
-    "underscore": "~1.4.4",
-    "npmlog": "~0.1.0",
-    "multipart": "~0.1.5",
-    "formidable": "~1.0.15",
-    "mysql": "~2.4.0",
-    "connect-busboy": "0.0.1",
-    "express": "~4.6.1",
-    "body-parser": "~1.4.3"
-  },
-  "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-copy": "~0.4.0",
-    "grunt-contrib-concat": "~0.2.0",
-    "grunt-contrib-coffee": "~0.6.6",
-    "grunt-contrib-handlebars": "~0.5.8",
-    "grunt-contrib-uglify": "~0.2.0",
-    "grunt-contrib-compass": "~0.2.0",
-    "grunt-contrib-jshint": "~0.4.3",
-    "grunt-contrib-cssmin": "~0.6.0",
-    "grunt-contrib-connect": "0.3.0",
-    "grunt-contrib-clean": "0.4.0",
-    "grunt-contrib-htmlmin": "0.1.3",
-    "grunt-contrib-imagemin": "0.1.4",
-    "grunt-contrib-livereload": "0.1.2",
-    "grunt-mocha": "~0.3.1",
-    "grunt-bower-requirejs": "~0.4.1",
-    "grunt-usemin": "~0.1.10",
-    "grunt-requirejs": "~0.4.0",
-    "grunt-open": "~0.2.0",
-    "grunt-express-server": "~0.4.1",
-    "matchdep": "~0.1.2",
-    "mocha-phantomjs": "~3.1.0",
-    "jshint-stylish": "~0.1.3",
-    "grunt-exec": "~0.4.2",
-    "grunt-contrib-watch": "~0.4.4",
-    "time-grunt": "~0.1.1"
-  },
-  "engines": {
-    "node": ">=0.8.0"
-  },
-  "services": [
-    {
-      "id": "/services/fileid",
-      "interface": {
-        "command": {
-          "name": "node",
-          "options": "./server/executables/droid/shelldroid.js",
-          "input": ""
-        },
-        "handler": "fileid"
-      }
+    "name": "workbench",
+    "version": "0.0.1",
+    "dependencies": {
+        "request": "~2.21.0",
+        "async": "~0.2.8",
+        "baucis": "~0.4.6",
+        "express-hbs": "~0.2.0",
+        "underscore": "~1.4.4",
+        "npmlog": "~0.1.0",
+        "multipart": "~0.1.5",
+        "formidable": "~1.0.15",
+        "mysql": "~2.4.0",
+        "connect-busboy": "0.0.1",
+        "express": "~4.6.1",
+        "body-parser": "~1.4.3"
     },
-    {
-      "id": "/command/list",
-      "interface": {
-        "command": {
-          "name": "ping",
-          "options": "-t -n 1",
-          "input": "localhost"
-        },
-        "handler": "listcommand"
-      }
+    "devDependencies": {
+        "grunt": "~0.4.1",
+        "grunt-contrib-copy": "~0.4.0",
+        "grunt-contrib-concat": "~0.2.0",
+        "grunt-contrib-coffee": "~0.6.6",
+        "grunt-contrib-handlebars": "~0.5.8",
+        "grunt-contrib-uglify": "~0.2.0",
+        "grunt-contrib-compass": "~0.2.0",
+        "grunt-contrib-jshint": "~0.4.3",
+        "grunt-contrib-cssmin": "~0.6.0",
+        "grunt-contrib-connect": "0.3.0",
+        "grunt-contrib-clean": "0.4.0",
+        "grunt-contrib-htmlmin": "0.1.3",
+        "grunt-contrib-imagemin": "0.1.4",
+        "grunt-contrib-livereload": "0.1.2",
+        "grunt-mocha": "~0.3.1",
+        "grunt-bower-requirejs": "~0.4.1",
+        "grunt-usemin": "~0.1.10",
+        "grunt-requirejs": "~0.4.0",
+        "grunt-open": "~0.2.0",
+        "grunt-express-server": "~0.4.1",
+        "matchdep": "~0.1.2",
+        "mocha-phantomjs": "~3.1.0",
+        "jshint-stylish": "~0.1.3",
+        "grunt-exec": "~0.4.2",
+        "grunt-contrib-watch": "~0.4.4",
+        "time-grunt": "~0.1.1"
     },
-    {
-      "id": "/metadata/ifc",
-      "interface": {
-        "command": {
-          "name": "./server/executables/metadataextractor-ifc.bat",
-          "options": "",
-          "input": "./server/fixtures/building.ifc",
-          "output": "./server/output/building.ifcm.rdf"
-        },
-        "handler": "metadataextractor-ifc"
-      }
+    "engines": {
+        "node": ">=0.8.0"
     },
-    {
-      "id": "/services/buildm",
-      "interface": {
-        "command": {
-          "name": "d:/Projekte/duraark/devspace/projects/workbench-app/server/executables/python-3.2.5.1/App/python.exe",
-          "options": "./server/executables/pyIfcExtract/buildm_extractor.py",
-          "input": "./server/fixtures/repository/Duplex_A_20110907_optimized.ifc"
-        },
-        "handler": "buildm-ifc"
-      }
-    },
-    {
-      "id": "/services/semobs",
-      "interface": {
-        "command": {
-          "name": "node",
-          "options": "./server/executables/getsemobs/getsdoinfo.js",
-          "input": ""
-        },
-        "handler": "semobs"
-      }
-    },
-    {
-      "id": "/services/semanticenrichment",
-      "interface": {
-        "command": {
-          "name": "node",
-          "options": "./server/executables/ifcEnrichment/ifcEnrichmentListReader.js",
-          "input": "./server/output/enrichmentTriples.txt"
-        },
-        "handler": "semanticenrichment"
-      }
-    },
-    {
-      "id": "/services/probado",
-      "interface": {
-        "command": {
-          "name": "node",
-          "options": "./server/executables/probado/probado-request.js",
-          "input": ""
-        },
-        "handler": "probado"
-      }
-    },
-    {
-      "id": "/services/ifcm",
-      "interface": {
-        "command": {
-          "name": "d:/Projekte/duraark/devspace/projects/workbench-app/server/executables/python-3.2.5.1/App/python.exe",
-          "options": "./server/executables/ifcm_extractor_dummy.py",
-          "input": "./server/fixtures/Duplex_A_20110907_optimized.ifc"
-        },
-        "handler": "ifcm"
-      }
-    },
-    {
-      "id": "/services/e57m",
-      "interface": {
-        "command": {
-          "name": "d:/Projekte/duraark/devspace/projects/workbench-app/server/executables/python-3.2.5.1/App/python.exe",
-          "options": "./server/executables/e57m_extractor_dummy.py",
-          "input": "./server/fixtures/dummy.e57"
-        },
-        "handler": "e57m"
-      }
-    },
-    {
-      "id": "/services/sdoinfo",
-      "interface": {
-        "handler": "sdoinfo/sdoinfo"
-      }
+    "services": [{
+        "id": "/services/fileid",
+        "interface": {
+            "command": {
+                "name": "node",
+                "options": "./server/executables/droid/shelldroid.js",
+                "input": ""
+            },
+            "handler": "fileid"
+        }
+    }, {
+        "id": "/command/list",
+        "interface": {
+            "command": {
+                "name": "ping",
+                "options": "-t -n 1",
+                "input": "localhost"
+            },
+            "handler": "listcommand"
+        }
+    }, {
+        "id": "/metadata/ifc",
+        "interface": {
+            "command": {
+                "name": "./server/executables/metadataextractor-ifc.bat",
+                "options": "",
+                "input": "./server/fixtures/building.ifc",
+                "output": "./server/output/building.ifcm.rdf"
+            },
+            "handler": "metadataextractor-ifc"
+        }
+    }, {
+        "id": "/services/buildm",
+        "interface": {
+            "command": {
+                "name": "d:/Projekte/duraark/devspace/projects/workbench-app/server/executables/python-3.2.5.1/App/python.exe",
+                "options": "./server/executables/pyIfcExtract/buildm_extractor.py"
+            },
+            "handler": "buildm-ifc"
+        }
+    }, {
+        "id": "/services/semobs",
+        "interface": {
+            "command": {
+                "name": "node",
+                "options": "./server/executables/getsemobs/getsdoinfo.js",
+                "input": ""
+            },
+            "handler": "semobs"
+        }
+    }, {
+        "id": "/services/semanticenrichment",
+        "interface": {
+            "command": {
+                "name": "node",
+                "options": "./server/executables/ifcEnrichment/ifcEnrichmentListReader.js",
+                "input": "./server/output/enrichmentTriples.txt"
+            },
+            "handler": "semanticenrichment"
+        }
+    }, {
+        "id": "/services/probado",
+        "interface": {
+            "command": {
+                "name": "node",
+                "options": "./server/executables/probado/probado-request.js",
+                "input": ""
+            },
+            "handler": "probado"
+        }
+    }, {
+        "id": "/services/ifcm",
+        "interface": {
+            "command": {
+                "name": "d:/Projekte/duraark/devspace/projects/workbench-app/server/executables/python-3.2.5.1/App/python.exe",
+                "options": "./server/executables/ifcm_extractor_dummy.py",
+                "input": "./server/fixtures/Duplex_A_20110907_optimized.ifc"
+            },
+            "handler": "ifcm"
+        }
+    }, {
+        "id": "/services/e57m",
+        "interface": {
+            "command": {
+                "name": "d:/Projekte/duraark/devspace/projects/workbench-app/server/executables/python-3.2.5.1/App/python.exe",
+                "options": "./server/executables/e57m_extractor_dummy.py",
+                "input": "./server/fixtures/dummy.e57"
+            },
+            "handler": "e57m"
+        }
+    }, {
+        "id": "/services/sdoinfo",
+        "interface": {
+            "handler": "sdoinfo/sdoinfo"
+        }
+    }],
+    "app": {
+        "settings": {
+            "testClientLoadingAndErrorRoutes": false
+        }
     }
-  ],
-  "app": {
-    "settings": {
-      "testClientLoadingAndErrorRoutes": false
-    }
-  }
 }

@@ -17,21 +17,20 @@ ConsoleService.prototype.getSessionManager = function() {
     return this._sessionManager;
 };
 
+ConsoleService.prototype.selectFile = function(session_id) {
+    throw Error('[ConsoleService::selectFile] IMPLEMENT IN DERIVED OBJECT!');
+};
+
 ConsoleService.prototype.findById = function(req, res) {
     // this.log.info('', '[ConsoleService::findById] Query ID: "%s"', req.params.id);
 
-    var id = req.params['id'],
+    var session_id = req.params['id'],
         inputparam = null;
 
-    // if (this.opts.input) {
-    //     inputparam = this.opts.input;
-    // } else {
-    //     // FIXXME: ask SessionManager for the filename corresponding to the id:
-    //     inputparam = '/usr';
-    // }
-
-    var file_info = this.getSessionManager().getFileInfo(req.params.id);
-    var file_path = file_info.path;
+    var file_path = this.selectFile(session_id);
+    if (!file_path) {
+        res.status(404).send('Could not find file');
+    }
 
     // this.getSessionManager().dump();
 

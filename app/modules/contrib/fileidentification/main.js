@@ -45,6 +45,7 @@ define([
 
                 // Use the WorkbenchUI.fetchModel() method here to grab the model with id 1. In the 'then' function 
                 // callback it is guaranteed the the data from the server is received and the model is accessible:
+                // FIXXME: the session id is hardcoded for the moment!
                 WorkbenchUI.fetchModel(FileIdModel, 0).then(function(model) {
                     MyModule._mainView.updateBuildmData(model);
                 });

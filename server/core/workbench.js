@@ -13,7 +13,8 @@ var Workbench = module.exports = function(opts) {
     this.log = opts.logger;
 
     this._sessionManager = new SessionManager({
-        appRoot: this._appRoot
+        appRoot: this._appRoot,
+        sessions: this._sessions
     });
 
     this._fileIdentifier = new FileIdentifier({
@@ -21,7 +22,7 @@ var Workbench = module.exports = function(opts) {
     });
 
     ServiceProviderMixin.call(this, this._router, {
-        sessionManager: this.sessionManager,
+        sessionManager: this._sessionManager,
         appRoot: this._appRoot
     }, this.log);
 
