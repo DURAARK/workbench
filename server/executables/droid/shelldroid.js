@@ -34,4 +34,4 @@ setTimeout(function() {
 
     terminal.stdin.write(aCommand + "\n");
     terminal.stdin.end();
-}, 1000);
+}, 10);
