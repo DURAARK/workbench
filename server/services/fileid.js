@@ -3,7 +3,6 @@ var ConsoleService = require('../core/console-service'),
     fs = require('fs'),
     path = require('path');
 
-console.log('=== Invoking fileid.js');
 var FileId = module.exports = function(opts, logger) {
     ConsoleService.call(this, opts, logger);
 

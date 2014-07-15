@@ -5,6 +5,7 @@ var spawn = require('child_process').spawn,
 var ConsoleService = module.exports = function(opts, sessionManager, logger) {
     this.opts = opts.interface.command;
     this._sessionManager = sessionManager;
+    this._appRoot = opts.appRoot;
 
     this.log = logger;
     if (!this.log) {
@@ -29,32 +30,38 @@ ConsoleService.prototype.findById = function(req, res) {
     //     inputparam = '/usr';
     // }
 
-    var file_path = this.getSessionManager().getFileInfo(req.params.id).path;
+    var file_info = this.getSessionManager().getFileInfo(req.params.id);
+    var file_path = file_info.path;
 
-    this.getSessionManager().dump();
+    // this.getSessionManager().dump();
 
-    console.log('working on: ' + file_path);
+    // console.log('working on: ' + file_path);
     inputparam = file_path;
 
     // If the command starts with './' we resolve to the absolute path:
     var exec_path = this.opts.name;
     if (this.opts.name.indexOf('./') === 0) {
-        // If the 'output_info.output' filename is not absolute it is appended to the 
-        // root path of the code repository:
+        // Append an relative executable path to the appRoot:
         if (path.resolve(this.opts.name) !== this.opts.name) {
-            var base_path = process.cwd(); // Returns the root path of the code repository
-            var exec_path = path.join(base_path, this.opts.name); // 
+            var exec_path = path.join(this._appRoot, '..', this.opts.name);
         }
     }
 
     var current_cwd = process.cwd(),
-        cwd = path.dirname(exec_path);
+        cwd = path.dirname(exec_path),
+        // FIXXME: distinct between a path as option and an ordinary option,
+        // so that the path can be made absolute to remove ambiguities!
+        // This works for our current use of the console-service, but will
+        // fail if a developer uses an ordinary option or a combination of
+        // path and option!
+        options = path.join(this._appRoot, '..', this.opts.options);
 
     process.chdir(cwd);
 
-    console.log('[ConsoleService::findById] about to spawn: ' + exec_path + ' ' + this.opts.options + ' ' + inputparam);
+    console.log('[ConsoleService::findById] running in directory: ' + cwd);
+    console.log('[ConsoleService::findById] about to spawn: ' + exec_path + ' ' + options + ' ' + inputparam);
 
-    var executable = spawn(exec_path, [this.opts.options, inputparam]);
+    var executable = spawn(exec_path, [options, inputparam]);
 
     executable.stdout.on('data', function(data) {
         process.chdir(current_cwd);

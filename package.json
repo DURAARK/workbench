@@ -79,7 +79,7 @@
         "id": "/services/buildm",
         "interface": {
             "command": {
-          "name": "python3",
+                "name": "python3",
                 "options": "./server/executables/pyIfcExtract/buildm_extractor.py",
                 "input": "./server/fixtures/repository/Duplex_A_20110907_optimized.ifc"
             },
@@ -96,21 +96,30 @@
             "handler": "semobs"
         }
     }, {
-      "id": "/services/probado",
-      "interface": {
-        "command": {
-          "name": "node",
-          "options": "./server/executables/probado/probado-request.js",
-          "input": ""
-        },
-        "handler": "probado"
-      }
-    },
-    {
+        "id": "/services/semanticenrichment",
+        "interface": {
+            "command": {
+                "name": "node",
+                "options": "./server/executables/ifcEnrichment/ifcEnrichmentListReader.js",
+                "input": "./server/output/enrichmentTriples.txt"
+            },
+            "handler": "semanticenrichment"
+        }
+    }, {
+        "id": "/services/probado",
+        "interface": {
+            "command": {
+                "name": "node",
+                "options": "./server/executables/probado/probado-request.js",
+                "input": ""
+            },
+            "handler": "probado"
+        }
+    }, {
         "id": "/services/ifcm",
         "interface": {
             "command": {
-          "name": "python3",
+                "name": "python3",
                 "options": "./server/executables/ifcm_extractor_dummy.py",
                 "input": "./server/fixtures/Duplex_A_20110907_optimized.ifc"
             },
@@ -120,7 +129,7 @@
         "id": "/services/e57m",
         "interface": {
             "command": {
-          "name": "python3",
+                "name": "python3",
                 "options": "./server/executables/e57m_extractor_dummy.py",
                 "input": "./server/fixtures/dummy.e57"
             },

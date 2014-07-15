@@ -24,35 +24,34 @@ var formidable = require('formidable'),
     http = require('http'),
     util = require('util');
 
-var app = express(),
-    sessionManager = new SessionManager();
+var router = express(),
+    sessionManager = new SessionManager(),
+    appRoot = __dirname,
+    wwwRoot = path.join(appRoot, '../app');
 
-app.configure(function() {
-    app.set('port', process.env.PORT || 3000);
+router.configure(function() {
+    router.set('port', process.env.PORT || 3000);
 
-    app.set('view engine', 'handlebars');
-    app.set('views', __dirname + '../app/scripts/views');
+    router.set('view engine', 'handlebars');
+    router.set('views', appRoot + '../router/scripts/views');
 });
 
-
 //for file upload
-app.use(express.bodyParser({
-    uploadDir: path.join(__dirname, '../server/uploads'),
+router.use(express.bodyParser({
+    uploadDir: path.join(appRoot, '../server/uploads'),
     keepExtensions: true
 })); //puts the parsed body in req.body
 
+// mount static:
+router.use(express.static(wwwRoot));
+router.use(express.static(path.join(wwwRoot, '../.tmp')));
 
-// mount static
-app.use(express.static(path.join(__dirname, '../app')));
-app.use(express.static(path.join(__dirname, '../.tmp')));
-app.use(express.static(path.join(__dirname + '../app/modules/contrib/sdo')));
+// mount index.html:
+router.get('/', function(req, res) {
+    res.sendfile(path.join(wwwRoot, '../app/index.html'));
+}.bind(this));
 
-
-//TODO: make ajaxy
-app.post('/upload', function(req, res) {
-    console.log('FIRST TEST: ' + JSON.stringify(req.files));
-    console.log('second TEST: ' + req.files.theFile.name);
-
+router.post('/upload', function(req, res) {
     for (var idx = 0; idx < Object.keys(req.files).length; idx++) {
         var key = Object.keys(req.files)[idx];
         var file_info = req.files[key];
@@ -61,20 +60,19 @@ app.post('/upload', function(req, res) {
     };
 });
 
-// start server
-http.createServer(app).listen(app.get('port'), function() {
-    console.log('Express App started!');
-
+http.createServer(router).listen(router.get('port'), function() {
+    console.log('[App] Express router started on port: ' + router.get('port'));
+    console.log('[App]     * appRoot: ' + appRoot);
+    console.log('[App]     * wwwRoot: ' + wwwRoot);
 });
 
 /* ----------------------------------------------------------------------------
- * Application setup
+ * application setup
  * --------------------------------------------------------------------------*/
 
-var app = new Workbench({
-    router: app,
+var workbench = new Workbench({
+    router: router,
     config: '../package.json',
-    sessionManager: sessionManager
+    sessionManager: sessionManager,
+    appRoot: __dirname
 });
-
-console.log('Started server on port: ' + (process.env.PORT || 3000));
