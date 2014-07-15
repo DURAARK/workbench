@@ -9,6 +9,11 @@ var SemObs = module.exports = function(opts, logger) {
 }
 _.extend(SemObs.prototype, ConsoleService.prototype);
 
+SemObs.prototype.selectFile = function(session_id) {
+    // FIXXME: no file needed for this service!
+    return '';
+};
+
 SemObs.prototype.onStdErr = function(data, res) {
     console.log('[SemObs:onStdErr] \n' + data.toString());
 

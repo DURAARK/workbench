@@ -27,9 +27,9 @@ define([
             //     urlRoot: "/services/ifcm"
             // });
 
-            // var E57mModel = Backbone.Model.extend({
-            //     urlRoot: "/services/e57m"
-            // });
+            var E57mModel = Backbone.Model.extend({
+                urlRoot: "/services/e57m"
+            });
 
             if (!MyModule._mainView) {
                 // Create emtpy main view and show it:
@@ -52,9 +52,10 @@ define([
                 //     MyModule._mainView.updateIfcmData(model);
                 // });
 
-                // WorkbenchUI.fetchModel(E57mModel, 1).then(function(model) {
-                //     MyModule._mainView.updateE57mData(model);
-                // });
+                // FIXXME: the session id is hardcoded for the moment!
+                WorkbenchUI.fetchModel(E57mModel, 0).then(function(model) {
+                    MyModule._mainView.updateE57mData(model);
+                });
             } else {
                 if (typeof region !== 'undefined') {
                     region.show(MyModule._mainView);

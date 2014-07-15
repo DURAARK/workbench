@@ -6,7 +6,6 @@ var ConsoleService = require('../core/console-service'),
 
 var BuildmIFC = module.exports = function(opts, logger) {
     ConsoleService.call(this, opts, logger);
-
 }
 _.extend(BuildmIFC.prototype, ConsoleService.prototype);
 
@@ -15,13 +14,13 @@ BuildmIFC.prototype.selectFile = function(session_id) {
 
     if (session_id < sessions.length) {
 
-        var ifc_file = _.find(sessions[session_id].files, function(file) {
+        var file = _.find(sessions[session_id].files, function(file) {
             return file.type === 'ifc'
         });
 
-        console.log('[BuildmIFC::selectFile] selected file: ' + ifc_file.path);
+        console.log('[BuildmIFC::selectFile] selected file: ' + file.path);
 
-        return ifc_file.path;
+        return file.path;
     } else {
         return null;
     }

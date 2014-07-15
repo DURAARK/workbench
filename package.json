@@ -130,9 +130,8 @@
         "id": "/services/e57m",
         "interface": {
             "command": {
-                "name": "d:/Projekte/duraark/devspace/projects/workbench-app/server/executables/python-3.2.5.1/App/python.exe",
-                "options": "./server/executables/e57m_extractor_dummy.py",
-                "input": "./server/fixtures/dummy.e57"
+                "name": "./server/executables/e57Extract/bin/e57_metadata_extract.exe",
+                "options": ""
             },
             "handler": "e57m"
         }

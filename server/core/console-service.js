@@ -28,6 +28,7 @@ ConsoleService.prototype.findById = function(req, res) {
         inputparam = null;
 
     var file_path = this.selectFile(session_id);
+
     if (!file_path) {
         res.status(404).send('Could not find file');
     }
@@ -55,12 +56,18 @@ ConsoleService.prototype.findById = function(req, res) {
         // path and option!
         options = path.join(this._appRoot, '..', this.opts.options);
 
+    var opts_array = [options, inputparam];
+
+    if (this.selectOptions) {
+        opts_array = this.selectOptions(file_path, this._appRoot);
+    };
+
     process.chdir(cwd);
 
     console.log('[ConsoleService::findById] running in directory: ' + cwd);
-    console.log('[ConsoleService::findById] about to spawn: ' + exec_path + ' ' + options + ' ' + inputparam);
+    console.log('[ConsoleService::findById] about to spawn: ' + exec_path + ' ' + opts_array.join(' '));
 
-    var executable = spawn(exec_path, [options, inputparam]);
+    var executable = spawn(exec_path, opts_array);
 
     executable.stdout.on('data', function(data) {
         process.chdir(current_cwd);
