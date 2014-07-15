@@ -3,7 +3,6 @@ var ConsoleService = require('../core/console-service'),
     fs = require('fs'),
     path = require('path');
 
-console.log('=== Invoking semobs.js');
 var SemObs = module.exports = function(opts, logger) {
     ConsoleService.call(this, opts, logger);
 
