@@ -3,11 +3,14 @@ var SessionManager = module.exports = function(opts, logger) {
 }
 
 SessionManager.prototype.addFile = function(file_info) {
-    console.log('[SessionManager::addFile] filename: ' + file_info.path);
+    console.log('[SessionManager::addFile] file_info:');
+    console.log('    * name:               ' + file_info.name);
+    console.log('    * location on server: ' + file_info.path);
 
     this._fileInfos.push({
         id: this._fileInfos.length,
-        path: file_info.path
+        path: file_info.path,
+        name: file_info.name
     });
 }
 

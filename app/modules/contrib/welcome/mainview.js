@@ -31,7 +31,11 @@ define([
                     console.log('Session configuration:');
                     console.log(session.toJSON());
 
-                    WorkbenchUI.vent.trigger('module:sessionmanager:show');
+                    if (session.get('options').demo_mode) {
+                        WorkbenchUI.vent.trigger('module:metadataextractor:show');
+                    } else {
+                        WorkbenchUI.vent.trigger('module:sessionmanager:show');
+                    }
                 });
             }
         }
