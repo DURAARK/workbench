@@ -49,13 +49,17 @@ define([
         initialize: function() {
             this.listenTo(this, 'itemview:start:session', function(itemview) {
                 console.log('Starting session: ' + itemview.model.get('label'));
-                WorkbenchUI.vent.trigger('module:sessionmanager:show');
+                WorkbenchUI.vent.trigger('module:sessionmanager:show', itemview.model.get('id'));
             });
 
             this.listenTo(this, 'itemview:delete:session', function(itemview) {
                 console.log('Deleting session: ' + itemview.model.get('label'));
 
                 this.collection.remove(itemview.model);
+            });
+
+            this.listenTo(this.collection, 'remove', function(model) {
+                model.destroy();
             });
         },
 

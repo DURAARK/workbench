@@ -14,8 +14,8 @@ define([
         WorkbenchUI.execute('module:register', 'Contrib.sessionmanager');
 
         // 2. Register eventhandler to show the view:
-        WorkbenchUI.vent.on('module:sessionmanager:show', function(region) {
-            console.log('module:sessionmanager:show');
+        WorkbenchUI.vent.on('module:sessionmanager:show', function(id, region) {
+            console.log('module:sessionmanager:show session: ' + id);
 
             if (!MyModule._mainView) {
                 MyModule._mainView = new MainView();

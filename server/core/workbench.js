@@ -59,35 +59,9 @@ Workbench.prototype.addSession = function(config) {
         files: []
     };
 
-    if (session.options.demo_mode) {
-        this.addDemoFiles(session);
-    }
-
     this._sessions.push(session);
 
     return session;
-};
-
-Workbench.prototype.addDemoFiles = function(session) {
-    this._sessionManager.addFile({
-        name: 'CCO_DTU-Building127_Arch_CONF.ifc',
-        path: path.join(this._appRoot, 'fixtures/repository/CCO_DTU-Building127_Arch_CONF.ifc'),
-        type: 'ifc'
-    });
-
-    this._sessionManager.addFile({
-        name: 'CCO_DTU-Building127_Arch_CONF.e57',
-        path: path.join(this._appRoot, 'fixtures/repository/CCO_DTU-Building127_Arch_CONF.e57'),
-        type: 'e57'
-    });
-
-    this._sessionManager.addFile({
-        name: 'CCO_DTU-Building127_Arch_CONF.ttl',
-        path: path.join(this._appRoot, 'fixtures/repository/CCO_DTU-Building127_Arch_CONF.ttl'),
-        type: 'rdf'
-    });
-
-    session.files = this._sessionManager.getInfos();
 };
 
 Workbench.prototype.sessionManager = function() {
@@ -113,6 +87,25 @@ Workbench.prototype.registerNewSessionService = function() {
         var id = req.param('id');
         if (id < this._sessions.length) {
             res.json(this._sessions[id]);
+        } else {
+            res.status(404).send('No session with id "' + id + '" is found');
+        }
+    }.bind(this));
+
+    this._router.delete('/services/session/:id', function(req, res) {
+        var id = req.param('id');
+
+        var len = this._sessions.length;
+        console.log('length davor: ' + len);
+
+        this._sessions = _.reject(this._sessions, function(session) {
+            return session.id !== id;
+        });
+
+        console.log('length danach: ' + this._sessions.length);
+
+        if (len === (this._sessions.length - 1)) {
+            res.status(200);
         } else {
             res.status(404).send('No session with id "' + id + '" is found');
         }
