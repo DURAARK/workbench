@@ -3,32 +3,65 @@ define([
     'workbenchui',
     './entities/session-model',
     'hbs!./templates/sessions-main',
-    'hbs!./templates/session-item'
+    'hbs!./templates/session-item',
+    'hbs!./templates/session-empty',
 ], function(
     Marionette,
     WorkbenchUI,
     Session,
     SessionsViewTmpl,
-    SessionItemTmpl
+    SessionItemTmpl,
+    SessionEmptyTmpl
 ) {
 
     var SessionItemView = Marionette.ItemView.extend({
-        template: SessionItemTmpl
+        template: SessionItemTmpl,
+        tagName: 'tr',
+
+        events: {  
+            'click .js-start-session': function() {
+                this.trigger('start:session', this.model);
+            },
+            'click .js-delete-session': function() {
+                this.trigger('delete:session', this.model);
+            }
+        }
+    });
+
+  var SessionEmptyView = Marionette.ItemView.extend({
+        template: SessionEmptyTmpl,
+
+        onRender: function() {
+            $('thead').hide();
+        },
+
+        onClose: function() {
+            $('thead').show();          
+        }
     });
 
     // Represents the table view, which is using the ListItemView to render its items:
     var SessionsView = Backbone.Marionette.CompositeView.extend({
-
         template: SessionsViewTmpl,
-
         itemView: SessionItemView,
+        emptyView: SessionEmptyView,
+
+        initialize: function() {
+            this.listenTo(this, 'itemview:start:session', function(itemview) {
+                console.log('Starting session: ' + itemview.model.get('label'));
+                WorkbenchUI.vent.trigger('module:sessionmanager:show');
+            });
+
+            this.listenTo(this, 'itemview:delete:session', function(itemview) {
+                console.log('Deleting session: ' + itemview.model.get('label'));
+
+                this.collection.remove(itemview.model);
+            });
+        },
 
         events: {
-            'click .js-next': function() {
-                var opts = {
-                        demo_mode: this.ui.demo_mode[0].checked
-                    },
-                    label = 'MyNewSession',
+            'click .js-new': function() {
+                var label = 'MyNewSession',
                     session = new Session();
 
                 if (this.ui.label.val() !== '') {
@@ -36,19 +69,13 @@ define([
                     session.set('label', label);
                 }
 
-                session.set('options', opts);
                 session.save().then(function() {
                     console.log('[Welcome] Successfully created new session: "' + session.get('label') + '"');
                     console.log('Session configuration:');
                     console.log(session.toJSON());
 
-                    if (session.get('options').demo_mode) {
-                        WorkbenchUI.vent.trigger('module:fileidentification:show');
-                        // WorkbenchUI.vent.trigger('module:sipgenerator:show');
-                    } else {
-                        WorkbenchUI.vent.trigger('module:sessionmanager:show');
-                    }
-                });
+                    this.collection.add(session);
+                }.bind(this));
             }
         },
 
