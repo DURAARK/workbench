@@ -1,7 +1,20 @@
 <div class="container">
 	<div class="hero-unit">
-		SessionManager: Specify the IFC/E57/RDF files you want to work with here. Uses the 'SessionManager' service.
+        <h1>SessionManager</h1>
+        Specify the IFC/E57/RDF files you want to work with here. Uses the 'SessionManager' service.
 	</div>
+    
+    <p class='description'>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus scelerisque nibh eget ante aliquet, 
+        vitae aliquam tortor condimentum. Cras eleifend est lorem, ut interdum lectus pharetra nec. Duis ut 
+        gravida purus. Donec at felis laoreet, lobortis elit non, congue libero. In ac accumsan est, id auctor 
+        mauris. Aenean auctor odio mauris, ac gravida elit vulputate at. Aenean a elit sit amet enim tincidunt 
+        varius in ut dolor. Morbi sodales ligula vestibulum, mollis dui non, dignissim metus. Integer et lectus 
+        sagittis, placerat massa a, laoreet urna. Mauris tempus lobortis urna, et viverra nunc tempor in. Cum
+        sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque in gravida 
+        odio, quis vulputate neque. Proin consequat enim vel porta suscipit. Curabitur non lacinia elit, a 
+        luctus nulla. Phasellus massa justo, tempor ut purus at, tincidunt gravida mi. 
+    </p>
 
 	<p style='margin: 40px;'>At the moment we are working with hardcoded files.</p>
 
@@ -20,12 +33,12 @@
 	    <input type="submit">
 	</form> -->
 	
-	<div class="uploadform" style='background: #CCCCCC;border-radius: 15px; padding: 10px; width: 500px'>
+	<div class="uploadform">
 		<form action="/upload" enctype="multipart/form-data" method="post">
-			Select an IFC file:  <input type="file" name="theFile" multiple="multiple"><br>
-			Select an E57 file:  <input type="file" name="theFile2" multiple="multiple"><br>
-			Select an E57-registration file:  <input type="file" name="theFile3" multiple="multiple"><br>
-			<input type="submit" value="Upload">
+			<label for='uploadFile1'>Select an IFC file:</label>              <input type="file" id="uploadFile1" name="theFile" multiple="multiple"><br>
+			<label for='uploadFile2'>Select an E57 file:</label>              <input type="file" id="uploadFile2" name="theFile2" multiple="multiple"><br>
+			<label for='uploadFile3'>Select an E57-registration file:</label> <input type="file" id="uploadFile3" name="theFile3" multiple="multiple"><br>
+			<input type="submit" value="Upload" class="btn btn-default">
 	    </form>
     </div>
     <br>

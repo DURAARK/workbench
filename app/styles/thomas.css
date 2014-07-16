@@ -1,0 +1,85 @@
+.navbar-header {
+    display: none;
+}
+
+body {
+    padding: 0 !important;
+    background: #f8f8f8 url(../eu_logo.png) no-repeat bottom left fixed;
+}
+
+#page-wrapper {
+    border-left-color: #ddd !important;
+}
+
+#logo {
+    margin: 20px 0 0 20px;
+}
+
+.fa.arrow:before {
+    content: "\2193" !important;
+}
+
+.active > a > .fa.arrow:before {
+    content: "\2191" !important;
+}
+
+.navbar .nav  {
+    margin: 0 -1px 0 0 !important;
+}
+
+#module-manager-region  {
+    background: white;
+}
+
+#module-manager-region  li a:after,
+.SDO_GUI:after {
+    content: " \27a4";
+    opacity: 0.3;
+    padding-left: 4px;
+}
+
+.hero-unit {
+    background: #fff !important;
+    border-bottom: dotted 1px #ccc !important;
+    width: 800px !important;
+    padding: 0 !important;
+    margin: 50px 0 0 0 !important;
+}
+
+.hero-unit h1 {
+    font-weight: normal !important;
+    font-size: 30px !important;
+    padding: 20px 0;
+}
+
+html {
+   min-height: 100%;   
+}
+
+.container {
+    width: auto !important;
+}
+
+.description {
+    font-family: georgia, serif;
+    padding-left: 40px;
+    width: 600px;
+    font-style: italic;
+    margin-top: 40px;
+}
+
+label {
+    display: inline-block !important;
+    margin-bottom: 5px !important;
+    width: 200px !important;
+}
+
+.uploadform {
+    border: solid 1px #ddd;
+    width: 600px;
+    padding: 20px;
+}
+
+form {
+    margin: 0 !important;
+}
