@@ -104,9 +104,9 @@
       "id": "/services/semanticenrichment",
       "interface": {
         "command": {
-          "name": "node",
-          "options": "./server/executables/ifcEnrichment/ifcEnrichmentListReader.js",
-          "input": "./server/output/enrichmentTriples.txt"
+          "name": "./server/executables/ifcEnrichment/runlikethis.sh.bat",
+          "options": "",
+          "input": ""
         },
         "handler": "semanticenrichment"
       }
