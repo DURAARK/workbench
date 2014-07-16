@@ -14,14 +14,14 @@ define([
         // 1. Register module with the ModuleManager:
         WorkbenchUI.execute('module:register', 'Contrib.SemanticEnrichment');
 
- // 2. Register eventhandler to show the view:
+        // 2. Register eventhandler to show the view:
         WorkbenchUI.vent.on('module:semanticenrichment:show', function(aSearchterm) {
             // First create the Model classes:
-            var SemObsModel = Backbone.Model.extend({                
+            var SemObsModel = Backbone.Model.extend({
                 urlRoot: "/services/semanticenrichment" //no way to do this directly??
             });
 
-          
+
             if (!MyModule._mainView) {
                 // Create emtpy main view and show it:
                 MyModule._mainView = new SearchAndRetriveLayout();
@@ -31,16 +31,17 @@ define([
                 } else {
                     this.mainRegion.show(MyModule._mainView);
                 }
-                
-                
+
+
                 // Use the WorkbenchUI.fetchModel() method here to grab the model with id 1. In the 'then' function 
                 // callback it is guaranteed the the data from the server is received and the model is accessible:
                 //WorkbenchUI.fetchModel(BuildmModel, 1).then(function(model) {
-                WorkbenchUI.fetchModel(SemObsModel,1).then(function(model) {
+                // FIXXME: currently the session_id is hardcoded here!
+                WorkbenchUI.fetchModel(SemObsModel, 0).then(function(model) {
                     console.log("==> Now getting SemObsModel.");
-                    if(typeof model==="undefined"){
+                    if (typeof model === "undefined") {
                         alert('No meaningful result from endpoint. Maybe the endpoint is down?');
-                    };                  
+                    };
                     MyModule._mainView.updateBuildmData(model);
                 });
 
@@ -48,10 +49,10 @@ define([
                 console.log("==> This is the else zone!!");
 
                 //*** TODO: / //FIXME: security..
-                WorkbenchUI.fetchModel(SemObsModel,1).then(function(model) { 
-                    if(typeof model==="undefined"){
+                WorkbenchUI.fetchModel(SemObsModel, 1).then(function(model) {
+                    if (typeof model === "undefined") {
                         alert('No meaningful result from endpoint. Maybe the endpoint is down?');
-                    };    
+                    };
                     MyModule._mainView.updateBuildmData(model);
                 });
 
@@ -122,7 +123,7 @@ define([
 //             // have to be delegated manually, otherwise e.g. the click events will not fire.
 //             // That's what the next line is for:
 //             MyModule._mainView.delegateEvents();
-            
+
 //         }.bind(this));
 
 //         console.log('[WorkbenchUI.Contrib.SemanticEnrichment] started');

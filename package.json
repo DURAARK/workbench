@@ -100,9 +100,8 @@
         "id": "/services/semanticenrichment",
         "interface": {
             "command": {
-                "name": "node",
-                "options": "./server/executables/ifcEnrichment/ifcEnrichmentListReader.js",
-                "input": "./server/output/enrichmentTriples.txt"
+                "name": "java",
+                "options": "./server/executables/ifcEnrichment/ifcEnrichment.jar"
             },
             "handler": "semanticenrichment"
         }

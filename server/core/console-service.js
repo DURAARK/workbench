@@ -59,7 +59,7 @@ ConsoleService.prototype.findById = function(req, res) {
     var opts_array = [options, inputparam];
 
     if (this.selectOptions) {
-        opts_array = this.selectOptions(file_path, this._appRoot);
+        opts_array = this.selectOptions(file_path, this._appRoot, this.opts.options, inputparam);
     };
 
     process.chdir(cwd);
