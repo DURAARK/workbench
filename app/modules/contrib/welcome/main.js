@@ -2,23 +2,26 @@ define([
     'backbone.marionette',
     'workbenchui',
     'core/uimodulebase',
+    './entities/session-collection',
     './mainview.js'
-], function(Marionette, WorkbenchUI, UIModuleBase, MainView) {
+], function(Marionette, WorkbenchUI, UIModuleBase, Sessions, MainView) {
 
-    WorkbenchUI.module('Contrib.welcome', UIModuleBase);
+    WorkbenchUI.module('Contrib.Welcome', UIModuleBase);
 
-    var MyModule = WorkbenchUI.module("Contrib.welcome");
+    var MyModule = WorkbenchUI.module("Contrib.Welcome");
 
     WorkbenchUI.addInitializer(function() {
         // 1. Register module with the ModuleManager:
-        WorkbenchUI.execute('module:register', 'Contrib.welcome');
+        WorkbenchUI.execute('module:register', 'Contrib.Welcome');
 
         // 2. Register eventhandler to show the view:
         WorkbenchUI.vent.on('module:welcome:show', function(region) {
-            console.log('module:welcome:show');
-
             if (!MyModule._mainView) {
-                MyModule._mainView = new MainView();
+                MyModule._sessions = new Sessions();
+
+                MyModule._mainView = new MainView({
+                    collection: MyModule._sessions
+                });
             }
 
             if (typeof region !== 'undefined') {
@@ -26,6 +29,8 @@ define([
             } else {
                 this.mainRegion.show(MyModule._mainView);
             }
+
+            MyModule._sessions.fetch();
 
             // For the first show in the lifetime of the _mainView the events hash is correctly
             // evaluated. When the _mainView gets closed and is reopened again, the events
@@ -35,17 +40,6 @@ define([
 
         }.bind(this));
 
-        console.log('[WorkbenchUI.Contrib.welcome] started');
+        console.log('[WorkbenchUI.Contrib.Welcome] started');
     });
-
-    // TODO: not working with this version of Marionette...
-    // MyModule.addFinalizer(function() {
-    //     WorkbenchUI.mainRegion.close();
-
-    //     console.log('[WorkbenchUI.Contrib.welcome] stopped');
-    // });
-
-    // NOTE: No explicit return value is given here vor the AMD module. The module
-    // is registered with the Marionette.Application and accessible via its
-    // WorkbenchUI.module('...') syntax.
 });

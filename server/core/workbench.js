@@ -38,10 +38,18 @@ var Workbench = module.exports = function(opts) {
     this.registerNewSessionService();
     this.registerFileIdService();
     this.registerEndpoints(this._config.services);
+
+    this.loadSessions(this._config.sessions);
 }
 
 _.extend(Workbench.prototype, ServiceProviderMixin.prototype);
 _.extend(Workbench.prototype, LoggerMixin.prototype);
+
+Workbench.prototype.loadSessions = function(sessions) {
+    _.forEach(sessions, function(session) {
+        this._sessions.push(session);
+    }.bind(this));
+};
 
 Workbench.prototype.addSession = function(config) {
     var session = {

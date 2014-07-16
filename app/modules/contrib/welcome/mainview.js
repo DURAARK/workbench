@@ -2,15 +2,26 @@ define([
     'backbone.marionette',
     'workbenchui',
     './entities/session-model',
-    'hbs!./templates/main'
-], function(Marionette, WorkbenchUI, Session, MainViewTmpl) {
-    var MainView = Marionette.ItemView.extend({
-        template: MainViewTmpl,
+    'hbs!./templates/sessions-main',
+    'hbs!./templates/session-item'
+], function(
+    Marionette,
+    WorkbenchUI,
+    Session,
+    SessionsViewTmpl,
+    SessionItemTmpl
+) {
 
-        ui: {
-            label: 'input[name=session-name]',
-            demo_mode: 'input[name=demo-mode]'
-        },
+    var SessionItemView = Marionette.ItemView.extend({
+        template: SessionItemTmpl
+    });
+
+    // Represents the table view, which is using the ListItemView to render its items:
+    var SessionsView = Backbone.Marionette.CompositeView.extend({
+
+        template: SessionsViewTmpl,
+
+        itemView: SessionItemView,
 
         events: {
             'click .js-next': function() {
@@ -39,8 +50,17 @@ define([
                     }
                 });
             }
+        },
+
+        ui: {
+            label: 'input[name=session-name]',
+            demo_mode: 'input[name=demo-mode]'
+        },
+
+        appendHtml: function(collectionView, itemView) {
+            collectionView.$('tbody').append(itemView.el);
         }
     });
 
-    return MainView;
+    return SessionsView;
 });

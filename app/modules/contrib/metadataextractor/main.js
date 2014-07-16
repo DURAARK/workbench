@@ -17,7 +17,6 @@ define([
         // 2. Register eventhandler to show the view:
         WorkbenchUI.vent.on('module:metadataextractor:show', function(region) {
 
-
             // First create the Model classes:
             var BuildmModel = Backbone.Model.extend({
                 urlRoot: "/services/buildm"
