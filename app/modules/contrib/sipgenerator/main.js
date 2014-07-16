@@ -1,12 +1,11 @@
-
-
 define([
     'backbone',
     'backbone.marionette',
     'workbenchui',
     'core/uimodulebase',
-    './mainview.js'
-], function(Backbone, Marionette, WorkbenchUI, UIModuleBase, MainView) {
+    './mainview.js',
+    '../welcome/entities/session-model',
+], function(Backbone, Marionette, WorkbenchUI, UIModuleBase, MainView, Session) {
 
     WorkbenchUI.module('Contrib.SIPGenerator', UIModuleBase);
 
@@ -16,22 +15,18 @@ define([
         // 1. Register module with the ModuleManager:
         WorkbenchUI.execute('module:register', 'Contrib.SIPGenerator');
 
- // 2. Register eventhandler to show the view:
+        // 2. Register eventhandler to show the view:
         WorkbenchUI.vent.on('module:sipgenerator:show', function(aSearchterm) {
             console.log('module:sipgenerator:show');
-            
-            //Static model that will be used until we connect with the real files that will be put in the SIP
+
+            // // First create the Model classes:
+            // var SemObsModel = Backbone.Model.extend({
+            //     //Placeholder data that will be used until we connect with the real files that will be put in the SIP                
+            //     //urlRoot: "/services/probado",
+            //     urlRoot: "https://dl.dropboxusercontent.com/u/985282/sipfile_fake.json", //Fake placeholder data                
+            // });
 
 
-
-            // First create the Model classes:
-            var SemObsModel = Backbone.Model.extend({                               
-                //Placeholder data that will be used until we connect with the real files that will be put in the SIP                
-                //urlRoot: "/services/probado",
-                urlRoot: "https://dl.dropboxusercontent.com/u/985282/sipfile_fake.json", //Fake placeholder data                
-            });
-
-          
             if (!MyModule._mainView) {
                 // Create emtpy main view and show it:
                 MyModule._mainView = new MainView();
@@ -41,29 +36,13 @@ define([
                 } else {
                     this.mainRegion.show(MyModule._mainView);
                 }
-                
-                
-                // Use the WorkbenchUI.fetchModel() method here to grab the model with id 1. In the 'then' function 
-                // callback it is guaranteed the the data from the server is received and the model is accessible:
-                //WorkbenchUI.fetchModel(BuildmModel, 1).then(function(model) {
-                WorkbenchUI.fetchModel(SemObsModel,"").then(function(model) {
-                    console.log("==> Not-the-Else-part and model = " + JSON.stringify(model)); //**HERE!**
-                    if(typeof model=="undefined"){
-                        alert('No meaningful result from endpoint. Maybe the endpoint is down?');
-                    };                  
+
+                WorkbenchUI.fetchModel(Session, 0).then(function(model) {
                     MyModule._mainView.updateBuildmData(model);
                 });
 
             } else {
-                console.log("==> This is the else zone!!");
-
-                //*** TODO: / //FIXME: security..
-                WorkbenchUI.fetchModel(SemObsModel,1).then(function(model) { //search uses: fulltextQuery=Kamille&start=0&count=10
-                    // if(typeof model=="undefined"){
-                    //     alert('No meaningful result from endpoint. Maybe the endpoint is down?');
-                    // };    
-                    console.log("==> Else part and model = " + JSON.stringify(model)); //**
-
+                WorkbenchUI.fetchModel(Session, 0).then(function(model) {
                     MyModule._mainView.updateBuildmData(model);
                 });
 
@@ -78,16 +57,4 @@ define([
 
         console.log('[WorkbenchUI.Contrib.SIPGenerator] started');
     });
-
-    // TODO: not working with this version of Marionette...
-    // MyModule.addFinalizer(function() {
-    //     WorkbenchUI.mainRegion.close();
-
-    //     console.log('[WorkbenchUI.Contrib.SearchAndRetrieve] stopped');
-    // });
-
-    // NOTE: No explicit return value is given here vor the AMD module. The module
-    // is registered with the Marionette.Application and accessible via its
-    // WorkbenchUI.module('...') syntax.
 });
-

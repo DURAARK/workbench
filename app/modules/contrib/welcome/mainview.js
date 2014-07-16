@@ -33,6 +33,7 @@ define([
 
                     if (session.get('options').demo_mode) {
                         WorkbenchUI.vent.trigger('module:fileidentification:show');
+                        // WorkbenchUI.vent.trigger('module:sipgenerator:show');
                     } else {
                         WorkbenchUI.vent.trigger('module:sessionmanager:show');
                     }

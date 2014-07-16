@@ -65,11 +65,11 @@ SemanticEnrichment.prototype.onClose = function(code, res) {
             "property_uri": arr[4],
             "resource_value": arr.slice(2, -1).join(' ')
         };
-        // if ((line.length > 6) && (limiter > 0)) {
-        if ((line.length > 6)) {
+        if ((line.length > 6) && (limiter > 0)) {
+            // if ((line.length > 6)) {
             jsonarray.push(items);
         };
-        // limiter = limiter - 1;
+        limiter = limiter - 1;
     });
 
     res.json(jsonarray);

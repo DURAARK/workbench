@@ -117,7 +117,6 @@ Workbench.prototype.registerFileIdService = function() {
     }.bind(this));
 
     this._router.get('/services/fileid/:id', function(req, res) {
-        console.log('identification: asdflkjasdlfkjasdfasdf');
         var id = req.param('id');
         if (id < this._sessions.length) {
             var files = this._sessions[id].files;

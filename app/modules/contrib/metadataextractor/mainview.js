@@ -80,13 +80,13 @@ define([
 
         events: {
             'click .js-next': function() {
-                console.log('next clicked --> module:semanticobservatory:show');
+                console.log('next clicked --> module:semanticenrichment:show');
                 this._collectionToRdf(this._buildmCollection).then(function(rdf) {
                     console.log("===============================");
                     console.log(rdf);
                     console.log("===============================");
                     // this.submitRdfToServer(rdf).then(function() {
-                WorkbenchUI.vent.trigger('module:semanticobservatory:show');   
+                    WorkbenchUI.vent.trigger('module:semanticenrichment:show');
                     console.log('after vent.trigger by click..');
                 });
             },
@@ -229,7 +229,7 @@ define([
                     sub
                 ));
             });
-            
+
             new rdfapi.parsers.Turtle(rdfapi.data.context).parse(graph.toNT(), function(graph) {
                 defer.resolve(rdfapi.turtle(graph));
             });

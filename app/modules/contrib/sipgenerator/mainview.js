@@ -6,7 +6,7 @@ define([
     'hbs!./templates/list-collection'
 ], function(Marionette, WorkbenchUI, SipGeneratorTmpl, ListItemTmpl, TableTmpl) {
     // Represents on list item:
-    var ListItemView = Backbone.Marionette.ItemView.extend({        
+    var ListItemView = Backbone.Marionette.ItemView.extend({
         template: ListItemTmpl,
         tagName: 'tr',
         events: {
@@ -42,26 +42,26 @@ define([
         template: SipGeneratorTmpl,
 
         regions: {
-            sipgen: "#sipgen-region" 
+            sipgen: "#sipgen-region"
         },
 
         events: {
-        	// 'click .js-search': function() {   //TODO -- remove this one??
-         //        //Show spinner while we wait for search results from Probado             
-         //        document.getElementById("sipgen-region").innerHTML = '<img src="spinner.gif" alt="spinner"><p>Waiting for webservice to provide fresh info</p>';
-         //        var aSearchterm = $("#searchstringinput").val();
-         //        WorkbenchUI.vent.trigger('module:sipgenerator:show', aSearchterm);
-         //    },         
-			'click .js-upload': function() {
-				console.log('upload clicked');
-				alert('Rosetta-SIP generated and uploaded to Rosetta!');
-				WorkbenchUI.vent.trigger('module:searchandretrieve:show');
-			},
-			'click .js-previous': function() {
-				console.log('previous');
-				WorkbenchUI.vent.trigger('module:semanticenrichment:show');
-			}
-		
+            // 'click .js-search': function() {   //TODO -- remove this one??
+            //        //Show spinner while we wait for search results from Probado             
+            //        document.getElementById("sipgen-region").innerHTML = '<img src="spinner.gif" alt="spinner"><p>Waiting for webservice to provide fresh info</p>';
+            //        var aSearchterm = $("#searchstringinput").val();
+            //        WorkbenchUI.vent.trigger('module:sipgenerator:show', aSearchterm);
+            //    },         
+            'click .js-upload': function() {
+                console.log('upload clicked');
+                alert('Rosetta-SIP generated and uploaded to Rosetta!');
+                WorkbenchUI.vent.trigger('module:searchandretrieve:show');
+            },
+            'click .js-previous': function() {
+                console.log('previous');
+                WorkbenchUI.vent.trigger('module:semanticenrichment:show');
+            }
+
         },
 
         initialize: function() {
@@ -81,15 +81,11 @@ define([
             // serialize the collection into a single model to store it back to the server!
 
             var collection = new Backbone.Collection();
-            for (var key in model.attributes) {
-                // Skip 'id' attribute:
-                if (key === 'id') continue;
-
-                var value = model.attributes[key];
-                collection.push({
-                    key: key,
-                    value: value
-                });
+            var files = model.get('files');
+            for (var file in files) {
+                if (files.hasOwnProperty(file)) {
+                    collection.push(files[file]);
+                }
             };
 
             return collection;
@@ -98,4 +94,3 @@ define([
 
     return MainView;
 });
-
