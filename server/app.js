@@ -1,6 +1,7 @@
 'use strict';
 
 var express = require('express');
+var bodyParser = require('body-parser');
 var http = require('http');
 var path = require('path');
 var async = require('async');
@@ -14,57 +15,45 @@ var multipart = require("multipart");
 var ServiceProviderMixin = require('./core/service-provider-mixin/index.js');
 var _config = require(__dirname + '/../package.json');
 var Workbench = require('./core/workbench');
+
 /* ----------------------------------------------------------------------------
  * Webserver setup
  * --------------------------------------------------------------------------*/
 
 var formidable = require('formidable'),
     http = require('http'),
-    util = require('util')     ;
+    util = require('util');
 
-var app = express();
+var router = express(),
+    appRoot = __dirname,
+    wwwRoot = path.join(appRoot, '../app');
 
-app.configure(function() {
-    app.set('port', process.env.PORT || 3000);
+router.set('port', process.env.PORT || 3000);
+router.set('view engine', 'handlebars');
+router.set('views', appRoot + '../router/scripts/views');
 
-    app.set('view engine', 'handlebars');
-    app.set('views', __dirname + '../app/scripts/views');
-});
+// mount static:
+router.use(express.static(wwwRoot));
+router.use(express.static(path.join(wwwRoot, '../.tmp')));
+router.use(bodyParser.json());
 
+// mount index.html:
+router.get('/', function(req, res) {
+    res.sendfile(path.join(wwwRoot, '../app/index.html'));
+}.bind(this));
 
-//for file upload
- app.use(express.bodyParser( {uploadDir: path.join(__dirname, '../server/uploads'), keepExtensions: true } )); //puts the parsed body in req.body
-
-
-// mount static
-app.use(express.static(path.join(__dirname, '../app')));
-app.use(express.static(path.join(__dirname, '../.tmp')));
-app.use(express.static(path.join(__dirname + '../app/modules/contrib/sdo')));
-
-
-//TODO: make ajaxy
-app.post('/upload',function(req,res){
-    console.log('FIRST TEST: ' + JSON.stringify(req.files));
-    console.log('second TEST: ' +req.files.theFile.name);
-    fs.readFile(req.files.theFile.path, function (err, data) {
-        var newPath = "/home/dagedv/Skrivebord/stuff/"+req.files.theFile.name;
-        fs.writeFile(newPath, data, function (err) {
-          res.send('/ POST OK');
-        });
-    });
-});
-
-// start server
-http.createServer(app).listen(app.get('port'), function() {
-    console.log('Express App started!');
-
+http.createServer(router).listen(router.get('port'), function() {
+    console.log('[App] Express router started on port: ' + router.get('port'));
+    console.log('[App]     * appRoot: ' + appRoot);
+    console.log('[App]     * wwwRoot: ' + wwwRoot);
 });
 
 /* ----------------------------------------------------------------------------
- * Application setup
+ * application setup
  * --------------------------------------------------------------------------*/
 
-var app = new Workbench({
-    router: app,
-    config: '../package.json'
+var workbench = new Workbench({
+    router: router,
+    config: '../package.json',
+    appRoot: __dirname
 });

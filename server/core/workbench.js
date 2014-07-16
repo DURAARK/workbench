@@ -1,111 +1,154 @@
-var ServiceProviderMixin = require('./service-provider-mixin/index.js')
-	LoggerMixin = require('./logger-mixin'),
-	_ = require('underscore');
+var SessionManager = require('./session-manager'),
+    FileIdentifier = require('./file-identifier'),
+    ServiceProviderMixin = require('./service-provider-mixin/index.js'),
+    LoggerMixin = require('./logger-mixin'),
+    _ = require('underscore'),
+    path = require('path');
 
 var Workbench = module.exports = function(opts) {
-	this._config = require(__dirname + '/../' + opts.config);
+    this._config = require(__dirname + '/../' + opts.config);
+    this._appRoot = opts.appRoot;
+    this._sessions = [];
+    this._router = opts.router;
+    this.log = opts.logger;
 
-	this._router = opts.router;
-	if (!this._router) {
-		this.log.error('', '[Workbench::ctor] Option "webserver" has to be set! Aborting...');
-		throw new Error('[Workbench::ctor] Option "webserver" has to be set! Aborting...');
-	}
+    this._sessionManager = new SessionManager({
+        appRoot: this._appRoot,
+        sessions: this._sessions
+    });
 
-	this.log = opts.logger;
-	if (!this.log) {
-		this.log = require('npmlog');
-	}
+    this._fileIdentifier = new FileIdentifier({
+        appRoot: this._appRoot
+    });
 
-	ServiceProviderMixin.call(this, this._router, this._config.services, this.log);
+    ServiceProviderMixin.call(this, this._router, {
+        sessionManager: this._sessionManager,
+        appRoot: this._appRoot
+    }, this.log);
 
-	// FIXXME: introduce own state object!
-	this._state = this._router;
+    if (!this._router) {
+        throw new Error('[Workbench::ctor] Option "webserver" has to be set! Aborting...');
+    }
 
-	/* ----------------------------------------------------------------------------
-	 * State setup
-	 * --------------------------------------------------------------------------*/
+    if (!this.log) {
+        this.log = require('npmlog');
+    }
 
-	var settings = _.extend(this._config.app.settings, {
-		appRoot: __dirname + '/../..'
-	});
-
-	this.setupState(settings);
-	this.registerEndpoints(this._config.services);
-
-	/* ----------------------------------------------------------------------------
-	 * Router setup
-	 * --------------------------------------------------------------------------*/
-
-	this.setupRoutes();
+    this.registerUploadService();
+    this.registerNewSessionService();
+    this.registerFileIdService();
+    this.registerEndpoints(this._config.services);
 }
 
 _.extend(Workbench.prototype, ServiceProviderMixin.prototype);
 _.extend(Workbench.prototype, LoggerMixin.prototype);
 
-Workbench.prototype.setupState = function(opts) {
-	this._stateOpts = opts;
+Workbench.prototype.addSession = function(config) {
+    var session = {
+        id: this._sessions.length,
+        label: config.label,
+        options: config.options,
+        files: []
+    };
 
-	_.forEach(this._stateOpts, function(value, key) {
-		this._state.set(key, value);
-		this.logger().info('[Workbench::setupState] added state property: ' + key + ' -> ' + value);
-	}.bind(this));
-}
+    if (session.options.demo_mode) {
+        this.addDemoFiles(session);
+    }
 
-Workbench.prototype.setupDatabase = function(opts) {
-	this._dbOpts = opts;
-}
+    this._sessions.push(session);
 
-Workbench.prototype.setupRoutes = function(router_config) {
-	this._routerConfig = router_config;
+    return session;
+};
 
-	// Provide an admin interface as start page: 
-	this._router.get('/', function(req, res) {
-		console.log('===wwwRoot: ' + this._state.get('wwwRoot') + '/index.html');
-		res.sendfile(this._state.get('wwwRoot') + '/index.html');
-	}.bind(this));
+Workbench.prototype.addDemoFiles = function(session) {
+    this._sessionManager.addFile({
+        name: 'CCO_DTU-Building127_Arch_CONF.ifc',
+        path: path.join(this._appRoot, 'fixtures/repository/CCO_DTU-Building127_Arch_CONF.ifc'),
+        type: 'ifc'
+    });
 
-	this._router.get('/api/customsql', function(req, res) {
-		if (!this._state.get('testClientLoadingAndErrorRoutes')) {
-			this._state.get('db').customSql(req, res);
-		} else {
-			this.log.info('', '[SourceRecipies::findAll] Error state testing enabled');
-			setTimeout(function() {
-				// Send back an undefined payload for ember to bail out with an error:
-				res.send(500, 'Something went wrong on the server!');
-			}, 1500);
-		}
-	}.bind(this));
+    this._sessionManager.addFile({
+        name: 'CCO_DTU-Building127_Arch_CONF.e57',
+        path: path.join(this._appRoot, 'fixtures/repository/CCO_DTU-Building127_Arch_CONF.e57'),
+        type: 'e57'
+    });
 
-	// this._router.get('/api/parts', function(req, res) {
-	// 	if (!this._state.get('testClientLoadingAndErrorRoutes')) {
-	// 		this._dataProvider.source('data_backend').findAll(req, res);
-	// 		// this._state.get('db').findAll(req, res);
-	// 	} else {
-	// 		this.log.info('', '[SourceRecipies::findAll] Error state testing enabled');
-	// 		setTimeout(function() {
-	// 			// Send back an undefined payload for ember to bail out with an error:
-	// 			res.send(500, 'Something went wrong on the server!');
-	// 		}, 1500);
-	// 	}
-	// }.bind(this));
+    this._sessionManager.addFile({
+        name: 'CCO_DTU-Building127_Arch_CONF.ttl',
+        path: path.join(this._appRoot, 'fixtures/repository/CCO_DTU-Building127_Arch_CONF.ttl'),
+        type: 'rdf'
+    });
 
-	// this._router.get('/api/gericht', function(req, res) {
-	// 	if (!this._state.get('testClientLoadingAndErrorRoutes')) {
-	// 		this._state.get('db').findById(req, res);
-	// 	} else {
-	// 		this.log.info('', '[SourceRecipies::findAll] Error state testing enabled');
-	// 		setTimeout(function() {
-	// 			// Send back an undefined payload for ember to bail out with an error:
-	// 			res.send();
-	// 		}, 1500);
-	// 	}
-	// }.bind(this));
+    session.files = this._sessionManager.getInfos();
+};
 
-	// connection.query('INSERT INTO gericht SET ?', "Toast",
-	//     function(err, result) {
-	//         console.log('/gerichte get');
-	//         if (err) throw err;
-	//         res.send('User added to database with ID: ' + result.insertId);
-	//     }
-	// );
-}
+Workbench.prototype.sessionManager = function() {
+    return this._sessionManager;
+};
+
+Workbench.prototype.registerNewSessionService = function() {
+    this._router.post('/services/session', function(req, res) {
+        var config = req.body;
+
+        console.log('[Workbench] New session generated: "' + config.label + '"');
+
+        var new_session = this.addSession(config);
+
+        res.json(new_session);
+    }.bind(this));
+
+    this._router.get('/services/session', function(req, res) {
+        res.json(this._sessions);
+    }.bind(this));
+
+    this._router.get('/services/session/:id', function(req, res) {
+        var id = req.param('id');
+        if (id < this._sessions.length) {
+            res.json(this._sessions[id]);
+        } else {
+            res.status(404).send('No session with id "' + id + '" is found');
+        }
+    }.bind(this));
+};
+
+Workbench.prototype.registerFileIdService = function() {
+    this._router.get('/services/fileid', function(req, res) {
+        res.json(this._sessions);
+    }.bind(this));
+
+    this._router.get('/services/fileid/:id', function(req, res) {
+        var id = req.param('id');
+        if (id < this._sessions.length) {
+            var files = this._sessions[id].files;
+            if (files.length) {
+                var e57_file = _.find(files, function(file) {
+                    return file.type === 'e57'
+                });
+
+                this._fileIdentifier.identify(e57_file.path, function(info) {
+                    info.format = info.format.replace(/(\r\n|\n|\r)/gm, "");
+
+                    if (info.format === 'fmt/643') {
+                        info['valid'] = true;
+                        info['formatString'] = 'E57 (pointcloud)';
+                    } else {
+                        info['valid'] = false;
+                    }
+
+                    res.send(info);
+                })
+            } else {
+                // FIXXME: return proper status code!
+                res.send({});
+            }
+        } else {
+            res.status(404).send('No session with id "' + id + '" is found');
+        }
+    }.bind(this));
+};
+
+Workbench.prototype.registerUploadService = function() {
+    this._router.post('/upload', function(req, res) {
+        this._sessionManager.handleUpload(req, res);
+    }.bind(this));
+};

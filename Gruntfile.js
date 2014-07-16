@@ -92,6 +92,8 @@ module.exports = function(grunt) {
             },
             dev: {
                 options: {
+                    // cmd: 'node-debug',
+                    cmd: 'supervisor',
                     script: 'server/app.js'
                 }
             },

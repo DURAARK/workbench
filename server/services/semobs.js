@@ -3,12 +3,19 @@ var ConsoleService = require('../core/console-service'),
     fs = require('fs'),
     path = require('path');
 
-console.log('=== Invoking semobs.js');
 var SemObs = module.exports = function(opts, logger) {
     ConsoleService.call(this, opts, logger);
 
 }
 _.extend(SemObs.prototype, ConsoleService.prototype);
+
+SemObs.prototype.selectFile = function(query_param) {
+    // FIXXME: The console-service has to be adapted to this need, no the selectFile
+    // is abused to generate the correct command line herer!
+    console.log('[SemObs::selectFile] query_param: ' + query_param);
+
+    return query_param;
+};
 
 SemObs.prototype.onStdErr = function(data, res) {
     console.log('[SemObs:onStdErr] \n' + data.toString());

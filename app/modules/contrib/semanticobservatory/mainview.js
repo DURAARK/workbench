@@ -8,7 +8,7 @@ define([
     'hbs!./templates/list-collection-search'
 ], function(Marionette, WorkbenchUI, SemanticObservatoryTmpl, ListItemTmpl, TableTmpl, ListItemTmpl2, TableTmplSearch) {
     // Represents on list item:
-    var ListItemView = Backbone.Marionette.ItemView.extend({        
+    var ListItemView = Backbone.Marionette.ItemView.extend({
         template: ListItemTmpl,
         //template = getTemplate(),
         // getTemplate: function(){
@@ -37,14 +37,14 @@ define([
         }
     });
 
-    var ListItemView2 = Backbone.Marionette.ItemView.extend({        
+    var ListItemView2 = Backbone.Marionette.ItemView.extend({
         template: ListItemTmpl2,
         tagName: 'tr',
         events: {
             "click td": "cellClicked"
         },
         initialize: function(options) {
-            console.log("options.myTableView fra ListItemView2 = " + options.myTableView );         
+            console.log("options.myTableView fra ListItemView2 = " + options.myTableView);
         },
 
 
@@ -88,19 +88,17 @@ define([
         template: SemanticObservatoryTmpl,
 
         regions: {
-            semobs: "#semobs-region" 
+            semobs: "#semobs-region"
         },
 
         events: {
             'click .js-next': function() {
-                console.log('next clicked');
-                WorkbenchUI.vent.trigger('module:semanticenrichment:show');
+                WorkbenchUI.vent.trigger('module:sipgenerator:show');
             },
             'click .js-previous': function() {
-                console.log('previous');
-                WorkbenchUI.vent.trigger('module:metadataextractor:show');
+                WorkbenchUI.vent.trigger('module:semanticenrichment:show');
             },
-            'click .js-search': function() {   
+            'click .js-search': function() {
                 //Show spinner while we wait for search results from Probado             
                 document.getElementById("semobs-region").innerHTML = '<img src="spinner.gif" alt="spinner"><p>Waiting for webservice to provide fresh info</p>';
                 var aSearchterm = $("#searchstringinput").val();
@@ -115,13 +113,13 @@ define([
         updateBuildmData: function(model) {
             //if ( model.get("value")["dataset_name"] ){
             console.log("typeof model = " + typeof model);
-            console.log( JSON.stringify( model ) );
+            console.log(JSON.stringify(model));
             console.log('model.length=' + model.length);
-            if(typeof model === undefined ){
+            if (typeof model === undefined) {
                 alert('Sorry, nothing found. Please try again.');
-               // return; //TODO: handle zero-results a bit more classy.. a seperate view??
-            } else {                
-                if ( model.get("0")["dataset_name"] ){
+                // return; //TODO: handle zero-results a bit more classy.. a seperate view??
+            } else {
+                if (model.get("0")["dataset_name"]) {
                     console.log('==> alt 1');
                     this.semobs.show(new TableView({
                         collection: this._modelToCollection(model)
@@ -131,7 +129,7 @@ define([
                     this.semobs.show(new TableViewSearch({
                         collection: this._modelToCollection(model)
                     }));
-                    
+
                 };
             };
             // this.semobs.show(new TableView({

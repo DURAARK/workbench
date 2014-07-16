@@ -6,14 +6,14 @@ define([
     'hbs!./templates/list-collection'
 ], function(Marionette, WorkbenchUI, SemanticObservatoryTmpl, ListItemTmpl, TableTmpl) {
     // Represents on list item:
-    var ListItemView = Backbone.Marionette.ItemView.extend({        
+    var ListItemView = Backbone.Marionette.ItemView.extend({
         template: ListItemTmpl,
         tagName: 'tr',
         events: {
             "click td": "cellClicked"
         },
         initialize: function(options) {
-            console.log("options.myTableView = " + options.myTableView );         
+            console.log("options.myTableView = " + options.myTableView);
         },
 
 
@@ -41,17 +41,17 @@ define([
     var SemanticEnrichmentLayout = Backbone.Marionette.Layout.extend({
         template: SemanticObservatoryTmpl,
 
-        regions: {
-            semanticregion: "#sematic-region" 
+        events: {
+            'click .js-next': function() {
+                WorkbenchUI.vent.trigger('module:semanticobservatory:show');
+            },
+            'click .js-previous': function() {
+                WorkbenchUI.vent.trigger('module:metadataextractor:show');
+            }
         },
 
-        events: {
-        	// 'click .js-search': function() {   
-         //        //Show spinner while we wait for results             
-         //        document.getElementById("sematic-region").innerHTML = '<img src="spinner.gif" alt="spinner"><p>Waiting for webservice to provide fresh info</p>';
-         //        //var aSearchterm = $("#searchstringinput").val();
-         //        WorkbenchUI.vent.trigger('module:searchandretrieve:show'); //, aSearchterm);
-         //    }
+        regions: {
+            semanticregion: "#sematic-region"
         },
 
         initialize: function() {

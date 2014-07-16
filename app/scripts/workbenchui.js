@@ -1,9 +1,9 @@
 define([
-    'backbone',
-], function(Backbone) {
+    'backbone.marionette',
+], function(Marionette) {
     'use strict';
 
-    var WorkbenchUI = new Backbone.Marionette.Application();
+    var WorkbenchUI = new Marionette.Application();
 
     // Add application regions here
     WorkbenchUI.addRegions({
