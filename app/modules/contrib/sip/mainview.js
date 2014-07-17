@@ -1,7 +1,7 @@
 define([
     'backbone.marionette',
     'workbenchui',
-    './entities/session-model',
+    '../entities/session-model',
     'hbs!./templates/sessions-main',
     'hbs!./templates/session-item',
     'hbs!./templates/session-empty',
@@ -13,7 +13,6 @@ define([
     SessionItemTmpl,
     SessionEmptyTmpl
 ) {
-
     var SessionItemView = Marionette.ItemView.extend({
         template: SessionItemTmpl,
         tagName: 'tr',
@@ -28,7 +27,7 @@ define([
         }
     });
 
-  var SessionEmptyView = Marionette.ItemView.extend({
+    var SessionEmptyView = Marionette.ItemView.extend({
         template: SessionEmptyTmpl,
 
         onRender: function() {
@@ -36,7 +35,7 @@ define([
         },
 
         onClose: function() {
-            $('thead').show();          
+            $('thead').show();
         }
     });
 

@@ -4,7 +4,7 @@ define([
     'workbenchui',
     'core/uimodulebase',
     './mainview.js',
-    '../welcome/entities/session-model',
+    '../entities/session-model',
 ], function(Backbone, Marionette, WorkbenchUI, UIModuleBase, MainView, Session) {
 
     WorkbenchUI.module('Contrib.SIPGenerator', UIModuleBase);

@@ -2,7 +2,7 @@ define([
     'backbone.marionette',
     'workbenchui',
     'core/uimodulebase',
-    './entities/session-collection',
+    '../entities/session-collection',
     './mainview.js'
 ], function(Marionette, WorkbenchUI, UIModuleBase, Sessions, MainView) {
 
@@ -15,7 +15,7 @@ define([
         WorkbenchUI.execute('module:register', 'Contrib.Welcome');
 
         // 2. Register eventhandler to show the view:
-        WorkbenchUI.vent.on('module:welcome:show', function(region) {
+        WorkbenchUI.vent.on('module:sip:show', function(region) {
             if (!MyModule._mainView) {
                 MyModule._sessions = new Sessions();
 

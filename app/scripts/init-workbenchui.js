@@ -4,7 +4,8 @@ var modules_core = [
         // 'modules/core/regionmanager/main'
     ],
     modules_contrib = [
-        'modules/contrib/welcome/main',
+        'modules/contrib/landingpage/main',
+        'modules/contrib/sip/main',
         'modules/contrib/sessionmanager/main',
         'modules/contrib/fileidentification/main',
         'modules/contrib/metadataextractor/main',
