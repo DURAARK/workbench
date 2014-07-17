@@ -12,7 +12,9 @@ var modules_core = [
         'modules/contrib/semanticobservatory/main',
         'modules/contrib/semanticenrichment/main',
         'modules/contrib/sipgenerator/main',
-        'modules/contrib/searchandretrieve/main'
+        'modules/contrib/searchandretrieve/main',
+        'modules/contrib/geometricenrichment/main',
+        'modules/contrib/maintenance/main'
     ],
     services_contrib = [
         'services/contrib/metadata/ifc'

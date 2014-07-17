@@ -14,7 +14,7 @@ define([
                 WorkbenchUI.vent.trigger('module:sip:show');
             },
             'click .js-maintenance': function() {
-                WorkbenchUI.vent.trigger('module:semanticobservatory:show');
+                WorkbenchUI.vent.trigger('module:maintenance:show');
             },
             'click .js-search-retrieval': function() {
                 WorkbenchUI.vent.trigger('module:searchandretrieve:show');

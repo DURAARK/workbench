@@ -43,7 +43,7 @@ define([
 
         events: {
             'click .js-next': function() {
-                WorkbenchUI.vent.trigger('module:semanticobservatory:show');
+                WorkbenchUI.vent.trigger('module:sipgenerator:show');
             },
             'click .js-previous': function() {
                 WorkbenchUI.vent.trigger('module:metadataextractor:show');
@@ -52,10 +52,6 @@ define([
 
         regions: {
             semanticregion: "#sematic-region"
-        },
-
-        initialize: function() {
-
         },
 
         updateBuildmData: function(model) {

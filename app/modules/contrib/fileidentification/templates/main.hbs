@@ -1,20 +1,29 @@
 <div class="container">
 	<div class="hero-unit">
-		FileIdentification: Checks if the files specified in the SessionManager are identifiable. Uses the 'FileIdentification' service.</div>
-
-	<div style='margin: 40px;'>
-		Checked files in this session:
-		<ul>
-			<li>Duplex_A_20110907_optimized.ifc <strong>-> valid ifc file</strong></li>
-			<li>dummy.e57 <strong>-> valid e57 file</strong></li>
-		</ui>
+		<h1>File Identification</h1>
+		Identification for uploaded files
 	</div>
 
-	<!-- This is the 'fileid' region of the template, where subregions can be 'shown' in. -->
-	<h3>File type identification</h3>
-	<div id="fileid-region">
-	  <img src="spinner.gif" alt="spinner">
-	  <p>Waiting for Droid to identify file. Typically takes 10-30 seconds per file. IFC is currently an unknown format for Droid, E57 is known.</p>
+	<div class="row">
+		<div class="span8">
+		    <p class='description'>
+		        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus scelerisque nibh eget ante aliquet, vitae aliquam tortor condimentum. Cras eleifend est lorem, ut interdum lectus pharetra nec. Duis ut gravida purus. Donec at felis laoreet, lobortis elit non, congue libero. In ac accumsan est, id auctor mauris. Aenean auctor odio mauris, ac gravida elit vulputate at. Aenean a elit sit amet enim tincidunt varius in ut dolor. Morbi sodales ligula vestibulum, mollis dui non, dignissim metus. Integer et lectus 
+		        sagittis, placerat massa a, laoreet urna. Mauris tempus lobortis urna, et viverra nunc tempor in. Cumsociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque in gravida odio, quis vulputate neque. Proin consequat enim vel porta suscipit. Curabitur non lacinia elit, a luctus nulla. Phasellus massa justo, tempor ut purus at, tincidunt gravida mi. 
+		    </p>
+		</div>
+	</div>
+
+	<div class="hero-unit">
+		<h1>Identified Files</h1>
+	</div>
+
+	<div class="row">
+		<div class="span8">
+			<div id="fileid-region">
+			  <img src="spinner.gif" alt="spinner">
+			  <p>Waiting for Droid to identify file. Typically takes 10-30 seconds per file. IFC is currently an unknown format for Droid, E57 is known.</p>
+			</div>
+		</div>
 	</div>
 
 	<button type="submit" class="btn btn-default js-previous">Previous</button>

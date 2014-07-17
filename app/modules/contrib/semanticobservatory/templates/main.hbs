@@ -1,29 +1,41 @@
 <div class="container">
 	<div class="hero-unit">
-		<center>Listing data from the Semantic Digital Observatory in this UI module</center>
-	</div>
-	
-	<!-- This is the 'buildm' region of the template, where subregions can be 'shown' in. -->
-	<h3>Sematic Digital Observatory</h3>
-	<p>Regarding Search: Enter a topic from Top Specific Resources and Datasets. The topic must be a <strong>DBpedia category</strong> (only the category name and not the full category URI, i.e. "Architecture" and not "http://dbpedia.org/page/Category:Architecture")</p><br> 
-	<br>
-	<span style="color:#80BFFF">This screen is in flux, ... There seems to be an issue, possibly related to timing. To explore this I have limited the number of json-array-items sent through from the node-service talking to the endpoint to the model to 10.</span>
-	<br>
-	
-	<p>
-	<input type="search" name="reposearch" id="searchstringinput">
-	<button type="submit" class="btn btn-default js-search">Search</button>
-	</p>
-	<br>
-	
-	<div id="semobs-region">
-	  <img src="spinner.gif" alt="spinner">
-	  <p>Waiting for webservice to provide fresh info about the state of the Observatory</p>
+		<h1>Semantic Digital Observatory</h1>
+		Interface to the Semantic Digital Observatory content.
+	</div>    
+
+	<div class="row">
+		<div class="span8">
+		    <p class='description'>
+		        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus scelerisque nibh eget ante aliquet, vitae aliquam tortor condimentum. Cras eleifend est lorem, ut interdum lectus pharetra nec. Duis ut gravida purus. Donec at felis laoreet, lobortis elit non, congue libero. In ac accumsan est, id auctor mauris. Aenean auctor odio mauris, ac gravida elit vulputate at. Aenean a elit sit amet enim tincidunt varius in ut dolor. Morbi sodales ligula vestibulum, mollis dui non, dignissim metus. Integer et lectus 
+		        sagittis, placerat massa a, laoreet urna. Mauris tempus lobortis urna, et viverra nunc tempor in. Cumsociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque in gravida odio, quis vulputate neque. Proin consequat enim vel porta suscipit. Curabitur non lacinia elit, a luctus nulla. Phasellus massa justo, tempor ut purus at, tincidunt gravida mi. 
+		    </p>	
+
+	<div class="hero-unit">
+        <h1>Search Mask</h1>
 	</div>
 
+	<div class="row">
+		<div class="span8">
+		    <p class='description'>
+				Enter a topic of top specific resources and datasets. The topic has to be a <strong>DBpedia category</strong> (only the category name and not the full category URI, i.e. "Architecture" and not "http://dbpedia.org/page/Category:Architecture")
+			</p>
 
-	<br><br>
+			<br><br>
 
-	<button type="submit" class="btn btn-default js-previous">Previous</button>
-	<button type="submit" class="btn btn-default js-next">Next</button>
+			Search topic: <input type="search" name="reposearch" id="searchstringinput">
+			<button type="submit" class="btn btn-default js-search">Search</button>
+
+			<br><br>
+		</div>
+	</div>
+			
+	<div class="row">
+		<div class="span12">			
+			<div id="semobs-region">
+			  <img src="spinner.gif" alt="spinner">
+			  <p>Waiting for webservice to provide fresh info about the state of the Observatory</p>
+			</div>
+		</div>
+	</div>
 </div>

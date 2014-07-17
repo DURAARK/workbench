@@ -3,141 +3,50 @@
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
+<head>
 
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-        <title>Duraark Workbench</title>
+    <title>DURAARK Workbench</title>
 
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
 
-        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-        
-        <link rel="stylesheet" href="styles/main.css">
-        
-        <link rel="stylesheet" href="styles/Hover-master/css/hover.css">
-        
-        <link href="themes/sb-admin-2/css/sb-admin.css" rel="stylesheet">
-
-        <!-- build:js scripts/vendor/modernizr.js -->
-        <script src="bower_components/modernizr/modernizr.js"></script>
-        <!-- endbuild -->
-
-    </head>
-
-    <body>  
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     
-    
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/Hover-master/css/hover.css">
+    <link href="themes/sb-admin-2/css/sb-admin.css" rel="stylesheet">
 
+    <!-- build:js scripts/vendor/modernizr.js -->
+    <script src="bower_components/modernizr/modernizr.js"></script>
+    <!-- endbuild -->
+</head>
+<body>  
     <div id="wrapper">
-           
-
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-<!--                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-                    <span class="sr-only">Toggle Sidebar</span>
-                </button> -->
-                <a class="navbar-brand" href="#">DURAARK WorkbenchUI</a>
+                <a class="navbar-brand" href="#">DURAARK Workbench</a>
             </div>
+
             <div id="logo">
                 <img src="duraark_logo.png" alt="DURAARK logo" width="200" height="150">
             </div>
 
-            <!-- /.navbar-header -->
-
-            <div class="navbar-default navbar-static-side" role="navigation"> 
-          
-            
-                <div class="sidebar-collapse">
-                    <ul class="nav" id="side-menu">
-<!--                         <li class="sidebar-search">
-                            <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Search...">
-                            </div>
-                        </li> -->
-                        <li class="inactive">
-                            <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Modules<span class="fa arrow"></span></a>
-                            <ul id="module-manager-region" class="nav nav-second-level">
-                                <li>
-                                    <a href="#sessionmanager">SessionManager</a>
-                                </li>
-                                <li>
-                                    <a href="#filidentification">File Identification</a>
-                                </li>
-                                <li>
-                                    <a href="#metadataextractor">Metadata Extractor</a>
-                                </li>
-                                <li>
-                                    <a href="#semanticobservatory">Semantic Observatory</a>
-                                </li>
-                                <li>
-                                    <a href="#semanticenrichment">Semantic Enrichment</a>
-                                </li>
-                                <li>
-                                    <a href="#semanticenrichment">Semantic Digital Observer</a>
-                                </li>
-                                <li>
-                                    <a href="#sipgeneration">SIP Generation</a>
-                                </li>
-                                <li>
-                                    <a href="#searchretrieve">Search & Retrieval</a>
-                                </li>                                
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-wrench fa-fw"></i> Backend Services<span class="fa arrow"></span></a>
-                            <ul id="module-manager-region" class="nav nav-second-level">
-                                <li>
-                                    <a href="#SessionManager">SessionManager</a>
-                                </li>
-                                <li>
-                                    <a href="#filidentification">File Identification</a>
-                                </li>
-                                <li>
-                                    <a href="#metadataextractor">Metadata Extractor</a>
-                                </li>
-                                <li>
-                                    <a href="#semanticobservatory">Semantic Observatory</a>
-                                </li>
-                                <li>
-                                    <a href="#semanticenrichment">Semantic Enrichment</a>
-                                </li>
-                                <li>
-                                    <a href="#semanticenrichment">Semantic Digital Observer</a>
-                                </li>
-                                <li>
-                                    <a href="#sipgeneration">SIP Generation</a>
-                                </li>
-                                <li>
-                                    <a href="#searchretrieve">Search & Retrieval</a>
-                                </li>                                
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                        <li style="width:100%">
-                            <a href="/modules/contrib/sdo" class='SDO_GUI'><i class="fa fa-wrench fa-fw"></i> SDO GUI</a>
-                        </li>                   
-                    </ul>
-                    <!-- /#side-menu -->
-                </div>
-                <!-- /.sidebar-collapse -->
-            </div>
-            <!-- /.navbar-static-side -->
+            <div id="logo-eu">
+                <img src="eu_logo.png" alt="EU logo" width="150" height="150">
+            </div>    
         </nav>
 
-        
-        
         <div id="page-wrapper">
-                <div id="main-region"></div>
+            <div id="main-region"></div>
         </div>
-
-        
-        <!-- build:js scripts/main.js -->
-        <script data-main="scripts/init" src="bower_components/requirejs/require.js"></script>
-        <!-- endbuild -->
+    </div>
+  
+    <!-- build:js scripts/main.js -->
+    <script data-main="scripts/init" src="bower_components/requirejs/require.js"></script>
+    <!-- endbuild -->
 
      <!-- Core Scripts - Include with every page -->
     <script src="themes/sb-admin-2/js/jquery-1.10.2.js"></script>
@@ -157,9 +66,9 @@
     <!-- Page-Level Demo Scripts - Flot - Use for reference -->
     <script src="themes/sb-admin-2/js/demo/flot-demo.js"></script>
 
-        <script>document.write('<script src="http://'
-            + (location.host || 'localhost').split(':')[0]
-            + ':35729/livereload.js?snipver=1"><\/script>');
-        </script>
-    </body>
+    <script>document.write('<script src="http://'
+        + (location.host || 'localhost').split(':')[0]
+        + ':35729/livereload.js?snipver=1"><\/script>');
+    </script>
+</body>
 </html>

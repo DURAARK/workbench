@@ -11,19 +11,16 @@ define([
     var MyModule = WorkbenchUI.module("Contrib.SearchAndRetrieve");
 
     WorkbenchUI.addInitializer(function() {
-        // 1. Register module with the ModuleManager:
         WorkbenchUI.execute('module:register', 'Contrib.SearchAndRetrieve');
 
- // 2. Register eventhandler to show the view:
         WorkbenchUI.vent.on('module:searchandretrieve:show', function(aSearchterm) {
             // First create the Model classes:
-            var SemObsModel = Backbone.Model.extend({                
+            var SemObsModel = Backbone.Model.extend({
                 urlRoot: "/services/probado" //no way to do this directly??
             });
 
-          
+
             if (!MyModule._mainView) {
-                // Create emtpy main view and show it:
                 MyModule._mainView = new SearchAndRetriveLayout();
 
                 if (typeof region !== 'undefined') {
@@ -31,15 +28,8 @@ define([
                 } else {
                     this.mainRegion.show(MyModule._mainView);
                 }
-                
-                
-                // Use the WorkbenchUI.fetchModel() method here to grab the model with id 1. In the 'then' function 
-                // callback it is guaranteed the the data from the server is received and the model is accessible:
-                //WorkbenchUI.fetchModel(BuildmModel, 1).then(function(model) {
-                WorkbenchUI.fetchModel(SemObsModel,"start=0&count=10").then(function(model) {
-                    if(typeof model=="undefined"){
-                        alert('No meaningful result from endpoint. Maybe the endpoint is down?');
-                    };                  
+
+                WorkbenchUI.fetchModel(SemObsModel, "start=0&count=10").then(function(model) {
                     MyModule._mainView.updateBuildmData(model);
                 });
 
@@ -47,10 +37,10 @@ define([
                 console.log("==> This is the else zone!!");
 
                 //*** TODO: / //FIXME: security..
-                WorkbenchUI.fetchModel(SemObsModel,"fulltextQuery=" + aSearchterm + "&start=0&count=10").then(function(model) { //search uses: fulltextQuery=Kamille&start=0&count=10
-                    if(typeof model=="undefined"){
+                WorkbenchUI.fetchModel(SemObsModel, "fulltextQuery=" + aSearchterm + "&start=0&count=10").then(function(model) { //search uses: fulltextQuery=Kamille&start=0&count=10
+                    if (typeof model == "undefined") {
                         alert('No meaningful result from endpoint. Maybe the endpoint is down?');
-                    };    
+                    };
                     MyModule._mainView.updateBuildmData(model);
                 });
 
@@ -77,4 +67,3 @@ define([
     // is registered with the Marionette.Application and accessible via its
     // WorkbenchUI.module('...') syntax.
 });
-

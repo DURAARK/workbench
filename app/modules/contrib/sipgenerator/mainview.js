@@ -53,9 +53,8 @@ define([
             //        WorkbenchUI.vent.trigger('module:sipgenerator:show', aSearchterm);
             //    },         
             'click .js-upload': function() {
-                console.log('upload clicked');
                 alert('Rosetta-SIP generated and uploaded to Rosetta!');
-                WorkbenchUI.vent.trigger('module:searchandretrieve:show');
+                // WorkbenchUI.vent.trigger('module:searchandretrieve:show');
             },
             'click .js-previous': function() {
                 console.log('previous');

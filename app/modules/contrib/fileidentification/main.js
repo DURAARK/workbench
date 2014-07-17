@@ -14,23 +14,11 @@ define([
         WorkbenchUI.execute('module:register', 'Contrib.FileIdentification');
 
         // 2. Register eventhandler to show the view:
-        WorkbenchUI.vent.on('module:fileidentification:show', function(region) {
+        WorkbenchUI.vent.on('module:fileidentification:show', function(id, region) {
             console.log('module:fileidentification:show');
 
             var FileIdModel = Backbone.Model.extend({
-                urlRoot: "/services/fileid",
-
-                // initialize: function() {
-                //     this.bind("change:format", function() {
-                //         console.log('format: ' + this.get('format'));
-                //         if (this.get('format') === 'fmt/643') {
-                //             this.set('formatString', 'E57 (pointcloud format)');
-                //             this.set('valid', true);
-                //         } else {
-                //             this.set('valid', false);
-                //         }
-                //     }.bind(this));
-                // }
+                urlRoot: "/services/fileid"
             });
 
             if (!MyModule._mainView) {

@@ -27,10 +27,6 @@ define([
         events: {
             "click td": "cellClicked"
         },
-        initialize: function(options) {
-            //console.log("options.myTableView = " + options.myTableView );         
-        },
-
 
         fieldsChanged: function() {
             this.render();
@@ -46,7 +42,6 @@ define([
         initialize: function(options) {
             console.log("options.myTableView fra ListItemView2 = " + options.myTableView);
         },
-
 
         fieldsChanged: function() {
             this.render();
