@@ -1,15 +1,24 @@
 define([
     'backbone.marionette',
+    'workbenchui',
     'hbs!./templates/main'
-], function(Marionette, MainViewTmpl) {
+], function(Marionette, WorkbenchUI, MainViewTmpl) {
     var MainView = Marionette.ItemView.extend({
         template: MainViewTmpl,
 
         events: {
-            'click .js-next': function() {
-                console.log('next clicked');
+            'click .js-geometric-enrichment': function() {
+                WorkbenchUI.vent.trigger('module:geometricenrichment:show');
+            },
+            'click .js-sip-generation': function() {
                 WorkbenchUI.vent.trigger('module:sip:show');
-            }
+            },
+            'click .js-maintenance': function() {
+                WorkbenchUI.vent.trigger('module:semanticobservatory:show');
+            },
+            'click .js-search-retrieval': function() {
+                WorkbenchUI.vent.trigger('module:searchandretrieve:show');
+            },
         }
     });
 

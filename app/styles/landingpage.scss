@@ -1,0 +1,22 @@
+@import "partials/outline";
+@import "partials/rounded";
+
+.landing-tiles {
+	list-style-type: none;
+}
+
+.landing-tiles .tile {
+	display: inline-block;
+	text-align: center;
+	font-weight: bold;
+
+	@include outline(rgb(200,200,200));
+	@include rounded(10px);
+
+	width: 150px;
+	height: 20px;
+	margin: 20px;
+	padding: 30px;
+
+	background-color: #fafafa;
+}
