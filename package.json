@@ -144,17 +144,17 @@
         },
         "files": [{
             "id": 0,
-            "path": "d:/Projekte/duraark/devspace/projects/workbench-app/server/fixtures/repository/CCO_DTU-Building127_Arch_CONF.ifc",
+            "path": "./server/fixtures/repository/CCO_DTU-Building127_Arch_CONF.ifc",
             "name": "CCO_DTU-Building127_Arch_CONF.ifc",
             "type": "ifc"
         }, {
             "id": 1,
-            "path": "d:/Projekte/duraark/devspace/projects/workbench-app/server/fixtures/repository/CCO_DTU-Building127_Arch_CONF.e57",
+            "path": "./server/fixtures/repository/CCO_DTU-Building127_Arch_CONF.e57",
             "name": "CCO_DTU-Building127_Arch_CONF.e57",
             "type": "e57"
         }, {
             "id": 2,
-            "path": "d:/Projekte/duraark/devspace/projects/workbench-app/server/fixtures/repository/CCO_DTU-Building127_Arch_CONF.ttl",
+            "path": "./workbench-app/server/fixtures/repository/CCO_DTU-Building127_Arch_CONF.ttl",
             "name": "CCO_DTU-Building127_Arch_CONF.ttl",
             "type": "rdf"
         }]
