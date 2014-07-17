@@ -1,16 +1,27 @@
 <div class="container">
 	<div class="hero-unit">
-		Welcome to the DURAARK <em>Workbench</em> prototype
+		Welcome to the DURAARK <em>SIP Generation</em> workflow	
 	</div>
 
 	<div class='welcome-wrapper'>
 		<p class='intro'>Working with the <em>Workbench</em> prototype is organized in <em>Sessions</em>. A session consists of a selection of files that you want to archive to a long-term-archival system. The result of a session is a SIP file that is ready for uploading to the archival system. In this version of the prototype (M18) no actual uploading of the generated SIP is taking place, this will be possible in later versions of the prototype.</p>
 
-		<div align="left">
+		{{!-- <div align="left"> --}}
 			Session name:    <input type="text" name="session-name" placeholder="MyNewSession"><br>
-			Enable Demo Mode <input type="checkbox" name="demo-mode" value="true"><br><br>
-		</div>
+		<button type="submit" class="btn btn-default js-new">New Session</button>
+		{{!-- </div> --}}
 
-		<button type="submit" class="btn btn-default js-next">Start New Session</button>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Label</th>
+					<th>Files</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
 	</div>
 </div>

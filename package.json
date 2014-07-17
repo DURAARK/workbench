@@ -57,27 +57,6 @@
             "handler": "fileid"
         }
     }, {
-        "id": "/command/list",
-        "interface": {
-            "command": {
-                "name": "ping",
-                "options": "-t -n 1",
-                "input": "localhost"
-            },
-            "handler": "listcommand"
-        }
-    }, {
-        "id": "/metadata/ifc",
-        "interface": {
-            "command": {
-                "name": "./server/executables/metadataextractor-ifc.bat",
-                "options": "",
-                "input": "./server/fixtures/building.ifc",
-                "output": "./server/output/building.ifcm.rdf"
-            },
-            "handler": "metadataextractor-ifc"
-        }
-    }, {
         "id": "/services/buildm",
         "interface": {
             "command": {
@@ -116,16 +95,6 @@
             "handler": "probado"
         }
     }, {
-        "id": "/services/ifcm",
-        "interface": {
-            "command": {
-                "name": "d:/Projekte/duraark/devspace/projects/workbench-app/server/executables/python-3.2.5.1/App/python.exe",
-                "options": "./server/executables/ifcm_extractor_dummy.py",
-                "input": "./server/fixtures/Duplex_A_20110907_optimized.ifc"
-            },
-            "handler": "ifcm"
-        }
-    }, {
         "id": "/services/e57m",
         "interface": {
             "command": {
@@ -144,5 +113,50 @@
         "settings": {
             "testClientLoadingAndErrorRoutes": false
         }
-    }
+    },
+    "sessions": [{
+        "id": 0,
+        "label": "CCO_DTU-Building127",
+        "options": {
+            "demo_mode": true
+        },
+        "files": [{
+            "id": 0,
+            "path": "d:/Projekte/duraark/devspace/projects/workbench-app/server/fixtures/repository/CCO_DTU-Building127_Arch_CONF.ifc",
+            "name": "CCO_DTU-Building127_Arch_CONF.ifc",
+            "type": "ifc"
+        }, {
+            "id": 1,
+            "path": "d:/Projekte/duraark/devspace/projects/workbench-app/server/fixtures/repository/CCO_DTU-Building127_Arch_CONF.e57",
+            "name": "CCO_DTU-Building127_Arch_CONF.e57",
+            "type": "e57"
+        }, {
+            "id": 2,
+            "path": "d:/Projekte/duraark/devspace/projects/workbench-app/server/fixtures/repository/CCO_DTU-Building127_Arch_CONF.ttl",
+            "name": "CCO_DTU-Building127_Arch_CONF.ttl",
+            "type": "rdf"
+        }]
+    }, {
+        "id": 1,
+        "label": "Empire State Building",
+        "options": {
+            "demo_mode": true
+        },
+        "files": [{
+            "id": 0,
+            "path": "d:/Projekte/duraark/devspace/projects/workbench-app/server/fixtures/repository/CCO_DTU-Building127_Arch_CONF.ifc",
+            "name": "CCO_DTU-Building127_Arch_CONF.ifc",
+            "type": "ifc"
+        }, {
+            "id": 1,
+            "path": "d:/Projekte/duraark/devspace/projects/workbench-app/server/fixtures/repository/CCO_DTU-Building127_Arch_CONF.e57",
+            "name": "CCO_DTU-Building127_Arch_CONF.e57",
+            "type": "e57"
+        }, {
+            "id": 2,
+            "path": "d:/Projekte/duraark/devspace/projects/workbench-app/server/fixtures/repository/CCO_DTU-Building127_Arch_CONF.ttl",
+            "name": "CCO_DTU-Building127_Arch_CONF.ttl",
+            "type": "rdf"
+        }]
+    }]
 }
