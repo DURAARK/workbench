@@ -11,7 +11,8 @@ FileIdentifier.prototype.identify = function(file_path, cb) {
     var exec_path = 'java',
         droid_jar = path.join(this._appRoot, './executables/droid/droid-command-line-6.2.0-SNAPSHOT.jar'),
         signature_file = path.join(this._appRoot, './executables/droid/DROID_SignatureFile_V74.xml'),
-        options = '-jar ' + droid_jar + ' -q -R -Nr ' + file_path + ' -Ns ' + signature_file;
+        abs_file_path = path.join(this._appRoot, file_path),
+        options = '-jar ' + droid_jar + ' -q -R -Nr ' + abs_file_path + ' -Ns ' + signature_file;
 
     // console.log('[FileIdentifier::identify] About to execute: ' + exec_path + ' ' + options);
 
@@ -24,12 +25,13 @@ FileIdentifier.prototype.identify = function(file_path, cb) {
         // console.log('FILE:   \n' + file_path);
         // console.log('\n');
 
-        if (data.toString().toLowerCase().indexOf(path.join(file_path).toLowerCase()) === 0) {
+        // if (data.toString().toLowerCase().indexOf(path.join(file_path).toLowerCase()) === 0) {
+        if (data.toString().indexOf('.e57,fmt') > -1) {
             var info = data.toString().split(',');
 
             var info = {
                 name: path.basename(info[0]),
-                format: info[1]
+                format: info[1].replace(/(\r\n|\n|\r)/gm, "")
             };
 
             cb(info);
@@ -40,7 +42,7 @@ FileIdentifier.prototype.identify = function(file_path, cb) {
     });
 
     executable.stderr.on('data', function(data) {
-        console.log('[FileIdentifier::identify] Error executing: ' + exec_path + ' ' + options);
+        console.log(exec_path + ' ' + options);
         console.log(data.toString());
     });
 }

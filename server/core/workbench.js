@@ -127,8 +127,6 @@ Workbench.prototype.registerFileIdService = function() {
                 });
 
                 this._fileIdentifier.identify(e57_file.path, function(info) {
-                    info.format = info.format.replace(/(\r\n|\n|\r)/gm, "");
-
                     if (info.format === 'fmt/643') {
                         info['valid'] = true;
                         info['formatString'] = 'E57 (pointcloud)';
