@@ -1,0 +1,208 @@
+{
+    "e57_metadata": {
+        "guid": "{7E3C7C9C-EFCB-4F5A-9A6F-98A08F72FB1B}",
+        "version_major": 1,
+        "version_minor": 0,
+        "creation_datetime": {
+            "year": 2011,
+            "month": 11,
+            "day": 3,
+            "hour": 19,
+            "minute": 5,
+            "seconds": 35.548999786376953
+        },
+        "coordinate_metadata": "undefined",
+        "scan_count": 1,
+        "image_count": 1,
+        "scan_size": 1,
+        "image_size": 1,
+        "scans": [
+            {
+                "name": "parking000",
+                "guid": "{F0B3C105-325B-4FC9-9E01-3130153F9800}",
+                "original_guids": [],
+                "description": "",
+                "sensor_vendor": "",
+                "sensor_model": "",
+                "sensor_serial_number": "",
+                "sensor_hardware_version": "",
+                "sensor_software_version": "",
+                "sensor_firmware_version": "",
+                "temperature": 0,
+                "relative_humidity": 3.4028234663852886e+038,
+                "atmospheric_pressure": 3.4028234663852886e+038,
+                "acquisition_start": {
+                    "year": 1980,
+                    "month": 1,
+                    "day": 6,
+                    "hour": 0,
+                    "minute": 0,
+                    "seconds": 0
+                },
+                "acquisition_end": {
+                    "year": 1980,
+                    "month": 1,
+                    "day": 6,
+                    "hour": 0,
+                    "minute": 0,
+                    "seconds": 0
+                },
+                "pose": {
+                    "rotation": {
+                        "w": 0.99996960774189081,
+                        "x": -0.0074585516927261801,
+                        "y": -0.0022701539983015365,
+                        "z": 0
+                    },
+                    "translation": {
+                        "x": 89.951072690000004,
+                        "y": 1.8420018,
+                        "z": 2e-008
+                    }
+                },
+                "index_bounds": {
+                    "row_minimum": 0,
+                    "row_maximum": 3470,
+                    "col_minimum": 0,
+                    "col_maximum": 8213,
+                    "return_minimum": 0,
+                    "return_maximum": 0
+                },
+                "cartesian_bounds": {
+                    "x_minimum": -68.432470999999993,
+                    "x_maximum": 57.134830999999998,
+                    "y_minimum": -59.897230999999998,
+                    "y_maximum": 70.512130999999997,
+                    "z_minimum": -2.0202709999999997,
+                    "z_maximum": 3.779801
+                },
+                "spherical_bounds": {
+                    "range_minimum": 1.6562939999999999,
+                    "range_maximum": 90.929899999999989,
+                    "elevation_minimum": -1.0909121353667537,
+                    "elevation_maximum": 1.5701933463079427,
+                    "azimuth_minimum": 0,
+                    "azimuth_maximum": -6.4112263142845904e-007
+                },
+                "intensity_limits": {
+                    "intensity_minimum": 0,
+                    "intensity_maximum": 1
+                },
+                "color_limits": {
+                    "color_red_minimum": 0,
+                    "color_red_maximum": 255,
+                    "color_green_minimum": 0,
+                    "color_green_maximum": 255,
+                    "color_blue_minimum": 0,
+                    "color_blue_maximum": 255
+                },
+                "point_fields": {
+                    "cartesian_x_field": true,
+                    "cartesian_y_field": true,
+                    "cartesian_z_field": true,
+                    "cartesian_invalid_state_field": true,
+                    "spherical_range_field": false,
+                    "spherical_azimuth_field": false,
+                    "spherical_elevation_field": false,
+                    "spherical_invalid_state_field": false,
+                    "point_range_minimum": -268.43545599999999,
+                    "point_range_maximum": 268.43545499999999,
+                    "point_range_scaled_integer": 9.9999999999999995e-007,
+                    "angle_minimum": 0,
+                    "angle_maximum": 0,
+                    "angle_scaled_integer": 0,
+                    "row_index_field": true,
+                    "row_index_maximum": 4095,
+                    "column_index_field": true,
+                    "column_index_maximum": 16383,
+                    "return_index_field": false,
+                    "return_count_field": false,
+                    "return_maximum": 0,
+                    "time_stamp_field": false,
+                    "is_Time_Stamp_Invalid_field": false,
+                    "time_Maximum": 0,
+                    "intensity_field": true,
+                    "is_intensity_invalid_field": false,
+                    "intensity_scaled_integer": 3.0518509475997192e-005,
+                    "color_red_field": true,
+                    "color_green_field": true,
+                    "color_blue_field": true,
+                    "is_color_invalid_field": false
+                },
+                "points_size": 27802731
+            }
+        ],
+        "images": [
+            {
+                "name": "parking000",
+                "guid": "{76BD148C-D22A-4FE3-8CB2-0FB01F96698B}",
+                "description": "",
+                "representation": "spherical",
+                "acquisition_datetime": {
+                    "year": 1980,
+                    "month": 1,
+                    "day": 6,
+                    "hour": 0,
+                    "minute": 0,
+                    "seconds": 0
+                },
+                "associated_data3D_guid": "{F0B3C105-325B-4FC9-9E01-3130153F9800}",
+                "sensor_vendor": "",
+                "sensor_model": "",
+                "sensor_serial_number": "",
+                "pose": {
+                    "rotation": {
+                        "w": 0.70283815264201144,
+                        "x": 0.077691052038131911,
+                        "y": 0.088163333920523737,
+                        "z": 0.70157669443617587
+                    },
+                    "translation": {
+                        "x": 89.951072690000004,
+                        "y": 1.8420018,
+                        "z": 2e-008
+                    }
+                },
+                "visual_ref_representation": {
+                    "jpeg_image_size": 0,
+                    "png_image_size": 0,
+                    "image_mask_size": 0,
+                    "image_width": 0,
+                    "image_height": 0
+                },
+                "pinhole_representation": {
+                    "jpeg_image_size": 0,
+                    "png_image_size": 0,
+                    "image_mask_size": 0,
+                    "image_width": 0,
+                    "image_height": 0,
+                    "focal_length": 0,
+                    "pixel_width": 0,
+                    "pixel_height": 0,
+                    "principal_point_x": 0,
+                    "principal_point_y": 0
+                },
+                "spherical_representation": {
+                    "jpeg_image_size": 0,
+                    "png_image_size": 23551883,
+                    "image_mask_size": 0,
+                    "image_width": 8187,
+                    "image_height": 3471,
+                    "pixel_width": 0.00076745772193576565,
+                    "pixel_height": 0.0007666681778157584
+                },
+                "cylindrical_representation": {
+                    "jpeg_image_size": 0,
+                    "png_image_size": 0,
+                    "image_mask_size": 0,
+                    "image_width": 0,
+                    "image_height": 0,
+                    "pixel_width": 0,
+                    "pixel_height": 0,
+                    "radius": 0,
+                    "principal_point_y": 0
+                }
+            }
+        ]
+    }
+}

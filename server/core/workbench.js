@@ -3,7 +3,8 @@ var SessionManager = require('./session-manager'),
     ServiceProviderMixin = require('./service-provider-mixin/index.js'),
     LoggerMixin = require('./logger-mixin'),
     _ = require('underscore'),
-    path = require('path');
+    path = require('path'),
+    fs = require('fs');
 
 var Workbench = module.exports = function(opts) {
     this._config = require(__dirname + '/../' + opts.config);
@@ -40,10 +41,37 @@ var Workbench = module.exports = function(opts) {
     this.registerEndpoints(this._config.services);
 
     this.loadSessions(this._config.sessions);
+
+    // FIXXME: temporary solution until e57Extract is linux compatible:
+    this.registerE57Extractor();
 }
 
 _.extend(Workbench.prototype, ServiceProviderMixin.prototype);
 _.extend(Workbench.prototype, LoggerMixin.prototype);
+
+Workbench.prototype.registerE57Extractor = function() {
+    this._router.get('/services/e57m/:id', function(req, res) {
+        var outputFile = path.join(this._appRoot, 'uploads', 'e57_tmp_output.json');
+        fs.readFile(outputFile, 'utf8', function(err, data) {
+            if (err) {
+                console.log('[E57M:onStdOut] error reading file: ' + err);
+                return;
+            }
+
+            data = JSON.parse(data);
+
+            var result = {
+                scan_count: data.e57_metadata.scan_count,
+                image_count: data.e57_metadata.image_count
+            }
+
+            console.dir(result);
+
+            // Simply return the json string given in the output:
+            res.json(result);
+        });
+    }.bind(this));
+};
 
 Workbench.prototype.loadSessions = function(sessions) {
     _.forEach(sessions, function(session) {

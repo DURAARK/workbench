@@ -95,15 +95,6 @@
             "handler": "probado"
         }
     }, {
-        "id": "/services/e57m",
-        "interface": {
-            "command": {
-                "name": "./server/executables/e57Extract/bin/e57_metadata_extract.exe",
-                "options": ""
-            },
-            "handler": "e57m"
-        }
-    }, {
         "id": "/services/sdoinfo",
         "interface": {
             "handler": "sdoinfo/sdoinfo"
