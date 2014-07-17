@@ -9,7 +9,7 @@ var BuildmIFC = module.exports = function(opts, logger) {
 }
 _.extend(BuildmIFC.prototype, ConsoleService.prototype);
 
-BuildmIFC.prototype.selectFile = function(session_id) {
+BuildmIFC.prototype.selectFile = function(session_id, appRoot) {
     var sessions = this.getSessionManager().getSessions();
 
     if (session_id < sessions.length) {
@@ -20,7 +20,7 @@ BuildmIFC.prototype.selectFile = function(session_id) {
 
         console.log('[BuildmIFC::selectFile] selected file: ' + file.path);
 
-        return file.path;
+        return path.join(appRoot, file.path);
     } else {
         return null;
     }

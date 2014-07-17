@@ -27,7 +27,7 @@ ConsoleService.prototype.findById = function(req, res) {
     var session_id = req.params['id'],
         inputparam = null;
 
-    var file_path = this.selectFile(session_id);
+    var file_path = this.selectFile(session_id, this._appRoot);
 
     if (!file_path) {
         res.status(404).send('Could not find file');
