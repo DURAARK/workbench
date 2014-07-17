@@ -60,7 +60,7 @@
         "id": "/services/buildm",
         "interface": {
             "command": {
-                "name": "d:/Projekte/duraark/devspace/projects/workbench-app/server/executables/python-3.2.5.1/App/python.exe",
+                "name": "python3",
                 "options": "./server/executables/pyIfcExtract/buildm_extractor.py"
             },
             "handler": "buildm-ifc"

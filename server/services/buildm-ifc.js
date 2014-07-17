@@ -18,9 +18,11 @@ BuildmIFC.prototype.selectFile = function(session_id, appRoot) {
             return file.type === 'ifc'
         });
 
-        console.log('[BuildmIFC::selectFile] selected file: ' + file.path);
+        var abs_file_path = path.join(appRoot, file.path);
 
-        return path.join(appRoot, file.path);
+        console.log('[BuildmIFC::selectFile] selected file: ' + abs_file_path);
+
+        return abs_file_path;
     } else {
         return null;
     }

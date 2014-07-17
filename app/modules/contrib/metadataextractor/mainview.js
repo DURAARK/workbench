@@ -80,15 +80,17 @@ define([
 
         events: {
             'click .js-next': function() {
-                console.log('next clicked --> module:semanticenrichment:show');
-                this._collectionToRdf(this._buildmCollection).then(function(rdf) {
-                    console.log("===============================");
-                    console.log(rdf);
-                    console.log("===============================");
-                    // this.submitRdfToServer(rdf).then(function() {
+                if (this._buildmCollection) {
+                    this._collectionToRdf(this._buildmCollection).then(function(rdf) {
+                        console.log("===============================");
+                        console.log(rdf);
+                        console.log("===============================");
+                        // this.submitRdfToServer(rdf).then(function() {
+                        WorkbenchUI.vent.trigger('module:semanticenrichment:show');
+                    });
+                } else {
                     WorkbenchUI.vent.trigger('module:semanticenrichment:show');
-                    console.log('after vent.trigger by click..');
-                });
+                }
             },
             'click .js-previous': function() {
                 console.log('previous');
