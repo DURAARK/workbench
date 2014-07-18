@@ -1,10 +1,12 @@
 var SessionManager = require('./session-manager'),
     FileIdentifier = require('./file-identifier'),
+    SIPGenerator = require('./sip-generator'),
     ServiceProviderMixin = require('./service-provider-mixin/index.js'),
     LoggerMixin = require('./logger-mixin'),
     _ = require('underscore'),
     path = require('path'),
-    fs = require('fs');
+    fs = require('fs'),
+    uuid = require('node-uuid');
 
 var Workbench = module.exports = function(opts) {
     this._config = require(__dirname + '/../' + opts.config);
@@ -20,6 +22,11 @@ var Workbench = module.exports = function(opts) {
 
     this._fileIdentifier = new FileIdentifier({
         appRoot: this._appRoot
+    });
+
+    this._sipGenerator = new SIPGenerator({
+        appRoot: this._appRoot,
+        dbPath: path.join(this._appRoot, '..', 'sip_db.db')
     });
 
     ServiceProviderMixin.call(this, this._router, {
@@ -38,6 +45,7 @@ var Workbench = module.exports = function(opts) {
     this.registerUploadService();
     this.registerNewSessionService();
     this.registerFileIdService();
+    this.registerSIPGeneratorService();
     this.registerEndpoints(this._config.services);
 
     this.loadSessions(this._config.sessions);
@@ -48,6 +56,23 @@ var Workbench = module.exports = function(opts) {
 
 _.extend(Workbench.prototype, ServiceProviderMixin.prototype);
 _.extend(Workbench.prototype, LoggerMixin.prototype);
+
+Workbench.prototype.registerSIPGeneratorService = function() {
+    this._router.get('/services/sipgenerator/:id', function(req, res) {
+        var id = req.param('id');
+        if (id < this._sessions.length) {
+            var session = this._sessions[id];
+            this._sipGenerator.archive(session, function(sip_path) {
+                console.log('[Workbench::SIPGenerator] created archive: ' + sip_path);
+                res.json({
+                    sipPath: sip_path
+                });
+            });
+        } else {
+            res.status(404).send('No session with id "' + id + '" is found. SIP Generation aborted!');
+        }
+    }.bind(this));
+};
 
 Workbench.prototype.registerE57Extractor = function() {
     this._router.get('/services/e57m/:id', function(req, res) {
@@ -75,6 +100,7 @@ Workbench.prototype.registerE57Extractor = function() {
 
 Workbench.prototype.loadSessions = function(sessions) {
     _.forEach(sessions, function(session) {
+        session.uuid = uuid.v4();
         this._sessions.push(session);
     }.bind(this));
 };
@@ -82,6 +108,7 @@ Workbench.prototype.loadSessions = function(sessions) {
 Workbench.prototype.addSession = function(config) {
     var session = {
         id: this._sessions.length,
+        uuid: uuid.v4(),
         label: config.label,
         options: config.options,
         files: []
