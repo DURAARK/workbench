@@ -35,6 +35,7 @@ router.set('views', appRoot + '../router/scripts/views');
 // mount static:
 router.use(express.static(wwwRoot));
 router.use(express.static(path.join(wwwRoot, '../.tmp')));
+router.use(express.static(path.join(appRoot, 'executables/sipgen/SIP_Generator/sip')));
 router.use(bodyParser.json());
 
 // mount index.html:

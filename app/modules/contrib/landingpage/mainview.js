@@ -8,7 +8,8 @@ define([
 
         events: {
             'click .js-geometric-enrichment': function() {
-                WorkbenchUI.vent.trigger('module:geometricenrichment:show');
+                // WorkbenchUI.vent.trigger('module:geometricenrichment:show');
+                WorkbenchUI.vent.trigger('module:sipgenerator:show');
             },
             'click .js-sip-generation': function() {
                 WorkbenchUI.vent.trigger('module:sip:show');

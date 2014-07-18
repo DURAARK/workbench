@@ -1,21 +1,18 @@
 define([
+    'backbone',
     'backbone.marionette',
     'workbenchui',
     'hbs!./templates/main',
     'hbs!./templates/list-item',
     'hbs!./templates/list-collection'
-], function(Marionette, WorkbenchUI, SipGeneratorTmpl, ListItemTmpl, TableTmpl) {
+], function(Backbone, Marionette, WorkbenchUI, SipGeneratorTmpl, ListItemTmpl, TableTmpl) {
     // Represents on list item:
-    var ListItemView = Backbone.Marionette.ItemView.extend({
+    var ListItemView = Marionette.ItemView.extend({
         template: ListItemTmpl,
         tagName: 'tr',
         events: {
             "click td": "cellClicked"
         },
-        initialize: function(options) {
-            //console.log("options.myTableView = " + options.myTableView );         
-        },
-
 
         fieldsChanged: function() {
             this.render();
@@ -23,7 +20,7 @@ define([
     });
 
     // Represents the table view, which is using the ListItemView to render its items:
-    var TableView = Backbone.Marionette.CompositeView.extend({
+    var TableView = Marionette.CompositeView.extend({
         tagName: "table",
         className: 'table table-striped',
         template: TableTmpl,
@@ -38,7 +35,7 @@ define([
     });
 
     // Represents the main page, including the TableView in the 'list' region when the 'onShow' method is called:
-    var MainView = Backbone.Marionette.Layout.extend({
+    var MainView = Marionette.Layout.extend({
         template: SipGeneratorTmpl,
 
         regions: {
@@ -46,25 +43,59 @@ define([
         },
 
         events: {
-            // 'click .js-search': function() {   //TODO -- remove this one??
-            //        //Show spinner while we wait for search results from Probado             
-            //        document.getElementById("sipgen-region").innerHTML = '<img src="spinner.gif" alt="spinner"><p>Waiting for webservice to provide fresh info</p>';
-            //        var aSearchterm = $("#searchstringinput").val();
-            //        WorkbenchUI.vent.trigger('module:sipgenerator:show', aSearchterm);
-            //    },         
+            'click .js-download': function() {
+                var downloadURL = function downloadURL(url) {
+                    var hiddenIFrameID = 'hiddenDownloader',
+                        iframe = document.getElementById(hiddenIFrameID);
+                    if (iframe === null) {
+                        iframe = document.createElement('iframe');
+                        iframe.id = hiddenIFrameID;
+                        iframe.style.display = 'none';
+                        document.body.appendChild(iframe);
+                    }
+                    iframe.src = url;
+                };
+
+                console.log('Download from: ' + this.downloadUrl);
+                downloadURL(this.downloadUrl);
+            },
+
             'click .js-upload': function() {
-                alert('Rosetta-SIP generated and uploaded to Rosetta!');
-                // WorkbenchUI.vent.trigger('module:searchandretrieve:show');
+                var SIP = Backbone.Model.extend({
+                    urlRoot: 'services/sipgenerator'
+                });
+
+                var button = $('.js-upload'),
+                    loading = $('#loading'),
+                    download = $('#download')
+
+                loading.show();
+                button.attr("disabled", "disabled");
+                // button.html('Generating...');
+
+                var sip = new SIP({
+                    id: 0
+                });
+                sip.fetch().then(function(model) {
+                    console.log('[SIPGenerator] Download SIP at: ' + model.url);
+                    loading.hide();
+
+                    this.downloadUrl = model.url;
+
+                    $('.js-upload').hide();
+                    $('.js-download').show();
+
+                }.bind(this));
             },
             'click .js-previous': function() {
                 console.log('previous');
-                WorkbenchUI.vent.trigger('module:semanticenrichment:show');
+                WorkbenchUI.vent.trigger('module:landingpage:show');
             }
-
         },
 
-        initialize: function() {
-
+        onShow: function() {
+            $('#loading').hide();
+            $('.js-download').hide();
         },
 
         updateBuildmData: function(model) {

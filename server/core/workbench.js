@@ -65,7 +65,7 @@ Workbench.prototype.registerSIPGeneratorService = function() {
             this._sipGenerator.archive(session, function(sip_path) {
                 console.log('[Workbench::SIPGenerator] created archive: ' + sip_path);
                 res.json({
-                    sipPath: sip_path
+                    url: path.basename(sip_path)
                 });
             });
         } else {
