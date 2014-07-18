@@ -6,7 +6,8 @@ var SessionManager = require('./session-manager'),
     _ = require('underscore'),
     path = require('path'),
     fs = require('fs'),
-    uuid = require('node-uuid');
+    uuid = require('node-uuid'),
+    humanize = require('humanize');
 
 var Workbench = module.exports = function(opts) {
     this._config = require(__dirname + '/../' + opts.config);
@@ -98,9 +99,20 @@ Workbench.prototype.registerE57Extractor = function() {
     }.bind(this));
 };
 
+function getFileSize(filename) {
+    var stats = fs.statSync(filename);
+    var fileSizeInBytes = stats["size"];
+    return humanize.filesize(fileSizeInBytes);
+}
+
 Workbench.prototype.loadSessions = function(sessions) {
     _.forEach(sessions, function(session) {
         session.uuid = uuid.v4();
+
+        _.forEach(session.files, function(file) {
+            file.size = getFileSize(path.join(this._appRoot, file.path));
+        }.bind(this));
+
         this._sessions.push(session);
     }.bind(this));
 };

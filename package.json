@@ -15,7 +15,8 @@
     "express": "~4.6.1",
     "body-parser": "~1.4.3",
     "sqlite3": "~2.2.4",
-    "node-uuid": "~1.4.1"
+    "node-uuid": "~1.4.1",
+    "humanize": "0.0.9"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
@@ -145,13 +146,13 @@
       "files": [
         {
           "id": 0,
-          "path": "./server/fixtures/repository/CCO_DTU-Building127_Arch_CONF.ifc",
+          "path": "./fixtures/repository/CCO_DTU-Building127_Arch_CONF.ifc",
           "name": "CCO_DTU-Building127_Arch_CONF.ifc",
           "type": "ifc"
         },
         {
           "id": 1,
-          "path": "./server/fixtures/repository/CCO_DTU-Building127_Arch_CONF.e57",
+          "path": "./fixtures/repository/CCO_DTU-Building127_Arch_CONF.e57",
           "name": "CCO_DTU-Building127_Arch_CONF.e57",
           "type": "e57"
         }
