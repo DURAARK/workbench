@@ -6,7 +6,7 @@ var modules_core = [
     modules_contrib = [
         'modules/contrib/landingpage/main',
         'modules/contrib/sip/main',
-        'modules/contrib/sessionmanager/main',
+        'modules/contrib/filemanager/main',
         'modules/contrib/fileidentification/main',
         'modules/contrib/metadataextractor/main',
         'modules/contrib/semanticobservatory/main',

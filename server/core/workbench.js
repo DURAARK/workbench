@@ -180,10 +180,6 @@ Workbench.prototype.registerNewSessionService = function() {
 };
 
 Workbench.prototype.registerFileIdService = function() {
-    this._router.get('/services/fileid', function(req, res) {
-        res.json(this._sessions);
-    }.bind(this));
-
     this._router.get('/services/fileid/:id', function(req, res) {
         var id = req.param('id');
         if (id < this._sessions.length) {
@@ -193,16 +189,21 @@ Workbench.prototype.registerFileIdService = function() {
                     return file.type === 'e57'
                 });
 
-                this._fileIdentifier.identify(e57_file.path, function(info) {
-                    if (info.format === 'fmt/643') {
-                        info['valid'] = true;
-                        info['formatString'] = 'E57 (pointcloud)';
-                    } else {
-                        info['valid'] = false;
-                    }
+                if (e57_file) {
+                    this._fileIdentifier.identify(e57_file.path, function(info) {
+                        if (info.format === 'fmt/643') {
+                            info['valid'] = true;
+                            info['formatString'] = 'E57 (pointcloud)';
+                        } else {
+                            info['valid'] = false;
+                        }
 
-                    res.send(info);
-                })
+                        res.send(info);
+                    });
+                } else {
+                    // FIXXME: give correct error code:
+                    res.status(404).send('No E57 file found in this session.');
+                }
             } else {
                 // FIXXME: return proper status code!
                 res.send({});

@@ -47,8 +47,13 @@ define([
 
         initialize: function() {
             this.listenTo(this, 'itemview:start:session', function(itemview) {
-                console.log('Starting session: ' + itemview.model.get('label'));
-                WorkbenchUI.vent.trigger('module:fileidentification:show', itemview.model.get('id'));
+                var session = itemview.model;
+                console.log('Starting session: ' + session.get('label'));
+                if (session.get('files').length === 0) {
+                    WorkbenchUI.vent.trigger('module:filemanager:show', session.get('id'));
+                } else {
+                    WorkbenchUI.vent.trigger('module:fileidentification:show', session.get('id'));
+                }
             });
 
             this.listenTo(this, 'itemview:delete:session', function(itemview) {

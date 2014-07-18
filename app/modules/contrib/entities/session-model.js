@@ -2,7 +2,7 @@ define([
     'backbone'
 ], function(Backbone) {
     var SessionModel = Backbone.Model.extend({
-        urlRoot: "/services/session",
+        urlRoot: 'services/session',
         defaults: {
             label: 'MyNewSession',
             options: {

@@ -5,22 +5,22 @@ define([
     './mainview.js'
 ], function(Marionette, WorkbenchUI, UIModuleBase, MainView) {
 
-    WorkbenchUI.module('Contrib.sessionmanager', UIModuleBase);
+    WorkbenchUI.module('Contrib.FileManager', UIModuleBase);
 
-    var MyModule = WorkbenchUI.module("Contrib.sessionmanager");
+    var MyModule = WorkbenchUI.module("Contrib.FileManager");
 
     WorkbenchUI.addInitializer(function() {
         // 1. Register module with the ModuleManager:
-        WorkbenchUI.execute('module:register', 'Contrib.sessionmanager');
+        WorkbenchUI.execute('module:register', 'Contrib.FileManager');
 
         // 2. Register eventhandler to show the view:
-        WorkbenchUI.vent.on('module:sessionmanager:show', function(id, region) {
-            console.log('module:sessionmanager:show session: ' + id);
-
+        WorkbenchUI.vent.on('module:filemanager:show', function(id, region) {
             if (!MyModule._mainView) {
                 MyModule._mainView = new MainView();
             }
 
+            MyModule._mainView.setSession(id);
+            
             if (typeof region !== 'undefined') {
                 region.show(MyModule._mainView);
             } else {
@@ -35,17 +35,6 @@ define([
             
         }.bind(this));
 
-        console.log('[WorkbenchUI.Contrib.sessionmanager] started');
+        console.log('[WorkbenchUI.Contrib.FileManager] started');
     });
-
-    // TODO: not working with this version of Marionette...
-    // MyModule.addFinalizer(function() {
-    //     WorkbenchUI.mainRegion.close();
-
-    //     console.log('[WorkbenchUI.Contrib.sessionmanager] stopped');
-    // });
-
-    // NOTE: No explicit return value is given here vor the AMD module. The module
-    // is registered with the Marionette.Application and accessible via its
-    // WorkbenchUI.module('...') syntax.
 });

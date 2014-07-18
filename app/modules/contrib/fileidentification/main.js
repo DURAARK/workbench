@@ -2,8 +2,9 @@ define([
     'backbone.marionette',
     'workbenchui',
     'core/uimodulebase',
+    '../entities/fileid-collection',
     './mainview.js'
-], function(Marionette, WorkbenchUI, UIModuleBase, FileIdLayout) {
+], function(Marionette, WorkbenchUI, UIModuleBase, FileIds, FileIdLayout) {
 
     WorkbenchUI.module('Contrib.FileIdentification', UIModuleBase);
 
@@ -15,14 +16,13 @@ define([
 
         // 2. Register eventhandler to show the view:
         WorkbenchUI.vent.on('module:fileidentification:show', function(id, region) {
-            console.log('module:fileidentification:show');
-
-            var FileIdModel = Backbone.Model.extend({
-                urlRoot: "/services/fileid"
-            });
-
             if (!MyModule._mainView) {
-                // Create emtpy main view and show it:
+
+                MyModule._fileIds = new FileIds();
+                MyModule._fileIds.meta('sessionId', id);
+
+                console.log('sessoinId: ' + MyModule._fileIds.get('sessionId'));
+
                 MyModule._mainView = new FileIdLayout();
 
                 if (typeof region !== 'undefined') {
@@ -31,11 +31,19 @@ define([
                     this.mainRegion.show(MyModule._mainView);
                 }
 
-                // Use the WorkbenchUI.fetchModel() method here to grab the model with id 1. In the 'then' function 
-                // callback it is guaranteed the the data from the server is received and the model is accessible:
-                // FIXXME: the session id is hardcoded for the moment!
-                WorkbenchUI.fetchModel(FileIdModel, 0).then(function(model) {
-                    MyModule._mainView.updateBuildmData(model);
+                function onDataHandler(model) {
+                    console.log('model da: ' + model);
+                };
+
+                function onErrorHandler(model, xhr, options) {
+                    if (xhr.status === 404) {
+                        MyModule._mainView.showEmptyView();
+                    }
+                };
+
+                MyModule._fileIds.fetch({
+                    success: onDataHandler,
+                    error: onErrorHandler
                 });
 
             } else {

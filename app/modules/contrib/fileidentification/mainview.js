@@ -3,12 +3,17 @@ define([
     'workbenchui',
     'hbs!./templates/main',
     'hbs!./templates/list-item',
-    'hbs!./templates/list-collection'
-], function(Marionette, WorkbenchUI, MetadataViewTmpl, ListItemTmpl, TableTmpl) {
+    'hbs!./templates/list-collection',
+    'hbs!./templates/empty'
+], function(Marionette, WorkbenchUI, MetadataViewTmpl, ListItemTmpl, TableTmpl, EmptyTmpl) {
     // Represents on list item:
     var ListItemView = Backbone.Marionette.ItemView.extend({
         template: ListItemTmpl,
         tagName: 'tr'
+    });
+
+    var EmptyView = Backbone.Marionette.ItemView.extend({
+        template: EmptyTmpl
     });
 
     // Represents the table view, which is using the ListItemView to render its items:
@@ -31,8 +36,7 @@ define([
         template: MetadataViewTmpl,
 
         regions: {
-            fileid: "#fileid-region",
-
+            fileid: "#fileid-region"
         },
 
         events: {
@@ -44,6 +48,11 @@ define([
                 console.log('previous');
                 WorkbenchUI.vent.trigger('module:sessionmanager:show');
             }
+        },
+
+        // e.g. no E57 file found in session:
+        showEmptyView: function() {
+            this.fileid.show(new EmptyView());
         },
 
         updateBuildmData: function(model) {
