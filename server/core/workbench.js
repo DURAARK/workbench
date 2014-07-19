@@ -77,7 +77,7 @@ Workbench.prototype.registerSIPGeneratorService = function() {
 
 Workbench.prototype.registerE57Extractor = function() {
     this._router.get('/services/e57m/:id', function(req, res) {
-        var outputFile = path.join(this._appRoot, 'uploads', 'e57_tmp_output.json');
+        var outputFile = path.join(this._appRoot, 'fixtures', 'e57_tmp_output.json');
         fs.readFile(outputFile, 'utf8', function(err, data) {
             if (err) {
                 console.log('[E57M:onStdOut] error reading file: ' + err);
