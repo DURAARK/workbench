@@ -118,7 +118,7 @@ SessionManager.prototype.getUploadState = function(req, res) {
             console.log('querying...');
             setTimeout(function() {
                 queryUploadStatus(that.getNumPendingUploads());
-            }, 200);
+            }, 1000);
         } else {
             console.log('upload done');
             res.json({
