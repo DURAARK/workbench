@@ -36,7 +36,7 @@ define([
                         MyModule._mainView.showEmptyView();
                         return;
                     }
-                     MyModule._mainView.updateBuildmData(model);
+                     MyModule._mainView.updateBuildmData(collection);
                 };
 
                 function onErrorHandler(collection, xhr, options) {
