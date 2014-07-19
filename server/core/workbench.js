@@ -206,7 +206,7 @@ Workbench.prototype.registerFileIdService = function() {
                 }
             } else {
                 // FIXXME: return proper status code!
-                res.send({});
+                res.status(404).send('No files found in this session.');
             }
         } else {
             res.status(404).send('No session with id "' + id + '" is found');
@@ -217,5 +217,9 @@ Workbench.prototype.registerFileIdService = function() {
 Workbench.prototype.registerUploadService = function() {
     this._router.post('/upload', function(req, res) {
         this._sessionManager.handleUpload(req, res);
+    }.bind(this));
+
+    this._router.get('/uploadstatus/:id', function(req, res) {
+        this._sessionManager.getUploadState(req, res);
     }.bind(this));
 };

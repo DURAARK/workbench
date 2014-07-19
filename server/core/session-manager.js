@@ -1,11 +1,14 @@
 var path = require('path'),
     formidable = require('formidable'),
     fs = require('fs'),
-    humanize = require('humanize');
+    humanize = require('humanize'),
+    _ = require('underscore');
 
 var SessionManager = module.exports = function(opts) {
     this._appRoot = opts.appRoot;
     this._sessions = opts.sessions;
+
+    this._pendingUploads = 0;
 }
 
 function getFileSize(filename) {
@@ -49,6 +52,8 @@ SessionManager.prototype.handleUpload = function(req, res) {
     form.on('field', function(field, value) {
         if (field === 'session') {
             this.sessionId = value;
+
+            this._pendingUploads++;
         }
 
         if (pending_files.length) {
@@ -60,8 +65,11 @@ SessionManager.prototype.handleUpload = function(req, res) {
     }.bind(this));
 
     form.on('file', function(field, file) {
-        //var dest_path = path.join(form.uploadDir, file.name);
-        //fs.rename(file.path, dest_path);
+        // No upload of 0-length files
+        // FIXXME: reflect this to the user!
+        if (file.size === 0) {
+            return;
+        }
 
         if (this.sessionId) {
             file.session = this.sessionId;
@@ -79,13 +87,45 @@ SessionManager.prototype.handleUpload = function(req, res) {
 
     form.on('aborted', function(err) {
         console.log('[Workbench] User aborted upload');
+        // FIXXME: error code!
     });
 
     form.on('end', function() {
-        console.log('[Workbench] upload done');
-    });
+        this._pendingUploads--;
+        console.log('[Workbench] upload done, pending: ' + this._pendingUploads);
+    }.bind(this));
 
-    form.parse(req, function() {
-        // console.log('parsed')
-    });
+    form.parse(req);
+};
+
+SessionManager.prototype.getNumPendingUploads = function() {
+    return this._pendingUploads;
+};
+
+SessionManager.prototype.getUploadState = function(req, res) {
+    var id = req.param('id');
+
+    console.log('query upload status for: ' + id);
+
+    var that = this;
+
+    function queryUploadStatus() {
+        // FIXXME: search for requested session!
+        var uploads = that.getNumPendingUploads();
+        console.log('uploads: ' + uploads);
+
+        if (uploads) {
+            console.log('querying...');
+            setTimeout(function() {
+                queryUploadStatus(that.getNumPendingUploads());
+            }, 200);
+        } else {
+            console.log('upload done');
+            res.json({
+                status: 'done'
+            });
+        }
+    }
+
+    queryUploadStatus(this.getNumPendingUploads());
 };

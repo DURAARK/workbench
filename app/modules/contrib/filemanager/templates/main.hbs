@@ -13,16 +13,26 @@
 
 			<br><br>
 
-			<div class="uploadform">
+			<div class="uploadform" id="myform">
 				<form action="/upload" enctype="multipart/form-data" method="post">
-					<label for='uploadFile1'>Select an IFC file:</label>              <input type="file" id="uploadFile1" name="theFile" multiple="multiple"><br>
-					<label for='uploadFile2'>Select an E57 file:</label>              <input type="file" id="uploadFile2" name="theFile2" multiple="multiple"><br>
-					<label for='uploadFile3'>Select an E57-registration file:</label> <input type="file" id="uploadFile3" name="theFile3" multiple="multiple"><br>
 					<input type="hidden" name="session" value="">
-					<input type="submit" value="Upload" class="btn btn-default">
+					<label for='uploadFile1'>Select an IFC file:</label>              <input type="file" id="uploadFile1" name="ifc" multiple="multiple"><br>
+					<label for='uploadFile2'>Select an E57 file:</label>              <input type="file" id="uploadFile2" name="e57" multiple="multiple"><br>
+					<label for='uploadFile3'>Select an E57-registration file:</label> <input type="file" id="uploadFile3" name="mapping" multiple="multiple"><br>
+					<input type="submit" name="mysubmit" value="Upload" class="btn btn-default">
 			    </form>
 		    </div>
 		    <br>
+
+			<div id="upload-finished">
+				<h3>Upload finished.</h3>
+			</div>
+
+			<div id="loading">
+				<img src="spinner.gif" alt="spinner">
+				<p>Waiting for file upload to finish...</p>
+			</div>
+
 			<button type="submit" class="btn btn-default js-next">Next</button>
 
     	</div>

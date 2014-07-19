@@ -21,7 +21,7 @@ define([
                 MyModule._fileIds = new FileIds();
                 MyModule._fileIds.meta('sessionId', id);
 
-                console.log('sessoinId: ' + MyModule._fileIds.get('sessionId'));
+                // console.log('sessoinId: ' + MyModule._fileIds.get('sessionId'));
 
                 MyModule._mainView = new FileIdLayout();
 
@@ -31,11 +31,15 @@ define([
                     this.mainRegion.show(MyModule._mainView);
                 }
 
-                function onDataHandler(model) {
-                    console.log('model da: ' + model);
+                function onDataHandler(collection) {
+                    if (collection.length === 0) {
+                        MyModule._mainView.showEmptyView();
+                        return;
+                    }
+                     MyModule._mainView.updateBuildmData(model);
                 };
 
-                function onErrorHandler(model, xhr, options) {
+                function onErrorHandler(collection, xhr, options) {
                     if (xhr.status === 404) {
                         MyModule._mainView.showEmptyView();
                     }
