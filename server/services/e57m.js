@@ -48,7 +48,8 @@ E57M.prototype.onClose = function(code, res) {
     // 'output_info' contains information on the output file that was created by the command:
     console.log('[E57M:onStdOut] exit code: ' + code);
 
-    fs.readFile(this._outputFile, 'utf8', function(err, data) {
+    // FIXXME!
+    fs.readFile(path.join(app_root, 'fixtures', 'e57_tmp_output.json'), 'utf8', function(err, data) {
         if (err) {
             console.log('[E57M:onStdOut] error reading file: ' + err);
             return;
