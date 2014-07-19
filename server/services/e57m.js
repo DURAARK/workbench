@@ -27,7 +27,7 @@ E57M.prototype.selectFile = function(session_id) {
 };
 
 E57M.prototype.selectOptions = function(file_path, app_root) {
-    this._outputFile = path.join(app_root, 'uploads', 'e57_tmp_output.json');
+    this._outputFile = path.join(app_root, 'fixtures', 'e57_tmp_output.json');
     var options = '--input ' + file_path + ' --output ' + this._outputFile;
     return options.split(' ');
 };
