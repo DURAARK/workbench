@@ -27,6 +27,8 @@ define([
                 this.mainRegion.show(MyModule._mainView);
             }
 
+            window.scroll(0,0);
+            
             // For the first show in the lifetime of the _mainView the events hash is correctly
             // evaluated. When the _mainView gets closed and is reopened again, the events
             // have to be delegated manually, otherwise e.g. the click events will not fire.

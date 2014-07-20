@@ -31,6 +31,8 @@ define([
                     this.mainRegion.show(MyModule._mainView);
                 }
 
+                window.scrollTo(0,0);
+                
                 function onDataHandler(collection) {
                     if (collection.length === 0) {
                         MyModule._mainView.showEmptyView();

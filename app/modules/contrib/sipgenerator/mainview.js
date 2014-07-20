@@ -90,6 +90,14 @@ define([
             'click .js-previous': function() {
                 console.log('previous');
                 WorkbenchUI.vent.trigger('module:landingpage:show');
+            },
+            'click .js-home': function() {
+                // FIXXME: after the next line the 'sip' module has a error when selecting
+                // a session with 'start'
+                // WorkbenchUI.vent.trigger('module:landingpage:show
+                // ... we do a complete reload instead:
+                window.location.href = "http://bw-dssv18.bwk.tue.nl:9000/";
+                // window.location.href = "http://localhost:9000/";
             }
         },
 

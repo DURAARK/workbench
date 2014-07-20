@@ -39,7 +39,7 @@ define([
                 //*** TODO: / //FIXME: security..
                 WorkbenchUI.fetchModel(SemObsModel, "fulltextQuery=" + aSearchterm + "&start=0&count=10").then(function(model) { //search uses: fulltextQuery=Kamille&start=0&count=10
                     if (typeof model == "undefined") {
-                        alert('No meaningful result from endpoint. Maybe the endpoint is down?');
+                        // alert('No meaningful result from endpoint. Maybe the endpoint is down?');
                     };
                     MyModule._mainView.updateBuildmData(model);
                 });

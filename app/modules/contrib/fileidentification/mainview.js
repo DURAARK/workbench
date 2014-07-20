@@ -41,13 +41,14 @@ define([
 
         events: {
             'click .js-next': function() {
-                console.log('next clicked');
                 WorkbenchUI.vent.trigger('module:metadataextractor:show');
             },
             'click .js-previous': function() {
-                console.log('previous');
-                WorkbenchUI.vent.trigger('module:sessionmanager:show');
-            }
+                WorkbenchUI.vent.trigger('module:filemanager:show');
+            },
+            'click .js-home': function() {
+                WorkbenchUI.vent.trigger('module:landingpage:show');
+            },
         },
 
         // e.g. no E57 file found in session:

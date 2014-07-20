@@ -47,7 +47,10 @@ define([
             },
             'click .js-previous': function() {
                 WorkbenchUI.vent.trigger('module:metadataextractor:show');
-            }
+            },
+            'click .js-home': function() {
+                WorkbenchUI.vent.trigger('module:landingpage:show');
+            },
         },
 
         regions: {

@@ -39,6 +39,8 @@ define([
                 } else {
                     this.mainRegion.show(MyModule._mainView);
                 }
+                
+                window.scrollTo(0,0);
 
                 // Use the WorkbenchUI.fetchModel() method here to grab the model with id 1. In the 'then' function 
                 // callback it is guaranteed the the data from the server is received and the model is accessible:

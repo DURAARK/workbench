@@ -93,9 +93,11 @@ define([
                 }
             },
             'click .js-previous': function() {
-                console.log('previous');
                 WorkbenchUI.vent.trigger('module:fileidentification:show');
-            }.bind(this)
+            },
+            'click .js-home': function() {
+                WorkbenchUI.vent.trigger('module:landingpage:show');
+            },
         },
 
         initialize: function() {},

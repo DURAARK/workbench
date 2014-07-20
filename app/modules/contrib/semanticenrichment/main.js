@@ -32,6 +32,7 @@ define([
                     this.mainRegion.show(MyModule._mainView);
                 }
 
+                window.scrollTo(0,0);
 
                 // Use the WorkbenchUI.fetchModel() method here to grab the model with id 1. In the 'then' function 
                 // callback it is guaranteed the the data from the server is received and the model is accessible:
@@ -40,7 +41,7 @@ define([
                 WorkbenchUI.fetchModel(SemObsModel, 0).then(function(model) {
                     console.log("==> Now getting SemObsModel.");
                     if (typeof model === "undefined") {
-                        alert('No meaningful result from endpoint. Maybe the endpoint is down?');
+                        // alert('No meaningful result from endpoint. Maybe the endpoint is down?');
                     };
                     MyModule._mainView.updateBuildmData(model);
                 });
@@ -51,7 +52,7 @@ define([
                 //*** TODO: / //FIXME: security..
                 WorkbenchUI.fetchModel(SemObsModel, 1).then(function(model) {
                     if (typeof model === "undefined") {
-                        alert('No meaningful result from endpoint. Maybe the endpoint is down?');
+                        // alert('No meaningful result from endpoint. Maybe the endpoint is down?');
                     };
                     MyModule._mainView.updateBuildmData(model);
                 });

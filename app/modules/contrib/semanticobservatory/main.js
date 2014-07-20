@@ -40,7 +40,7 @@ define([
                 //WorkbenchUI.fetchModel(BuildmModel, 1).then(function(model) {
                 WorkbenchUI.fetchModel(SemObsModel,"List").then(function(model) {
                     if(typeof model=="undefined"){			                        
-	            	  alert('No meaningful result from endpoint. Maybe the endpoint is down?');
+	            	  // alert('No meaningful result from endpoint. Maybe the endpoint is down?');
                     };    
                     //console.log("inside fetchmode..then()");
                     MyModule._mainView.updateBuildmData(model);
