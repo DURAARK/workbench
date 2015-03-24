@@ -1,3 +1,5 @@
+DEPRECATED. See [workbench-ui](https://github.com/DURAARK/workbench-ui) instead!
+
 # The DURAARK Workbench
 
 The DURAARK Workbench is an integrated software prototype showcasing the functionality developed in
